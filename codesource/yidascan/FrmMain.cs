@@ -65,7 +65,7 @@ namespace yidascan
         }
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            this.Text = string.Format("{0} V{1}", "广州溯创数据采集软件单机版", Application.ProductVersion.ToString());
+            this.Text = string.Format("{0} V{1}", "广州金海狸数据采集软件单机版", Application.ProductVersion.ToString());
             cmbShiftNo.SelectedIndex = 0;
             BindDgv();
             SetButtonState(false);
