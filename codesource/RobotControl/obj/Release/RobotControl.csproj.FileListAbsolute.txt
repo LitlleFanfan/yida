@@ -1,0 +1,4 @@
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotControl\bin\Release\RobotControl.dll
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotControl\bin\Release\RobotControl.pdb
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotControl\obj\Release\RobotControl.dll
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotControl\obj\Release\RobotControl.pdb

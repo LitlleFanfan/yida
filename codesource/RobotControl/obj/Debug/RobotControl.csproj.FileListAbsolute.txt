@@ -1,0 +1,10 @@
+E:\lje-work\project\20160620溢达纺织项目\robotprogramme\Full API Test\mpAPITest_Client (Windows)\RobotControl\obj\Debug\ResolveAssemblyReference.cache
+E:\lje-work\project\20160620溢达纺织项目\robotprogramme\Full API Test\mpAPITest_Client (Windows)\RobotControl\bin\Debug\RobotControl.dll
+E:\lje-work\project\20160620溢达纺织项目\robotprogramme\Full API Test\mpAPITest_Client (Windows)\RobotControl\bin\Debug\RobotControl.pdb
+E:\lje-work\project\20160620溢达纺织项目\robotprogramme\Full API Test\mpAPITest_Client (Windows)\RobotControl\obj\Debug\RobotControl.dll
+E:\lje-work\project\20160620溢达纺织项目\robotprogramme\Full API Test\mpAPITest_Client (Windows)\RobotControl\obj\Debug\RobotControl.pdb
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotControl\bin\Debug\RobotControl.dll
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotControl\bin\Debug\RobotControl.pdb
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotControl\obj\Debug\RobotControl.dll
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotControl\obj\Debug\RobotControl.pdb
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotControl\obj\Debug\RobotControl.csprojResolveAssemblyReference.cache

@@ -1,0 +1,1611 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApiSample</name>
+    </assembly>
+    <members>
+        <member name="M:WebApiSample.Areas.HelpPage.ApiDescriptionExtensions.GetFriendlyId(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Generates an URI-friendly ID for the <see cref="T:System.Web.Http.Description.ApiDescription"/>. E.g. "Get-Values-id_name" instead of "GetValues/{id}?name={name}"
+            </summary>
+            <param name="description">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The ID as a string.</returns>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.HelpPageConfig">
+            <summary>
+            Use this class to customize the Help Page.
+            For example you can set a custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> to supply the documentation
+            or you can provide the samples for the requests/responses.
+            </summary>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.Controllers.HelpController">
+            <summary>
+            The controller that will handle requests for the help page.
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.SetDocumentationProvider(System.Web.Http.HttpConfiguration,System.Web.Http.Description.IDocumentationProvider)">
+            <summary>
+            Sets the documentation provider for help page.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="documentationProvider">The documentation provider.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleObjects(System.Web.Http.HttpConfiguration,System.Collections.Generic.IDictionary{System.Type,System.Object})">
+            <summary>
+            Sets the objects that will be used by the formatters to produce sample requests/responses.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleObjects">The sample objects.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type and action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleRequest(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample request directly for the specified media type and action with parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample request.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String)">
+            <summary>
+            Sets the sample request directly for the specified media type of the action.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleResponse(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.String,System.String,System.String[])">
+            <summary>
+            Sets the sample response directly for the specified media type of the action with specific parameters.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample response.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForMediaType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Sets the sample directly for all actions with the specified media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.SetSampleForType(System.Web.Http.HttpConfiguration,System.Object,System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Sets the sample directly for all actions with the specified type and media type.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sample">The sample.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The parameter type or return type of an action.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualRequestType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate request samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String)">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.SetActualResponseType(System.Web.Http.HttpConfiguration,System.Type,System.String,System.String,System.String[])">
+            <summary>
+            Specifies the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> returned as part of the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            The help page will use this information to produce more accurate response samples.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="type">The type.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <returns>The help page sample generator.</returns>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.SetHelpPageSampleGenerator(System.Web.Http.HttpConfiguration,WebApiSample.Areas.HelpPage.HelpPageSampleGenerator)">
+            <summary>
+            Sets the help page sample generator.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="sampleGenerator">The help page sample generator.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.GetModelDescriptionGenerator(System.Web.Http.HttpConfiguration)">
+            <summary>
+            Gets the model description generator.
+            </summary>
+            <param name="config">The configuration.</param>
+            <returns>The <see cref="T:WebApiSample.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator"/></returns>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageConfigurationExtensions.GetHelpPageApiModel(System.Web.Http.HttpConfiguration,System.String)">
+            <summary>
+            Gets the model that represents an API displayed on the help page. The model is initialized on the first call and cached for subsequent calls.
+            </summary>
+            <param name="config">The <see cref="T:System.Web.Http.HttpConfiguration"/>.</param>
+            <param name="apiDescriptionId">The <see cref="T:System.Web.Http.Description.ApiDescription"/> ID.</param>
+            <returns>
+            An <see cref="T:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel"/>
+            </returns>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.ModelDescriptions.ModelDescription">
+            <summary>
+            Describes a type model.
+            </summary>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.ModelDescriptions.ModelDescriptionGenerator">
+            <summary>
+            Generates model descriptions for given types.
+            </summary>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.ModelDescriptions.ModelNameAttribute">
+            <summary>
+            Use this attribute to change the name of the <see cref="T:WebApiSample.Areas.HelpPage.ModelDescriptions.ModelDescription"/> generated for a type.
+            </summary>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel">
+            <summary>
+            The model that represents an API displayed on the help page.
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel"/> class.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription">
+            <summary>
+            Gets or sets the <see cref="P:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel.ApiDescription"/> that describes the API.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel.UriParameters">
+            <summary>
+            Gets or sets the <see cref="T:WebApiSample.Areas.HelpPage.ModelDescriptions.ParameterDescription"/> collection that describes the URI parameters for the API.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel.RequestDocumentation">
+            <summary>
+            Gets or sets the documentation for the request.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel.RequestModelDescription">
+            <summary>
+            Gets or sets the <see cref="T:WebApiSample.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the request body.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel.RequestBodyParameters">
+            <summary>
+            Gets the request body parameter descriptions.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel.ResourceDescription">
+            <summary>
+            Gets or sets the <see cref="T:WebApiSample.Areas.HelpPage.ModelDescriptions.ModelDescription"/> that describes the resource.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel.ResourceProperties">
+            <summary>
+            Gets the resource property descriptions.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel.SampleRequests">
+            <summary>
+            Gets the sample requests associated with the API.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel.SampleResponses">
+            <summary>
+            Gets the sample responses associated with the API.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.Models.HelpPageApiModel.ErrorMessages">
+            <summary>
+            Gets the error messages associated with this model.
+            </summary>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator">
+            <summary>
+            This class will generate the samples for the help page.
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator"/> class.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.ActualHttpMessageTypes">
+            <summary>
+            Gets CLR types that are used as the content of <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples">
+            <summary>
+            Gets the objects that are used directly as samples for certain actions.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects">
+            <summary>
+            Gets the objects that are serialized as samples by the supported formatters.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories">
+            <summary>
+            Gets factories for the objects that the supported formatters will serialize as samples. Processed in order,
+            stopping when the factory successfully returns a non-<see langref="null"/> object.
+            </summary>
+            <remarks>
+            Collection includes just <see cref="M:WebApiSample.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)"/> initially. Use
+            <code>SampleObjectFactories.Insert(0, func)</code> to provide an override and
+            <code>SampleObjectFactories.Add(func)</code> to provide a fallback.</remarks>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.GetSampleRequests(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the request body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.GetSampleResponses(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Gets the response body samples for a given <see cref="T:System.Web.Http.Description.ApiDescription"/>.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.GetSample(System.Web.Http.Description.ApiDescription,WebApiSample.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Gets the request or response body samples.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The samples keyed by media type.</returns>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.GetActionSample(System.String,System.String,System.Collections.Generic.IEnumerable{System.String},System.Type,System.Net.Http.Formatting.MediaTypeFormatter,System.Net.Http.Headers.MediaTypeHeaderValue,WebApiSample.Areas.HelpPage.SampleDirection)">
+            <summary>
+            Search for samples that are provided directly through <see cref="P:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.ActionSamples"/>.
+            </summary>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="type">The CLR type.</param>
+            <param name="formatter">The formatter.</param>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or for a response.</param>
+            <returns>The sample that matches the parameters.</returns>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.GetSampleObject(System.Type)">
+            <summary>
+            Gets the sample object that will be serialized by the formatters. 
+            First, it will look at the <see cref="P:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.SampleObjects"/>. If no sample object is found, it will try to create
+            one using <see cref="M:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.DefaultSampleObjectFactory(WebApiSample.Areas.HelpPage.HelpPageSampleGenerator,System.Type)"/> (which wraps an <see cref="T:WebApiSample.Areas.HelpPage.ObjectGenerator"/>) and other
+            factories in <see cref="P:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.SampleObjectFactories"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>The sample object.</returns>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.ResolveHttpRequestMessageType(System.Web.Http.Description.ApiDescription)">
+            <summary>
+            Resolves the actual type of <see cref="T:System.Net.Http.ObjectContent`1"/> passed to the <see cref="T:System.Net.Http.HttpRequestMessage"/> in an action.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <returns>The type.</returns>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.ResolveType(System.Web.Http.Description.ApiDescription,System.String,System.String,System.Collections.Generic.IEnumerable{System.String},WebApiSample.Areas.HelpPage.SampleDirection,System.Collections.ObjectModel.Collection{System.Net.Http.Formatting.MediaTypeFormatter}@)">
+            <summary>
+            Resolves the type of the action parameter or return value when <see cref="T:System.Net.Http.HttpRequestMessage"/> or <see cref="T:System.Net.Http.HttpResponseMessage"/> is used.
+            </summary>
+            <param name="api">The <see cref="T:System.Web.Http.Description.ApiDescription"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+            <param name="sampleDirection">The value indicating whether the sample is for a request or a response.</param>
+            <param name="formatters">The formatters.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageSampleGenerator.WriteSampleObjectUsingFormatter(System.Net.Http.Formatting.MediaTypeFormatter,System.Object,System.Type,System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Writes the sample object using formatter.
+            </summary>
+            <param name="formatter">The formatter.</param>
+            <param name="value">The value.</param>
+            <param name="type">The type.</param>
+            <param name="mediaType">Type of the media.</param>
+            <returns></returns>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.HelpPageSampleKey">
+            <summary>
+            This is used to identify the place where the sample should be applied.
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue)">
+            <summary>
+            Creates a new <see cref="T:WebApiSample.Areas.HelpPage.HelpPageSampleKey"/> based on media type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,System.Type)">
+            <summary>
+            Creates a new <see cref="T:WebApiSample.Areas.HelpPage.HelpPageSampleKey"/> based on media type and CLR type.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="type">The CLR type.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageSampleKey.#ctor(WebApiSample.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:WebApiSample.Areas.HelpPage.HelpPageSampleKey"/> based on <see cref="P:WebApiSample.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="sampleDirection">The <see cref="P:WebApiSample.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.HelpPageSampleKey.#ctor(System.Net.Http.Headers.MediaTypeHeaderValue,WebApiSample.Areas.HelpPage.SampleDirection,System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Creates a new <see cref="T:WebApiSample.Areas.HelpPage.HelpPageSampleKey"/> based on media type, <see cref="P:WebApiSample.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>, controller name, action name and parameter names.
+            </summary>
+            <param name="mediaType">The media type.</param>
+            <param name="sampleDirection">The <see cref="P:WebApiSample.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.</param>
+            <param name="controllerName">Name of the controller.</param>
+            <param name="actionName">Name of the action.</param>
+            <param name="parameterNames">The parameter names.</param>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.HelpPageSampleKey.ControllerName">
+            <summary>
+            Gets the name of the controller.
+            </summary>
+            <value>
+            The name of the controller.
+            </value>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.HelpPageSampleKey.ActionName">
+            <summary>
+            Gets the name of the action.
+            </summary>
+            <value>
+            The name of the action.
+            </value>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.HelpPageSampleKey.MediaType">
+            <summary>
+            Gets the media type.
+            </summary>
+            <value>
+            The media type.
+            </value>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.HelpPageSampleKey.ParameterNames">
+            <summary>
+            Gets the parameter names.
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Areas.HelpPage.HelpPageSampleKey.SampleDirection">
+            <summary>
+            Gets the <see cref="P:WebApiSample.Areas.HelpPage.HelpPageSampleKey.SampleDirection"/>.
+            </summary>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.ImageSample">
+            <summary>
+            This represents an image sample on the help page. There's a display template named ImageSample associated with this class.
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.ImageSample.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebApiSample.Areas.HelpPage.ImageSample"/> class.
+            </summary>
+            <param name="src">The URL of an image.</param>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.InvalidSample">
+            <summary>
+            This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.ObjectGenerator">
+            <summary>
+            This class will create an object of a given type and populate it with sample data.
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.ObjectGenerator.GenerateObject(System.Type)">
+            <summary>
+            Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
+            Simple types: <see cref="T:System.Int32"/>, <see cref="T:System.String"/>, <see cref="T:System.Enum"/>, <see cref="T:System.DateTime"/>, <see cref="T:System.Uri"/>, etc.
+            Complex types: POCO types.
+            Nullables: <see cref="T:System.Nullable`1"/>.
+            Arrays: arrays of simple types or complex types.
+            Key value pairs: <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            Tuples: <see cref="T:System.Tuple`1"/>, <see cref="T:System.Tuple`2"/>, etc
+            Dictionaries: <see cref="T:System.Collections.Generic.IDictionary`2"/> or anything deriving from <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+            Collections: <see cref="T:System.Collections.Generic.IList`1"/>, <see cref="T:System.Collections.Generic.IEnumerable`1"/>, <see cref="T:System.Collections.Generic.ICollection`1"/>, <see cref="T:System.Collections.IList"/>, <see cref="T:System.Collections.IEnumerable"/>, <see cref="T:System.Collections.ICollection"/> or anything deriving from <see cref="T:System.Collections.Generic.ICollection`1"/> or <see cref="T:System.Collections.IList"/>.
+            Queryables: <see cref="T:System.Linq.IQueryable"/>, <see cref="T:System.Linq.IQueryable`1"/>.
+            </summary>
+            <param name="type">The type.</param>
+            <returns>An object of the given type.</returns>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.SampleDirection">
+            <summary>
+            Indicates whether the sample is used for request or response
+            </summary>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.TextSample">
+            <summary>
+            This represents a preformatted text sample on the help page. There's a display template named TextSample associated with this class.
+            </summary>
+        </member>
+        <member name="T:WebApiSample.Areas.HelpPage.XmlDocumentationProvider">
+            <summary>
+            A custom <see cref="T:System.Web.Http.Description.IDocumentationProvider"/> that reads the API documentation from an XML documentation file.
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Areas.HelpPage.XmlDocumentationProvider.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WebApiSample.Areas.HelpPage.XmlDocumentationProvider"/> class.
+            </summary>
+            <param name="documentPath">The physical path to XML document.</param>
+        </member>
+        <member name="T:WebApiSample.Controllers.BaseApiController">
+            <summary>
+             自定义WebApi 基类
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Controllers.BaseApiController.AddResultMsg(System.Int32,System.String,System.String,System.String)">
+            <summary>
+             公共基类方法,添加返回消息
+            </summary>
+            <param name="continueCount">强制提交计数器</param>
+            <param name="data">数据</param>
+            <param name="msg">消息</param>
+            <param name="state">状态</param>
+        </member>
+        <member name="M:WebApiSample.Controllers.BaseApiController.AddErrorResultMsg(System.String)">
+            <summary>
+             添加验证错误信息
+            </summary>
+            <param name="msg">
+             信息内容
+            </param>
+        </member>
+        <member name="M:WebApiSample.Controllers.BaseApiController.AddConfirmResultMsg(System.Int32,System.String)">
+            <summary>
+             添加确认信息
+            </summary>
+            <param name="continueCount">强制提交计数器</param>
+            <param name="msg">
+             确认信息内容
+            </param>
+        </member>
+        <member name="M:WebApiSample.Controllers.BaseApiController.AddFaildResultMsg(System.String)">
+            <summary>
+             添加异常信息
+            </summary>
+            <param name="msg">
+             异常信息内容
+            </param>
+        </member>
+        <member name="M:WebApiSample.Controllers.BaseApiController.AddSucessResultMsg(System.String)">
+            <summary>
+             添加成功信息
+            </summary>
+            <param name="msg">
+             成功信息内容
+            </param>
+        </member>
+        <member name="T:WebApiSample.Controllers.FIController">
+            <summary>
+                FI接口
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Controllers.FIController.GetLocation(System.String)">
+            <summary>
+                接口 1 获取板位，写入数据
+            </summary>
+            <param name="Bar_Code">条码编号</param>
+        </member>
+        <member name="M:WebApiSample.Controllers.FIController.getDataForFinish(System.String,System.String)">
+            <summary>
+                接口 3 完成码垛
+            </summary>
+            <param name="Board_No">板号</param>
+             <param name="AllBarCode">条码列表</param>
+        </member>
+        <member name="M:WebApiSample.Controllers.FIController.getDataForWeight">
+            <summary>
+                接口2 计算重量
+            </summary>
+        </member>
+        <member name="T:WebApiSample.Controllers.ClassicalController">
+            <summary>
+                传统风格接口
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Controllers.ClassicalController.GetAllData">
+            <summary>
+                查询所有数据接口
+            </summary>
+            <returns>
+                字符串数组
+            </returns>
+        </member>
+        <member name="M:WebApiSample.Controllers.ClassicalController.GetDataById(System.Int32)">
+            <summary>
+                通过Id查询数据接口
+            </summary>
+            <param name="id">主键</param>
+            <returns>
+                字符串
+            </returns>
+        </member>
+        <member name="M:WebApiSample.Controllers.ClassicalController.AddData(System.String)">
+            <summary>
+                新增数据接口
+            </summary>
+            <param name="value">数据内容</param>
+        </member>
+        <member name="M:WebApiSample.Controllers.ClassicalController.UpdateById(System.Object)">
+            <summary>
+                更新数据接口
+            </summary>
+            <param name="param">Json格式对象，包含id，value两个属性。例如：{id:3,value:"test"}</param>
+        </member>
+        <member name="M:WebApiSample.Controllers.ClassicalController.DeleteById(System.Int32)">
+            <summary>
+                删除数据接口
+            </summary>
+            <param name="id">主键</param>
+        </member>
+        <member name="T:WebApiSample.Controllers.ValuesController">
+            <summary>
+             Restful 风格接口样例
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Controllers.ValuesController.Get">
+            <summary>
+                查询所有数据接口
+            </summary>
+            <returns>
+                字符串数组
+            </returns>
+        </member>
+        <member name="M:WebApiSample.Controllers.ValuesController.Get(System.Int32)">
+            <summary>
+                通过Id查询数据接口
+            </summary>
+            <param name="id">主键</param>
+            <returns>
+                字符串
+            </returns>
+        </member>
+        <member name="M:WebApiSample.Controllers.ValuesController.Post(System.String)">
+            <summary>
+                新增数据接口
+            </summary>
+            <param name="value">数据内容</param>
+        </member>
+        <member name="M:WebApiSample.Controllers.ValuesController.Put(System.Int32,System.String)">
+            <summary>
+                更新数据接口
+            </summary>
+            <param name="id">主键</param>
+            <param name="value">更新后的值</param>
+        </member>
+        <member name="M:WebApiSample.Controllers.ValuesController.Delete(System.Int32)">
+            <summary>
+                删除数据接口
+            </summary>
+            <param name="id">主键</param>
+        </member>
+        <member name="T:WebApiSample.ExceptionHandling.FormattedExceptionHandler">
+            <summary>
+             自定义异常处理类
+            </summary>
+        </member>
+        <member name="M:WebApiSample.ExceptionHandling.FormattedExceptionHandler.HandleAsync(System.Web.Http.ExceptionHandling.ExceptionHandlerContext,System.Threading.CancellationToken)">
+            <summary>
+            在派生类中重写时，将异步处理异常。
+            </summary>
+            <returns>
+            表示异步异常处理操作的任务。
+            </returns>
+            <param name="context">异常处理程序上下文。</param><param name="cancellationToken">要监视的取消请求标记。</param>
+        </member>
+        <member name="T:WebApiSample.ExceptionHandling.TextPlainErrorResult">
+            <summary>
+             自定义异常返回类型
+            </summary>
+        </member>
+        <member name="P:WebApiSample.ExceptionHandling.TextPlainErrorResult.Request">
+            <summary>
+             请求对象
+            </summary>
+        </member>
+        <member name="P:WebApiSample.ExceptionHandling.TextPlainErrorResult.Exception">
+            <summary>
+             异常对象
+            </summary>
+        </member>
+        <member name="M:WebApiSample.ExceptionHandling.TextPlainErrorResult.ExecuteAsync(System.Threading.CancellationToken)">
+            <summary>
+             执行格式化异常结果
+            </summary>
+            <param name="cancellationToken">取消参数</param>
+            <returns>
+             格式化后的Response
+            </returns>
+        </member>
+        <member name="T:WebApiSample.ExceptionHandling.SqlServerExceptionLogger">
+            <summary>
+                将异常信息记录到sqlserver数据库中
+            </summary>
+        </member>
+        <member name="M:WebApiSample.ExceptionHandling.SqlServerExceptionLogger.WriteLog(System.Web.Http.ExceptionHandling.ExceptionLoggerContext)">
+            <summary>
+             记录日志方法
+            </summary>
+            <param name="context">
+             异常上下文
+            </param>
+        </member>
+        <member name="M:WebApiSample.ExceptionHandling.SqlServerExceptionLogger.GetClientIp(System.Net.Http.HttpRequestMessage)">
+            <summary>
+             获取客户端IP
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApiSample.Utility.LogHelper.GetInstance">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:WebApiSample.Utility.SqlHelper">
+            <summary>
+                The SqlHelper class is intended to encapsulate high performance, scalable best practices for
+                common uses of SqlClient.
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.AttachParameters(System.Data.SqlClient.SqlCommand,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                This method is used to attach array of SqlParameters to a SqlCommand.
+                This method will assign a value of DbNull to any parameter with a direction of
+                InputOutput and a value of null.
+                This behavior will prevent default values from being used, but
+                this will be the less common case than an intended pure output parameter (derived as InputOutput)
+                where the user provided no input value.
+            </summary>
+            <param name="command">The command to which the parameters will be added</param>
+            <param name="commandParameters">an array of SqlParameters tho be added to command</param>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.AssignParameterValues(System.Data.SqlClient.SqlParameter[],System.Object[])">
+            <summary>
+                This method assigns an array of values to an array of SqlParameters.
+            </summary>
+            <param name="commandParameters">array of SqlParameters to be assigned values</param>
+            <param name="parameterValues">array of objects holding the values to be assigned</param>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.PrepareCommand(System.Data.SqlClient.SqlCommand,System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                This method opens (if necessary) and assigns a connection, transaction, command type and parameters
+                to the provided command.
+            </summary>
+            <param name="command">the SqlCommand to be prepared</param>
+            <param name="connection">a valid SqlConnection, on which to execute this command</param>
+            <param name="transaction">a valid SqlTransaction, or 'null'</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">
+                an array of SqlParameters to be associated with the command or 'null' if no parameters
+                are required
+            </param>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteNonQuery(System.String,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns no resultset and takes no parameters) against the database specified in
+                the connection string.
+            </summary>
+            <remarks>
+                e.g.:
+                int result = ExecuteNonQuery(connString, CommandType.StoredProcedure, "PublishOrders");
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <returns>an int representing the number of rows affected by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteNonQuery(System.String,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns no resultset) against the database specified in the connection string
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                int result = ExecuteNonQuery(connString, CommandType.StoredProcedure, "PublishOrders", new SqlParameter("@prodid",
+                24));
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>an int representing the number of rows affected by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteNonQuery(System.String,System.String,System.Object[])">
+            <summary>
+                Execute a stored procedure via a SqlCommand (that returns no resultset) against the database specified in
+                the connection string using the provided parameter values.  This method will query the database to discover the
+                parameters for the
+                stored procedure (the first time each stored procedure is called), and assign the values based on parameter order.
+            </summary>
+            <remarks>
+                This method provides no access to output parameters or the stored procedure's return value parameter.
+                e.g.:
+                int result = ExecuteNonQuery(connString, "PublishOrders", 24, 36);
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="spName">the name of the stored prcedure</param>
+            <param name="parameterValues">an array of objects to be assigned as the input values of the stored procedure</param>
+            <returns>an int representing the number of rows affected by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteNonQuery(System.Data.SqlClient.SqlConnection,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns no resultset and takes no parameters) against the provided SqlConnection.
+            </summary>
+            <remarks>
+                e.g.:
+                int result = ExecuteNonQuery(conn, CommandType.StoredProcedure, "PublishOrders");
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <returns>an int representing the number of rows affected by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteNonQuery(System.Data.SqlClient.SqlConnection,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns no resultset) against the specified SqlConnection
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                int result = ExecuteNonQuery(conn, CommandType.StoredProcedure, "PublishOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>an int representing the number of rows affected by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteNonQuery(System.Data.SqlClient.SqlConnection,System.String,System.Object[])">
+            <summary>
+                Execute a stored procedure via a SqlCommand (that returns no resultset) against the specified SqlConnection
+                using the provided parameter values.  This method will query the database to discover the parameters for the
+                stored procedure (the first time each stored procedure is called), and assign the values based on parameter order.
+            </summary>
+            <remarks>
+                This method provides no access to output parameters or the stored procedure's return value parameter.
+                e.g.:
+                int result = ExecuteNonQuery(conn, "PublishOrders", 24, 36);
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="spName">the name of the stored procedure</param>
+            <param name="parameterValues">an array of objects to be assigned as the input values of the stored procedure</param>
+            <returns>an int representing the number of rows affected by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteNonQuery(System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns no resultset and takes no parameters) against the provided SqlTransaction.
+            </summary>
+            <remarks>
+                e.g.:
+                int result = ExecuteNonQuery(trans, CommandType.StoredProcedure, "PublishOrders");
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <returns>an int representing the number of rows affected by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteNonQuery(System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns no resultset) against the specified SqlTransaction
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                int result = ExecuteNonQuery(trans, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>an int representing the number of rows affected by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteNonQuery(System.Data.SqlClient.SqlTransaction,System.String,System.Object[])">
+            <summary>
+                Execute a stored procedure via a SqlCommand (that returns no resultset) against the specified
+                SqlTransaction using the provided parameter values.  This method will query the database to discover the parameters
+                for the
+                stored procedure (the first time each stored procedure is called), and assign the values based on parameter order.
+            </summary>
+            <remarks>
+                This method provides no access to output parameters or the stored procedure's return value parameter.
+                e.g.:
+                int result = ExecuteNonQuery(conn, trans, "PublishOrders", 24, 36);
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="spName">the name of the stored procedure</param>
+            <param name="parameterValues">an array of objects to be assigned as the input values of the stored procedure</param>
+            <returns>an int representing the number of rows affected by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteNonQuery(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns no resultset) against the database specified in the connection string
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                int result = ExecuteNonQuery(connString, CommandType.StoredProcedure, "PublishOrders", new SqlParameter("@prodid",
+                24));
+            </remarks>
+            <param name="spName">the stored procedure name or T-SQL command </param>
+            <param name="parameterValues">an array of SqlParamters used to execute the command</param>
+            <returns>an int representing the number of rows affected by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteDataSet(System.String,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns a resultset and takes no parameters) against the database specified in
+                the connection string.
+            </summary>
+            <remarks>
+                e.g.:
+                DataSet ds = ExecuteDataSet(connString, CommandType.StoredProcedure, "GetOrders");
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <returns>a dataset containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteDataSet(System.String,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the database specified in the connection string
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                DataSet ds = ExecuteDataSet(connString, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>a dataset containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteDataSet(System.Data.SqlClient.SqlConnection,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlConnection.
+            </summary>
+            <remarks>
+                e.g.:
+                DataSet ds = ExecuteDataSet(conn, CommandType.StoredProcedure, "GetOrders");
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <returns>a dataset containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteDataSet(System.Data.SqlClient.SqlConnection,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the specified SqlConnection
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                DataSet ds = ExecuteDataSet(conn, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>a dataset containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteDataSet(System.Data.SqlClient.SqlConnection,System.String,System.Object[])">
+            <summary>
+                Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified SqlConnection
+                using the provided parameter values.  This method will query the database to discover the parameters for the
+                stored procedure (the first time each stored procedure is called), and assign the values based on parameter order.
+            </summary>
+            <remarks>
+                This method provides no access to output parameters or the stored procedure's return value parameter.
+                e.g.:
+                DataSet ds = ExecuteDataSet(conn, "GetOrders", 24, 36);
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="spName">the name of the stored procedure</param>
+            <param name="parameterValues">an array of objects to be assigned as the input values of the stored procedure</param>
+            <returns>a dataset containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteDataSet(System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlTransaction.
+            </summary>
+            <remarks>
+                e.g.:
+                DataSet ds = ExecuteDataSet(trans, CommandType.StoredProcedure, "GetOrders");
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <returns>a dataset containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteDataSet(System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the specified SqlTransaction
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                DataSet ds = ExecuteDataSet(trans, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>a dataset containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteDataSet(System.Data.SqlClient.SqlTransaction,System.String,System.Object[])">
+            <summary>
+                Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified
+                SqlTransaction using the provided parameter values.  This method will query the database to discover the parameters
+                for the
+                stored procedure (the first time each stored procedure is called), and assign the values based on parameter order.
+            </summary>
+            <remarks>
+                This method provides no access to output parameters or the stored procedure's return value parameter.
+                e.g.:
+                DataSet ds = ExecuteDataSet(trans, "GetOrders", 24, 36);
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="spName">the name of the stored procedure</param>
+            <param name="parameterValues">an array of objects to be assigned as the input values of the stored procedure</param>
+            <returns>a dataset containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteDataSet(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the database specified in the connection string
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                DataSet ds = ExecuteDataSet(connString, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="spName">the stored procedure name or T-SQL command</param>
+            <param name="parameterValues">an array of SqlParamters used to execute the command</param>
+            <returns>a dataset containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteDataSetWithRet(System.Int32@,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the database specified in the connection string
+                using the provided parameters.
+            </summary>
+            <param name="returnValue">return Value</param>
+            <param name="spName">the stored procedure name or T-SQL command</param>
+            <param name="parameterValues">an array of SqlParamters used to execute the command</param>
+            <returns>an object containing the value in the 1x1 resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteDataSetWithRet(System.Int32@,System.String,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the database specified in the connection string
+                using the provided parameters.
+            </summary>
+            <param name="returnValue">return Value</param>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>an object containing the value in the 1x1 resultset generated by the command</returns>
+        </member>
+        <member name="T:WebApiSample.Utility.SqlHelper.SqlConnectionOwnership">
+            <summary>
+                this enum is used to indicate whether the connection was provided by the caller, or created by SqlHelper, so that
+                we can set the appropriate CommandBehavior when calling ExecuteReader()
+            </summary>
+        </member>
+        <member name="F:WebApiSample.Utility.SqlHelper.SqlConnectionOwnership.Internal">
+            <summary>Connection is owned and managed by SqlHelper</summary>
+        </member>
+        <member name="F:WebApiSample.Utility.SqlHelper.SqlConnectionOwnership.External">
+            <summary>Connection is owned and managed by the caller</summary>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteReader(System.Data.SqlClient.SqlConnection,System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[],WebApiSample.Utility.SqlHelper.SqlConnectionOwnership)">
+            <summary>
+                Create and prepare a SqlCommand, and call ExecuteReader with the appropriate CommandBehavior.
+            </summary>
+            <remarks>
+                If we created and opened the connection, we want the connection to be closed when the DataReader is closed.
+                If the caller provided the connection, we want to leave it to them to manage.
+            </remarks>
+            <param name="connection">a valid SqlConnection, on which to execute this command</param>
+            <param name="transaction">a valid SqlTransaction, or 'null'</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">
+                an array of SqlParameters to be associated with the command or 'null' if no parameters
+                are required
+            </param>
+            <param name="connectionOwnership">
+                indicates whether the connection parameter was provided by the caller, or created by
+                SqlHelper
+            </param>
+            <returns>SqlDataReader containing the results of the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteReader(System.String,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns a resultset and takes no parameters) against the database specified in
+                the connection string.
+            </summary>
+            <remarks>
+                e.g.:
+                SqlDataReader dr = ExecuteReader(connString, CommandType.StoredProcedure, "GetOrders");
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <returns>a SqlDataReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteReader(System.String,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the database specified in the connection string
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                SqlDataReader dr = ExecuteReader(connString, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid",
+                24));
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>a SqlDataReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteReader(System.Data.SqlClient.SqlConnection,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlConnection.
+            </summary>
+            <remarks>
+                e.g.:
+                SqlDataReader dr = ExecuteReader(conn, CommandType.StoredProcedure, "GetOrders");
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <returns>a SqlDataReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteReader(System.Data.SqlClient.SqlConnection,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the specified SqlConnection
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                SqlDataReader dr = ExecuteReader(conn, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>a SqlDataReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteReader(System.Data.SqlClient.SqlConnection,System.String,System.Object[])">
+            <summary>
+                Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified SqlConnection
+                using the provided parameter values.  This method will query the database to discover the parameters for the
+                stored procedure (the first time each stored procedure is called), and assign the values based on parameter order.
+            </summary>
+            <remarks>
+                This method provides no access to output parameters or the stored procedure's return value parameter.
+                e.g.:
+                SqlDataReader dr = ExecuteReader(conn, "GetOrders", 24, 36);
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="spName">the name of the stored procedure</param>
+            <param name="parameterValues">an array of objects to be assigned as the input values of the stored procedure</param>
+            <returns>a SqlDataReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteReader(System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlTransaction.
+            </summary>
+            <remarks>
+                e.g.:
+                SqlDataReader dr = ExecuteReader(trans, CommandType.StoredProcedure, "GetOrders");
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <returns>a SqlDataReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteReader(System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the specified SqlTransaction
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                SqlDataReader dr = ExecuteReader(trans, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>a SqlDataReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteReader(System.Data.SqlClient.SqlTransaction,System.String,System.Object[])">
+            <summary>
+                Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified
+                SqlTransaction using the provided parameter values.  This method will query the database to discover the parameters
+                for the
+                stored procedure (the first time each stored procedure is called), and assign the values based on parameter order.
+            </summary>
+            <remarks>
+                This method provides no access to output parameters or the stored procedure's return value parameter.
+                e.g.:
+                SqlDataReader dr = ExecuteReader(trans, "GetOrders", 24, 36);
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="spName">the name of the stored procedure</param>
+            <param name="parameterValues">an array of objects to be assigned as the input values of the stored procedure</param>
+            <returns>a SqlDataReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteReader(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the database specified in the connection string
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                SqlDataReader dr = ExecuteReader(connString, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid",
+                24));
+            </remarks>
+            <param name="spName">the stored procedure name or T-SQL command</param>
+            <param name="parameterValues">an array of SqlParamters used to execute the command</param>
+            <returns>a SqlDataReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteReader(System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the database specified in the connection string
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                SqlDataReader dr = ExecuteReader(connString, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid",
+                24));
+            </remarks>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="parameterValues">an array of SqlParamters used to execute the command</param>
+            <returns>a SqlDataReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteScalar(System.String,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns a 1x1 resultset and takes no parameters) against the database specified in
+                the connection string.
+            </summary>
+            <remarks>
+                e.g.:
+                int orderCount = (int)ExecuteScalar(connString, CommandType.StoredProcedure, "GetOrderCount");
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <returns>an object containing the value in the 1x1 resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteScalar(System.String,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a 1x1 resultset) against the database specified in the connection string
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                int orderCount = (int)ExecuteScalar(connString, CommandType.StoredProcedure, "GetOrderCount", new
+                SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>an object containing the value in the 1x1 resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteScalar(System.Data.SqlClient.SqlConnection,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns a 1x1 resultset and takes no parameters) against the provided SqlConnection.
+            </summary>
+            <remarks>
+                e.g.:
+                int orderCount = (int)ExecuteScalar(conn, CommandType.StoredProcedure, "GetOrderCount");
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <returns>an object containing the value in the 1x1 resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteScalar(System.Data.SqlClient.SqlConnection,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a 1x1 resultset) against the specified SqlConnection
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                int orderCount = (int)ExecuteScalar(conn, CommandType.StoredProcedure, "GetOrderCount", new SqlParameter("@prodid",
+                24));
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>an object containing the value in the 1x1 resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteScalar(System.Data.SqlClient.SqlConnection,System.String,System.Object[])">
+            <summary>
+                Execute a stored procedure via a SqlCommand (that returns a 1x1 resultset) against the specified SqlConnection
+                using the provided parameter values.  This method will query the database to discover the parameters for the
+                stored procedure (the first time each stored procedure is called), and assign the values based on parameter order.
+            </summary>
+            <remarks>
+                This method provides no access to output parameters or the stored procedure's return value parameter.
+                e.g.:
+                int orderCount = (int)ExecuteScalar(conn, "GetOrderCount", 24, 36);
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="spName">the name of the stored procedure</param>
+            <param name="parameterValues">an array of objects to be assigned as the input values of the stored procedure</param>
+            <returns>an object containing the value in the 1x1 resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteScalar(System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns a 1x1 resultset and takes no parameters) against the provided SqlTransaction.
+            </summary>
+            <remarks>
+                e.g.:
+                int orderCount = (int)ExecuteScalar(trans, CommandType.StoredProcedure, "GetOrderCount");
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <returns>an object containing the value in the 1x1 resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteScalar(System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a 1x1 resultset) against the specified SqlTransaction
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                int orderCount = (int)ExecuteScalar(trans, CommandType.StoredProcedure, "GetOrderCount", new
+                SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>an object containing the value in the 1x1 resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteScalar(System.Data.SqlClient.SqlTransaction,System.String,System.Object[])">
+            <summary>
+                Execute a stored procedure via a SqlCommand (that returns a 1x1 resultset) against the specified
+                SqlTransaction using the provided parameter values.  This method will query the database to discover the parameters
+                for the
+                stored procedure (the first time each stored procedure is called), and assign the values based on parameter order.
+            </summary>
+            <remarks>
+                This method provides no access to output parameters or the stored procedure's return value parameter.
+                e.g.:
+                int orderCount = (int)ExecuteScalar(trans, "GetOrderCount", 24, 36);
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="spName">the name of the stored procedure</param>
+            <param name="parameterValues">an array of objects to be assigned as the input values of the stored procedure</param>
+            <returns>an object containing the value in the 1x1 resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteScalar(System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a 1x1 resultset) against the database specified in the connection string
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                int orderCount = (int)ExecuteScalar("GetOrderCount", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="spName">the stored procedure name or T-SQL command</param>
+            <param name="parameterValues">an array of SqlParamters used to execute the command</param>
+            <returns>an object containing the value in the 1x1 resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteXmlReader(System.Data.SqlClient.SqlConnection,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlConnection.
+            </summary>
+            <remarks>
+                e.g.:
+                XmlReader r = ExecuteXmlReader(conn, CommandType.StoredProcedure, "GetOrders");
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command using "FOR XML AUTO"</param>
+            <returns>an XmlReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteXmlReader(System.Data.SqlClient.SqlConnection,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the specified SqlConnection
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                XmlReader r = ExecuteXmlReader(conn, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command using "FOR XML AUTO"</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>an XmlReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteXmlReader(System.Data.SqlClient.SqlConnection,System.String,System.Object[])">
+            <summary>
+                Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified SqlConnection
+                using the provided parameter values.  This method will query the database to discover the parameters for the
+                stored procedure (the first time each stored procedure is called), and assign the values based on parameter order.
+            </summary>
+            <remarks>
+                This method provides no access to output parameters or the stored procedure's return value parameter.
+                e.g.:
+                XmlReader r = ExecuteXmlReader(conn, "GetOrders", 24, 36);
+            </remarks>
+            <param name="connection">a valid SqlConnection</param>
+            <param name="spName">the name of the stored procedure using "FOR XML AUTO"</param>
+            <param name="parameterValues">an array of objects to be assigned as the input values of the stored procedure</param>
+            <returns>an XmlReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteXmlReader(System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String)">
+            <summary>
+                Execute a SqlCommand (that returns a resultset and takes no parameters) against the provided SqlTransaction.
+            </summary>
+            <remarks>
+                e.g.:
+                XmlReader r = ExecuteXmlReader(trans, CommandType.StoredProcedure, "GetOrders");
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command using "FOR XML AUTO"</param>
+            <returns>an XmlReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteXmlReader(System.Data.SqlClient.SqlTransaction,System.Data.CommandType,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the specified SqlTransaction
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                XmlReader r = ExecuteXmlReader(trans, CommandType.StoredProcedure, "GetOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="commandType">the CommandType (stored procedure, text, etc.)</param>
+            <param name="commandText">the stored procedure name or T-SQL command using "FOR XML AUTO"</param>
+            <param name="commandParameters">an array of SqlParamters used to execute the command</param>
+            <returns>an XmlReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteXmlReader(System.Data.SqlClient.SqlTransaction,System.String,System.Object[])">
+            <summary>
+                Execute a stored procedure via a SqlCommand (that returns a resultset) against the specified
+                SqlTransaction using the provided parameter values.  This method will query the database to discover the parameters
+                for the
+                stored procedure (the first time each stored procedure is called), and assign the values based on parameter order.
+            </summary>
+            <remarks>
+                This method provides no access to output parameters or the stored procedure's return value parameter.
+                e.g.:
+                XmlReader r = ExecuteXmlReader(trans, "GetOrders", 24, 36);
+            </remarks>
+            <param name="transaction">a valid SqlTransaction</param>
+            <param name="spName">the name of the stored procedure</param>
+            <param name="parameterValues">an array of objects to be assigned as the input values of the stored procedure</param>
+            <returns>a dataset containing the resultset generated by the command</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelper.ExecuteXmlReader(System.String,System.Object[])">
+            <summary>
+                Execute a SqlCommand (that returns a resultset) against the specified SqlConnection
+                using the provided parameters.
+            </summary>
+            <remarks>
+                e.g.:
+                XmlReader r = ExecuteXmlReader("GetOrders", new SqlParameter("@prodid", 24));
+            </remarks>
+            <param name="spName">the stored procedure name or T-SQL command using "FOR XML AUTO"</param>
+            <param name="parameterValues">an array of SqlParamters used to execute the command</param>
+            <returns>an XmlReader containing the resultset generated by the command</returns>
+        </member>
+        <member name="T:WebApiSample.Utility.SqlHelperParameterCache">
+            <summary>
+                SqlHelperParameterCache provides functions to leverage a static cache of procedure parameters, and the
+                ability to discover parameters for stored procedures at run-time.
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelperParameterCache.DiscoverSpParameterSet(System.String,System.String,System.Boolean)">
+            <summary>
+                resolve at run time the appropriate set of SqlParameters for a stored procedure
+            </summary>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="spName">the name of the stored procedure</param>
+            <param name="includeReturnValueParameter">whether or not to include their return value parameter</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelperParameterCache.CacheParameterSet(System.String,System.String,System.Data.SqlClient.SqlParameter[])">
+            <summary>
+                add parameter array to the cache
+            </summary>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <param name="commandParameters">an array of SqlParamters to be cached</param>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelperParameterCache.GetCachedParameterSet(System.String,System.String)">
+            <summary>
+                retrieve a parameter array from the cache
+            </summary>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="commandText">the stored procedure name or T-SQL command</param>
+            <returns>an array of SqlParamters</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelperParameterCache.GetStoreProcedureParameterSet(System.String,System.String)">
+            <summary>
+                Retrieves the set of SqlParameters appropriate for the stored procedure
+            </summary>
+            <remarks>
+                This method will query the database for this information, and then store it in a cache for future requests.
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="spName">the name of the stored procedure</param>
+            <returns>an array of SqlParameters</returns>
+        </member>
+        <member name="M:WebApiSample.Utility.SqlHelperParameterCache.GetStoreProcedureParameterSet(System.String,System.String,System.Boolean)">
+            <summary>
+                Retrieves the set of SqlParameters appropriate for the stored procedure
+            </summary>
+            <remarks>
+                This method will query the database for this information, and then store it in a cache for future requests.
+            </remarks>
+            <param name="connectionString">a valid connection string for a SqlConnection</param>
+            <param name="spName">the name of the stored procedure</param>
+            <param name="includeReturnValueParameter">
+                a bool value indicating whether the return value parameter should be included
+                in the results
+            </param>
+            <returns>an array of SqlParameters</returns>
+        </member>
+        <member name="T:WebApiSample.Filters.FormateResultAttribute">
+            <summary>
+             格式化API结果的特性
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Filters.FormateResultAttribute.OnActionExecutedAsync(System.Web.Http.Filters.HttpActionExecutedContext,System.Threading.CancellationToken)">
+            <summary>
+                方法执行完成事件
+            </summary>
+            <param name="actionExecutedContext">当前上下文</param>
+            <param name="cancellationToken">异步取消对象</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApiSample.Filters.FormateResultAttribute.FormaterResultAsync(System.Web.Http.Filters.HttpActionExecutedContext)">
+            <summary>
+             使用自定义消息格式封装api结果
+            </summary>
+            <param name="actionExecutedContext">
+             接口执行的上下文
+            </param>
+        </member>
+        <member name="T:WebApiSample.Filters.TracePerformanceAttribute">
+            <summary>
+             跟踪记录接口性能的特性
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Filters.TracePerformanceAttribute.GetBodyFromRequest(System.Web.Http.Filters.HttpActionExecutedContext)">
+            <summary>
+             从请求中解析Post提交的信息
+            </summary>
+            <param name="actionExecutedContext">执行上下文</param>
+            <returns>
+             body参数内容
+            </returns>
+        </member>
+        <member name="M:WebApiSample.Filters.TracePerformanceAttribute.WritePerformace(System.String,System.Decimal,System.String)">
+            <summary>
+             将执行耗时记录到数据库
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Filters.TracePerformanceAttribute.GetClientIp(System.Net.Http.HttpRequestMessage)">
+            <summary>
+             获取客户端IP
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebApiSample.Filters.TracePerformanceAttribute.WritePerformanceLog(WebApiSample.Models.WebApiPerformanceLog)">
+            <summary>
+             将性能日志记录到数据库
+            </summary>
+            <param name="log">性能日志实体</param>
+        </member>
+        <member name="T:WebApiSample.Models.ApiResultMsgModel">
+            <summary>
+                消息实体
+            </summary>
+        </member>
+        <member name="M:WebApiSample.Models.ApiResultMsgModel.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Models.ApiResultMsgModel.State">
+            <summary>
+             消息状态：成功,失败(异常),警告,错误
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Models.ApiResultMsgModel.Msg">
+            <summary>
+             消息信息
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Models.ApiResultMsgModel.Data">
+            <summary>
+             数据
+            </summary>
+        </member>
+        <member name="P:WebApiSample.Models.ApiResultMsgModel.ContinueCount">
+            <summary>
+             强制提交标识
+            </summary>
+        </member>
+        <member name="F:WebApiSample.Models.CommonValue.WebApiResultKey">
+            <summary>
+             webapi控制器与过滤器传递参数的key
+            </summary>
+        </member>
+        <member name="T:WebApiSample.Models.CommonValue.WebApiReusltState">
+            <summary>
+             接口返回的状态信息
+            </summary>
+        </member>
+    </members>
+</doc>

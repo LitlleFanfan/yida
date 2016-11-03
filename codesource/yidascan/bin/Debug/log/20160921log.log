@@ -1,0 +1,722 @@
+[2016-09-21 16:16:05.3165] 2016-09-21 16:16:05 运行
+[2016-09-21 16:16:25.3653] 2016-09-21 16:16:25 手工扫描0000000001交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:16:25.4121] PanelNo：2016092100001
+[2016-09-21 16:16:25.7286] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:16:25.8376] 2016-09-21 16:16:25 手工扫描0000000002交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:16:25.8376] PanelNo：2016092100001
+[2016-09-21 16:16:26.0426] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:16:26.8186] 2016-09-21 16:16:26 手工扫描0000000003交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:16:26.8186] PanelNo：2016092100001
+[2016-09-21 16:16:26.8496] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:16:27.8131] 2016-09-21 16:16:27 手工扫描0000000004交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:16:27.8131] PanelNo：2016092100001
+[2016-09-21 16:16:27.8451] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:16:28.8279] 2016-09-21 16:16:28 手工扫描0000000005交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:16:28.8279] PanelNo：2016092100001
+[2016-09-21 16:16:28.8659] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:16:29.8420] 2016-09-21 16:16:29 手工扫描0000000006交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:16:29.8420] PanelNo：2016092100001
+[2016-09-21 16:16:29.8740] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:16:30.8560] 2016-09-21 16:16:30 手工扫描0000000007交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:16:30.8560] PanelNo：2016092100001
+[2016-09-21 16:16:30.8870] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:16:40.1602] 2016-09-21 16:16:40 手工扫描0000000008交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:16:40.1642] PanelNo：2016092100001
+[2016-09-21 16:16:40.1972] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:17:42.3665] 2016-09-21 16:17:42 手工扫描0000000009交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:17:42.3665] PanelNo：2016092100001
+[2016-09-21 16:17:42.4005] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:17:48.8435] 2016-09-21 16:17:48 手工扫描0000000010交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:17:48.8435] PanelNo：2016092100001
+[2016-09-21 16:17:48.8747] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:17:49.0599] 2016-09-21 16:17:49 手工扫描0000000011交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:17:49.0599] PanelNo：2016092100001
+[2016-09-21 16:17:49.2899] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:17:49.9473] 2016-09-21 16:17:49 手工扫描0000000012交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:17:49.9473] PanelNo：2016092100001
+[2016-09-21 16:17:49.9785] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:17:50.9638] 2016-09-21 16:17:50 手工扫描0000000013交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:17:50.9638] PanelNo：2016092100001
+[2016-09-21 16:17:51.0318] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:17:51.9779] 2016-09-21 16:17:51 手工扫描0000000014交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:17:51.9779] PanelNo：2016092100001
+[2016-09-21 16:17:52.0079] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:17:52.9891] 2016-09-21 16:17:52 手工扫描0000000015交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:17:52.9891] PanelNo：2016092100001
+[2016-09-21 16:17:53.0181] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:17:54.0032] 2016-09-21 16:17:54 手工扫描0000000016交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:17:54.0032] PanelNo：2016092100001
+[2016-09-21 16:17:54.0352] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:17:55.0182] 2016-09-21 16:17:55 手工扫描0000000017交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:17:55.0182] PanelNo：2016092100001
+[2016-09-21 16:17:55.0482] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:17:56.0313] 2016-09-21 16:17:56 手工扫描0000000018交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:17:56.0313] PanelNo：2016092100001
+[2016-09-21 16:17:56.0643] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:17:57.0475] 2016-09-21 16:17:57 手工扫描0000000019交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:17:57.0475] PanelNo：2016092100001
+[2016-09-21 16:17:57.0785] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:17:58.0596] 2016-09-21 16:17:58 手工扫描0000000020交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:17:58.0596] PanelNo：2016092100001
+[2016-09-21 16:17:58.0946] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:17:59.0737] 2016-09-21 16:17:59 手工扫描0000000021交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:17:59.0737] PanelNo：2016092100001
+[2016-09-21 16:17:59.1057] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:18:00.0911] 2016-09-21 16:18:00 手工扫描0000000022交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:18:00.0911] PanelNo：2016092100001
+[2016-09-21 16:18:00.1251] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:18:01.1010] 2016-09-21 16:18:01 手工扫描0000000023交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:18:01.1010] PanelNo：2016092100001
+[2016-09-21 16:18:01.1330] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:18:02.1190] 2016-09-21 16:18:02 手工扫描0000000024交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:18:02.1190] PanelNo：2016092100001
+[2016-09-21 16:18:02.1510] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:18:03.1461] 2016-09-21 16:18:03 手工扫描0000000025交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:18:03.1461] PanelNo：2016092100001
+[2016-09-21 16:18:03.2071] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:18:04.1493] 2016-09-21 16:18:04 手工扫描0000000026交地。[{"LOCATION":"B01"}]
+[2016-09-21 16:18:04.1493] PanelNo：2016092100001
+[2016-09-21 16:18:04.1973] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:7e630553-662e-4b1c-9ff0-1793ab4be0f5
+Error Number:8178,State:1,Class:16
+[2016-09-21 16:18:04.5633] 2016-09-21 16:18:04 停止
+[2016-09-21 17:53:27.2811] 2016-09-21 17:53:27 运行
+[2016-09-21 17:53:28.4914] 2016-09-21 17:53:28 手工扫描0000000001交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:28.4914] PanelNo：2016092100001
+[2016-09-21 17:53:28.5404] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:29.3344] 2016-09-21 17:53:29 手工扫描0000000002交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:29.3344] PanelNo：2016092100001
+[2016-09-21 17:53:29.3674] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:30.3475] 2016-09-21 17:53:30 手工扫描0000000003交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:30.3475] PanelNo：2016092100001
+[2016-09-21 17:53:30.3805] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:31.3628] 2016-09-21 17:53:31 手工扫描0000000004交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:31.3628] PanelNo：2016092100001
+[2016-09-21 17:53:31.3948] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:32.3908] 2016-09-21 17:53:32 手工扫描0000000005交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:32.3908] PanelNo：2016092100001
+[2016-09-21 17:53:32.4238] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:33.3889] 2016-09-21 17:53:33 手工扫描0000000006交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:33.3889] PanelNo：2016092100001
+[2016-09-21 17:53:33.4209] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:34.4031] 2016-09-21 17:53:34 手工扫描0000000007交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:34.4031] PanelNo：2016092100001
+[2016-09-21 17:53:34.4361] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:35.4182] 2016-09-21 17:53:35 手工扫描0000000008交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:35.4182] PanelNo：2016092100001
+[2016-09-21 17:53:35.4492] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:36.4312] 2016-09-21 17:53:36 手工扫描0000000009交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:36.4312] PanelNo：2016092100001
+[2016-09-21 17:53:36.4632] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:37.4453] 2016-09-21 17:53:37 手工扫描0000000010交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:37.4453] PanelNo：2016092100001
+[2016-09-21 17:53:37.4743] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:38.4594] 2016-09-21 17:53:38 手工扫描0000000011交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:38.4594] PanelNo：2016092100001
+[2016-09-21 17:53:38.4914] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:39.4736] 2016-09-21 17:53:39 手工扫描0000000012交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:39.4736] PanelNo：2016092100001
+[2016-09-21 17:53:39.5066] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:40.4867] 2016-09-21 17:53:40 手工扫描0000000013交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:40.4867] PanelNo：2016092100001
+[2016-09-21 17:53:40.5187] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:41.5057] 2016-09-21 17:53:41 手工扫描0000000014交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:41.5057] PanelNo：2016092100001
+[2016-09-21 17:53:41.5377] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:42.5210] 2016-09-21 17:53:42 手工扫描0000000015交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:42.5210] PanelNo：2016092100001
+[2016-09-21 17:53:42.5520] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:43.5320] 2016-09-21 17:53:43 手工扫描0000000016交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:43.5320] PanelNo：2016092100001
+[2016-09-21 17:53:43.5690] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:47.5255] 2016-09-21 17:53:47 手工扫描0000000017交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:53:50.5528] PanelNo：2016092100001
+[2016-09-21 17:53:50.5828] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:53:58.3523] 2016-09-21 17:53:58 手工扫描0000000017交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:54:06.8173] PanelNo：2016092100001
+[2016-09-21 17:54:08.6104] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:54:25.8410] PanelNo：2016092100001
+[2016-09-21 17:54:26.3740] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:54:34.7379] System.Data.SqlClient.SqlException (0x80131904): 参数化查询 '(@LCode nvarchar(10),@ToLocation nvarchar(3),@PanelNo nvarchar(1' 需要参数 '@GetOutLCode'，但未提供该参数。
+   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   在 yidascan.DataAccess.DataAccess.NonQueryTran(List`1 p) 位置 E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\DataAccess\DataAccess.cs:行号 184
+ClientConnectionId:38e12313-2b35-42b8-a45e-e3259b5b09c7
+Error Number:8178,State:1,Class:16
+[2016-09-21 17:56:37.6816] 2016-09-21 17:56:37 运行
+[2016-09-21 17:56:42.5425] 2016-09-21 17:56:42 手工扫描0000000001交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:56:42.5425] PanelNo：2016092100001
+[2016-09-21 17:58:06.1211] 2016-09-21 17:58:06 运行
+[2016-09-21 17:58:07.3312] 2016-09-21 17:58:07 手工扫描0000000001交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:07.3312] PanelNo：2016092100001
+[2016-09-21 17:58:08.1733] 2016-09-21 17:58:08 手工扫描0000000002交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:09.1845] 2016-09-21 17:58:09 手工扫描0000000003交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:10.1986] 2016-09-21 17:58:10 手工扫描0000000004交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:11.2116] 2016-09-21 17:58:11 手工扫描0000000005交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:12.2259] 2016-09-21 17:58:12 手工扫描0000000006交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:13.2389] 2016-09-21 17:58:13 手工扫描0000000007交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:14.2540] 2016-09-21 17:58:14 手工扫描0000000008交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:14.2740] 2016-09-21 17:58:14 自动板号2016092100001完成。[{"result":"OK"}]
+[2016-09-21 17:58:15.2752] 2016-09-21 17:58:15 手工扫描0000000009交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:16.2813] 2016-09-21 17:58:16 手工扫描0000000010交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:17.2954] 2016-09-21 17:58:17 手工扫描0000000011交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:18.3136] 2016-09-21 17:58:18 手工扫描0000000012交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:19.3277] 2016-09-21 17:58:19 手工扫描0000000013交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:20.3387] 2016-09-21 17:58:20 手工扫描0000000014交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:21.3568] 2016-09-21 17:58:21 手工扫描0000000015交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:21.3708] 2016-09-21 17:58:21 自动板号2016092100001完成。[{"result":"OK"}]
+[2016-09-21 17:58:22.3650] 2016-09-21 17:58:22 手工扫描0000000016交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:23.3851] 2016-09-21 17:58:23 手工扫描0000000017交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:24.3941] 2016-09-21 17:58:24 手工扫描0000000018交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:25.4084] 2016-09-21 17:58:25 手工扫描0000000019交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:26.4225] 2016-09-21 17:58:26 手工扫描0000000020交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:27.4365] 2016-09-21 17:58:27 手工扫描0000000021交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:28.4508] 2016-09-21 17:58:28 手工扫描0000000022交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:28.4688] 2016-09-21 17:58:28 自动板号2016092100001完成。[{"result":"OK"}]
+[2016-09-21 17:58:29.4648] 2016-09-21 17:58:29 手工扫描0000000023交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:30.4779] 2016-09-21 17:58:30 手工扫描0000000024交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:31.4921] 2016-09-21 17:58:31 手工扫描0000000025交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:32.5062] 2016-09-21 17:58:32 手工扫描0000000026交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:33.5203] 2016-09-21 17:58:33 手工扫描0000000027交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:34.5345] 2016-09-21 17:58:34 手工扫描0000000028交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:35.5486] 2016-09-21 17:58:35 手工扫描0000000029交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:35.5616] 2016-09-21 17:58:35 自动板号2016092100001完成。[{"result":"OK"}]
+[2016-09-21 17:58:36.5620] 2016-09-21 17:58:36 手工扫描0000000030交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:37.5767] 2016-09-21 17:58:37 手工扫描0000000031交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:38.5907] 2016-09-21 17:58:38 手工扫描0000000032交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:39.6040] 2016-09-21 17:58:39 手工扫描0000000033交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:40.6220] 2016-09-21 17:58:40 手工扫描0000000034交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:41.6321] 2016-09-21 17:58:41 手工扫描0000000035交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:42.6513] 2016-09-21 17:58:42 手工扫描0000000036交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:42.6673] 2016-09-21 17:58:42 自动板号2016092100001完成。[{"result":"OK"}]
+[2016-09-21 17:58:43.6594] 2016-09-21 17:58:43 手工扫描0000000037交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:44.6775] 2016-09-21 17:58:44 手工扫描0000000038交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:45.6897] 2016-09-21 17:58:45 手工扫描0000000039交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:46.7028] 2016-09-21 17:58:46 手工扫描0000000040交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:47.7168] 2016-09-21 17:58:47 手工扫描0000000041交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:48.7301] 2016-09-21 17:58:48 手工扫描0000000042交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:49.7441] 2016-09-21 17:58:49 手工扫描0000000043交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:49.7621] 2016-09-21 17:58:49 自动板号2016092100001完成。[{"result":"OK"}]
+[2016-09-21 17:58:50.7582] 2016-09-21 17:58:50 手工扫描0000000044交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:51.7802] 2016-09-21 17:58:51 手工扫描0000000045交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:52.7865] 2016-09-21 17:58:52 手工扫描0000000046交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:53.8006] 2016-09-21 17:58:53 手工扫描0000000047交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:54.8146] 2016-09-21 17:58:54 手工扫描0000000048交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:55.8289] 2016-09-21 17:58:55 手工扫描0000000049交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:56.8429] 2016-09-21 17:58:56 手工扫描0000000050交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:56.8549] 2016-09-21 17:58:56 自动板号2016092100001已完成，不能重复完成
+[2016-09-21 17:58:57.8580] 2016-09-21 17:58:57 手工扫描0000000051交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:57.8580] PanelNo：2016092100002
+[2016-09-21 17:58:58.8702] 2016-09-21 17:58:58 手工扫描0000000052交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:58:59.8843] 2016-09-21 17:58:59 手工扫描0000000053交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:59:00.8994] 2016-09-21 17:59:00 手工扫描0000000054交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:59:01.9176] 2016-09-21 17:59:01 手工扫描0000000055交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:59:02.9277] 2016-09-21 17:59:02 手工扫描0000000056交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:59:03.9447] 2016-09-21 17:59:03 手工扫描0000000057交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:59:04.9550] 2016-09-21 17:59:04 手工扫描0000000058交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:59:04.9690] 2016-09-21 17:59:04 自动板号2016092100002完成。[{"result":"OK"}]
+[2016-09-21 17:59:05.9730] 2016-09-21 17:59:05 手工扫描0000000059交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:59:06.9831] 2016-09-21 17:59:06 手工扫描0000000060交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:59:08.0003] 2016-09-21 17:59:08 手工扫描0000000061交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:59:09.0114] 2016-09-21 17:59:09 手工扫描0000000062交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:59:10.0325] 2016-09-21 17:59:10 手工扫描0000000063交地。[{"LOCATION":"B01"}]
+[2016-09-21 17:59:10.4849] 2016-09-21 17:59:10 停止

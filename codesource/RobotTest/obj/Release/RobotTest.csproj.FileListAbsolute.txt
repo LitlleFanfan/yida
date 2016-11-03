@@ -1,0 +1,12 @@
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\obj\Release\RobotTest.csprojResolveAssemblyReference.cache
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\obj\Release\RobotTest.Form1.resources
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\obj\Release\RobotTest.Properties.Resources.resources
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\obj\Release\RobotTest.csproj.GenerateResource.Cache
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\bin\Release\RobotTest.exe.config
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\bin\Release\RobotTest.exe
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\bin\Release\RobotTest.pdb
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\bin\Release\NLog.dll
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\bin\Release\RobotControl.dll
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\bin\Release\RobotControl.pdb
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\obj\Release\RobotTest.exe
+E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\obj\Release\RobotTest.pdb

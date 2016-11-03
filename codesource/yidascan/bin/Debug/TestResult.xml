@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\bin\Debug\yidascan.exe" total="3" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2016-09-08" time="10:59:58">
+  <environment nunit-version="2.6.4.14350" clr-version="2.0.50727.5485" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascanTest\bin\Debug" machine-name="AIOVQOPOOHCLF4X" user="Administrator" user-domain="AIOVQOPOOHCLF4X" />
+  <culture-info current-culture="zh-CN" current-uiculture="zh-CN" />
+  <test-suite type="Assembly" name="E:\lje-work\project\20160620溢达纺织项目\yidascan\yidascan\bin\Debug\yidascan.exe" executed="True" result="Success" success="True" time="0.733" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="yidascanTest" executed="True" result="Success" success="True" time="0.726" asserts="0">
+        <results>
+          <test-suite type="TestFixture" name="TestCase1" executed="True" result="Success" success="True" time="0.700" asserts="0">
+            <results>
+              <test-case name="yidascanTest.TestCase1.Test" executed="True" result="Success" success="True" time="0.693" asserts="4" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="TestCase2" executed="True" result="Success" success="True" time="0.009" asserts="0">
+            <results>
+              <test-case name="yidascanTest.TestCase2.Test" executed="True" result="Success" success="True" time="0.008" asserts="5" />
+            </results>
+          </test-suite>
+          <test-suite type="TestFixture" name="TestCase3" executed="True" result="Success" success="True" time="0.003" asserts="0">
+            <results>
+              <test-case name="yidascanTest.TestCase3.Test" executed="True" result="Success" success="True" time="0.002" asserts="5" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
