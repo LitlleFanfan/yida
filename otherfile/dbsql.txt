@@ -61,11 +61,11 @@ UpdateDate datetime not null default getdate(),
 Remark varchar(256)
 );
 
-
 create table OPCParam(
 SequenceNo Integer identity PRIMARY KEY,
-[Index] Integer not null default 0,
+IndexNo Integer not null default 0,
 Name varchar(64) not null,
 Code varchar(64) not null,
+Class varchar(64) not null default 'None',
 Remark varchar(255)
 );

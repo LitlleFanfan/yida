@@ -23,3 +23,13 @@ E:\mywork\yidabujuanmaduo\２\yidascan\obj\x86\Debug\yidascan.FrmMain.resources
 E:\mywork\yidabujuanmaduo\２\yidascan\obj\x86\Debug\yidascan.FrmSet.resources
 E:\mywork\yidabujuanmaduo\２\yidascan\obj\x86\Debug\yidascan.Properties.Resources.resources
 E:\mywork\yidabujuanmaduo\２\yidascan\obj\x86\Debug\yidascan.csproj.GenerateResource.Cache
+E:\ljework\yida\codesource\yidascan\bin\Debug\yidascan.exe.config
+E:\ljework\yida\codesource\yidascan\bin\Debug\yidascan.exe
+E:\ljework\yida\codesource\yidascan\bin\Debug\yidascan.pdb
+E:\ljework\yida\codesource\yidascan\obj\x86\Debug\yidascan.csprojResolveAssemblyReference.cache
+E:\ljework\yida\codesource\yidascan\obj\x86\Debug\yidascan.FrmMain.resources
+E:\ljework\yida\codesource\yidascan\obj\x86\Debug\yidascan.FrmSet.resources
+E:\ljework\yida\codesource\yidascan\obj\x86\Debug\yidascan.Properties.Resources.resources
+E:\ljework\yida\codesource\yidascan\obj\x86\Debug\yidascan.csproj.GenerateResource.Cache
+E:\ljework\yida\codesource\yidascan\obj\x86\Debug\yidascan.exe
+E:\ljework\yida\codesource\yidascan\obj\x86\Debug\yidascan.pdb

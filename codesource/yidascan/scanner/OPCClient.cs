@@ -39,13 +39,15 @@ namespace ProduceComm.OPC
             return false;
         }
 
-        public void AddSubscription(yidascan.DataAccess.OPCParam p)
+        public void AddSubscription(System.Data.DataTable p)
         {
-            foreach (PropertyInfo pi in p.GetType().GetProperties())
+            foreach (System.Data.DataRow pi in p.Rows)
             {
-                string value1 = (string)pi.GetValue(p, null);//用pi.GetValue获得值
+                string value1 = pi["Code"].ToString();
                 if (!string.IsNullOrEmpty(value1))
+                {
                     AddSubscription(value1);
+                }
             }
         }
         public bool AddSubscription(string code)

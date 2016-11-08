@@ -46,6 +46,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtLength = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.txtDiameter = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtLableCode1 = new System.Windows.Forms.TextBox();
@@ -91,8 +93,6 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
-            this.txtLength = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.grbHandwork.SuspendLayout();
@@ -324,6 +324,25 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1084, 48);
             this.panel1.TabIndex = 8;
+            // 
+            // txtLength
+            // 
+            this.txtLength.Location = new System.Drawing.Point(373, 9);
+            this.txtLength.Margin = new System.Windows.Forms.Padding(4);
+            this.txtLength.Name = "txtLength";
+            this.txtLength.Size = new System.Drawing.Size(144, 29);
+            this.txtLength.TabIndex = 9;
+            // 
+            // label13
+            // 
+            this.label13.BackColor = System.Drawing.Color.Transparent;
+            this.label13.Location = new System.Drawing.Point(322, 5);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(100, 36);
+            this.label13.TabIndex = 8;
+            this.label13.Text = "长度";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtDiameter
             // 
@@ -647,8 +666,8 @@
             this.toolStripStatusLabel1.BackColor = System.Drawing.Color.SkyBlue;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(222, 21);
-            this.toolStripStatusLabel1.Text = "广州溯创信息科技有限公司";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(190, 21);
+            this.toolStripStatusLabel1.Text = "广州金海狸软件工作室";
             // 
             // lblScanner
             // 
@@ -812,25 +831,6 @@
             // 
             this.timer3.Interval = 1000;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
-            // 
-            // txtLength
-            // 
-            this.txtLength.Location = new System.Drawing.Point(373, 9);
-            this.txtLength.Margin = new System.Windows.Forms.Padding(4);
-            this.txtLength.Name = "txtLength";
-            this.txtLength.Size = new System.Drawing.Size(144, 29);
-            this.txtLength.TabIndex = 9;
-            // 
-            // label13
-            // 
-            this.label13.BackColor = System.Drawing.Color.Transparent;
-            this.label13.Location = new System.Drawing.Point(322, 5);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(100, 36);
-            this.label13.TabIndex = 8;
-            this.label13.Text = "长度";
-            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // FrmMain
             // 

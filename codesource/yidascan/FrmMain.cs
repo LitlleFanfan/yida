@@ -20,7 +20,7 @@ namespace yidascan
         NormalScan nscan2 = new NormalScan();
         private LableCodeBll lcb = new LableCodeBll();
         bool isrun = false;
-        OPCParam opcParam = null;
+        OPCParam opcParam = new OPCParam();
         DataTable dtopc = new DataTable();
 #if !DEBUG
         OPCClient opcClient = new OPCClient();
@@ -38,16 +38,16 @@ namespace yidascan
             dtview.Columns.Add(new DataColumn("Coordinates"));
             dtview.Columns.Add(new DataColumn("Finished"));
 
-
 #if !DEBUG
             dtopc = OPCParam.Query();
+            dtopc.Columns.Remove("Class");
             dtopc.Columns.Add(new DataColumn("Value"));
-            opcParam = OPCParam.GetCfg();
+            OPCParam.GetNoneCfg(opcParam);
             if (opcClient.Open(clsSetting.OPCServerIP))
             {
-                opcClient.AddSubscription(opcParam);
-                opcClient.Write(opcParam.ScanState, 0);
-                ViewInfo(string.Format("{0} OPC服务连接成功。", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+                ViewInfo(string.Format("{0} OPC服务连接成功。加订阅。", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+                opcClient.AddSubscription(dtopc);
+                opcClient.Write(opcParam.ScanState, false);
             }
             else
             {
@@ -60,6 +60,7 @@ namespace yidascan
             numericUpDown1.Visible = true;
             textBox1.Visible = true;
             txtDiameter.Text = ran.Next(diameterMin, diameterMax).ToString();
+            txtLength.Text = ran.Next(lengthMin, lengthMax).ToString();
             textBox1.Text = (1).ToString().PadLeft(10, '0');
 #endif
         }
@@ -70,7 +71,7 @@ namespace yidascan
             BindDgv();
             SetButtonState(false);
             InitCfgView();
-            //LableCode.DeleteAllFinished();
+            LableCode.DeleteAllFinished();
         }
 
         private void BindDgv()
@@ -95,6 +96,7 @@ namespace yidascan
 
         private void btnRun_Click(object sender, EventArgs e)
         {
+            dtpDate.Value = DateTime.Now;
             SetButtonState(true);
             ViewInfo(string.Format("{0} 运行", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
 #if DEBUG
@@ -126,6 +128,7 @@ namespace yidascan
             if (opcClient.Connected)
             {
                 WeighTask();
+                ACAreaFinishTask();
                 BeforCacheTask();
             }
 #endif
@@ -149,6 +152,33 @@ namespace yidascan
             });
         }
 
+        private void ACAreaFinishTask()
+        {
+            OPCParam.GetACAreaFinishCfg(opcParam);
+            foreach (KeyValuePair<string, LCodeSignal> kv in opcParam.ACAreaPanelFinish)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    while (isrun)
+                    {
+                        string signal = opcClient.Read(kv.Value.Signal).ToString();
+                        if (signal == "1")
+                        {
+                            string lable1 = opcClient.Read(kv.Value.LCode1).ToString();
+                            string lable2 = opcClient.Read(kv.Value.LCode2).ToString();
+                            string fullLable = lable1.PadLeft(6, '0') + lable2.PadLeft(6, '0');
+                            if (!string.IsNullOrEmpty(fullLable))
+                            {
+                                AreaAAndCFinish(fullLable);
+                            }
+                            opcClient.Write(kv.Value.Signal, "0");
+                        }
+                        Thread.Sleep(2);
+                    }
+                });
+            }
+        }
+
         private void BeforCacheTask()
         {
             Task.Factory.StartNew(() =>
@@ -157,7 +187,7 @@ namespace yidascan
                 {
                     string lable1 = opcClient.Read(opcParam.BeforCacheLable1).ToString();
                     string lable2 = opcClient.Read(opcParam.BeforCacheLable2).ToString();
-                    string fullLable = lable1 + lable2;
+                    string fullLable = lable1.PadLeft(6, '0') + lable2.PadLeft(6, '0');
                     if (!string.IsNullOrEmpty(fullLable))
                     {
                         //计算位置
@@ -168,30 +198,41 @@ namespace yidascan
                 }
             });
         }
+
+        private void viewopcdata()
+        {
+            foreach (DataRow dr in dtopc.Rows)
+            {
+                try
+                {
+                    dr["Value"] = opcClient.Read(dr["Code"].ToString());
+                }
+                catch { }
+            }
+        }
+#endif
+
+#if DEBUG
 #endif
 
         void nscan1_OnDataArrived(string type, string code)
         {
-            ViewInfo(string.Format("No: {3}; type: {0}; code: {1}", type, code, 1));
             nscan_OnDataArrived(type, code, 1);
         }
 
         void nscan2_OnDataArrived(string type, string code)
         {
-            ViewInfo(string.Format("No: {3}; type: {0}; code: {1}", type, code, 2));
             nscan_OnDataArrived(type, code, 2);
         }
 
         void nscan_OnDataArrived(string type, string code, int scanNo)
         {
-            ViewInfo(string.Format("No: {3}; type: {0}; code: {1}", type, code, scanNo));
             if (code == "ERROR" || code.Length < 12)
             {
                 return;
             }
             code = code.Substring(0, 12);//条码请取前面12位,有些扫描器会扫出13位是因为把后面的识别码也读出来了.摘自2016年9月10日(星期六) 下午2:37邮件：答复: 答复: 9月9号夜班布卷扫描枪PC连接不上ERP说明
 
-            ViewInfo(string.Format("No: {3}; type: {0}; code: {1}", type, code, scanNo));
             decimal diameter, length;
 #if DEBUG
             diameter = decimal.Parse(txtDiameter.Text);
@@ -200,8 +241,12 @@ namespace yidascan
             txtLength.Text = ran.Next(lengthMin, lengthMax).ToString();
 #endif
 #if !DEBUG
-            diameter = decimal.Parse(opcClient.Read(opcParam.Diameter).ToString());
-            length = decimal.Parse(opcClient.Read(opcParam.Length).ToString());
+            string tmp = opcClient.Read(opcParam.Diameter).ToString();
+            ViewInfo(string.Format("Diameter {0}", tmp));
+            diameter = decimal.Parse(tmp);
+            tmp = opcClient.Read(opcParam.Length).ToString();
+            ViewInfo(string.Format("Length {0}", tmp));
+            length = decimal.Parse(tmp);
 #endif
             ScanLableCode(diameter, length, code, scanNo, false);
         }
@@ -410,9 +455,28 @@ namespace yidascan
                 txtLength.Text = ran.Next(lengthMin, lengthMax).ToString();
 #endif
 #if !DEBUG
-                decimal diameter = string.IsNullOrEmpty(txtDiameter.Text) ?
-                    decimal.Parse(opcClient.Read(opcParam.Diameter).ToString()) : decimal.Parse(txtDiameter.Text);
-                decimal length = decimal.Parse(opcClient.Read(opcParam.Length).ToString());
+                decimal diameter;
+                decimal length;
+                if (string.IsNullOrEmpty(txtDiameter.Text))
+                {
+                    string tmp = opcClient.Read(opcParam.Diameter).ToString();
+                    ViewInfo(string.Format("Diameter {0}", tmp));
+                    diameter = decimal.Parse(tmp);
+                }
+                else
+                {
+                    diameter = decimal.Parse(txtDiameter.Text);
+                }
+                if (string.IsNullOrEmpty(txtLength.Text))
+                {
+                    string tmp = opcClient.Read(opcParam.Length).ToString();
+                    ViewInfo(string.Format("Length {0}", tmp));
+                    length = decimal.Parse(tmp);
+                }
+                else
+                {
+                    length = decimal.Parse(txtLength.Text);
+                }
 #endif
                 ScanLableCode(diameter, length, code, 1, true);
                 txtLableCode1.Text = string.Empty;
@@ -430,8 +494,12 @@ namespace yidascan
             lc.ToLocation = tolocation;
             lc.Diameter = diameter;
             lc.Remark = (handwork ? "handwork" : "automatic");
+            lc.Coordinates = "";
+            if (LableCode.Add(lc))
+                ViewAddLable(false, lc);
 #if !DEBUG
             object f = opcClient.Read(opcParam.ScanState);
+            ViewInfo(string.Format("scanstate {0}", f));
             while (bool.Parse(f.ToString()))
             {
                 Thread.Sleep(2);
@@ -440,9 +508,9 @@ namespace yidascan
             bool tmp = opcClient.Write(opcParam.ToLocationArea, clsSetting.AreaNo[lc.ToLocation.Substring(0, 1)]);
             tmp = opcClient.Write(opcParam.ToLocationNo, lc.ToLocation.Substring(1, 2));
             tmp = opcClient.Write(opcParam.ScanLable1, lc.LCode.Substring(0, 6));
-            tmp = opcClient.Write(opcParam.ScanLable2, lc.LCode.Substring(5, 6));
+            tmp = opcClient.Write(opcParam.ScanLable2, lc.LCode.Substring(6, 6));
             tmp = opcClient.Write(opcParam.CameraNo, scanNo);
-            tmp = opcClient.Write(opcParam.ScanState, 1);
+            tmp = opcClient.Write(opcParam.ScanState, true);
             viewopcdata();
 #endif
         }
@@ -468,9 +536,7 @@ namespace yidascan
             if (lcs == null || lcs.Count == 0)
             {
                 lcb.GetPanelNo(lc, dtpDate.Value, cmbShiftNo.SelectedIndex);
-                ViewInfo(string.Format("PanelNo：{0}", lc.PanelNo), true);
-                if (LableCode.Add(lc))
-                    ViewAddLable(false, lc);
+                LableCode.Update(lc);
             }
             else
             {
@@ -508,12 +574,12 @@ namespace yidascan
                     fp = FloorPerformance.BothFinish;
                 if (lc2 != null)
                 {
-                    if (LableCode.Add(fp, lc, lc2))
+                    if (LableCode.Update(fp, lc, lc2))
                         ViewAddLable(fp == FloorPerformance.BothFinish && lc.Floor == 7, lc, lc2);
                 }
                 else
                 {
-                    if (LableCode.Add(fp, lc))
+                    if (LableCode.Update(fp, lc))
                         ViewAddLable(fp == FloorPerformance.BothFinish && lc.Floor == 7, lc);
                 }
             }
@@ -569,16 +635,16 @@ namespace yidascan
                     DataTable res = JsonConvert.DeserializeObject<DataTable>(str["Data"].ToString());
                     if (str["State"] == "Fail" || res.Rows[0]["LOCATION"].ToString() == "Fail")
                     {
-                        ViewInfo(string.Format("{0} {1}{2}获取交地失败。{3}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), (handwork ? "手工" : "自动"), code, str["ERR"]));
+                        ViewInfo(string.Format("{0} {1}{2}获取交地失败。", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), (handwork ? "手工" : "自动"), code, JsonConvert.SerializeObject(str)));
                     }
-                    if (res.Rows.Count > 0)
+                    else if (res.Rows.Count > 0)
                     {
                         re = res.Rows[0]["LOCATION"].ToString();
                         ViewInfo(string.Format("{0} {1}扫描{2}交地{3}。{4}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), (handwork ? "手工" : "自动"), code, txtToLocation.Text, str["Data"]));
                     }
                     else
                     {
-                        ViewInfo(string.Format("{0} {1}{2}获取交地失败。{3}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), (handwork ? "手工" : "自动"), code, str["Data"]));
+                        ViewInfo(string.Format("{0} {1}{2}获取交地失败。{3}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), (handwork ? "手工" : "自动"), code, JsonConvert.SerializeObject(str)));
                     }
                 }
                 catch (Exception ex)
@@ -671,6 +737,7 @@ namespace yidascan
 
             ScanLableCode(diameter, length, code, 1, true);
             txtDiameter.Text = ran.Next(diameterMin, diameterMax).ToString();
+            txtLength.Text = ran.Next(lengthMin, lengthMax).ToString();
         }
 
         private void btnLog_Click(object sender, EventArgs e)
@@ -690,20 +757,6 @@ namespace yidascan
             timer3.Stop();
             viewopcdata();
             timer3.Start();
-#endif
-        }
-
-        private void viewopcdata()
-        {
-#if !DEBUG
-            foreach (DataRow dr in dtopc.Rows)
-            {
-                try
-                {
-                    dr["Value"] = opcClient.Read(dr["Code"].ToString());
-                }
-                catch { }
-            }
 #endif
         }
     }

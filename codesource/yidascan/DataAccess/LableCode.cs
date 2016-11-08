@@ -125,17 +125,12 @@ namespace yidascan.DataAccess
         public static bool Add(LableCode c)
         {
             List<CommandParameter> cps = CreateLableCodeInsert(c);
-            cps.Add(new CommandParameter("INSERT INTO Panel (PanelNo,CurrFloor,Remark)" +
-                    "VALUES(@PanelNo,1,@Remark)",
-                new SqlParameter[]{
-                        new SqlParameter("@PanelNo",c.panelNo),
-                        new SqlParameter("@Remark",DBNull.Value)}));
             return DataAccess.CreateDataAccess.sa.NonQueryTran(cps);
         }
 
-        public static bool Add(FloorPerformance fp, LableCode c, LableCode c2 = null)
+        public static bool Update(FloorPerformance fp, LableCode c, LableCode c2 = null)
         {
-            List<CommandParameter> cps = CreateLableCodeInsert(c);
+            List<CommandParameter> cps = CreateLableCodeUpdate(c);
             if (c2 != null)
             {
                 cps.Add(new CommandParameter("update LableCode set FloorIndex=@FloorIndex,Coordinates=@Coordinates,UpdateDate=@UpdateDate " +
@@ -199,7 +194,7 @@ namespace yidascan.DataAccess
                                 new SqlParameter[]{
                         new SqlParameter("@LCode",c.lCode),
                         new SqlParameter("@ToLocation",c.toLocation),
-                        new SqlParameter("@PanelNo",c.panelNo),
+                        c.panelNo==null?new SqlParameter("@PanelNo",DBNull.Value):new SqlParameter("@PanelNo",c.panelNo),
                         new SqlParameter("@Floor",c.floor),
                         new SqlParameter("@FloorIndex",c.floorIndex),
                         new SqlParameter("@Diameter",c.diameter),
@@ -238,39 +233,49 @@ namespace yidascan.DataAccess
 
         public static bool Update(string panelNo)
         {
-            string sql = "update LableCode set UpdateDate=@UpdateDate,Status=@Status where panelNo=@panelNo";
-            SqlParameter[] sp = new SqlParameter[]{
+            List<CommandParameter> cps = new List<CommandParameter>() {
+                new CommandParameter(@"update LableCode set UpdateDate=@UpdateDate,Status=@Status where panelNo=@panelNo",
+                new SqlParameter[]{
                 new SqlParameter("@UpdateDate",DateTime.Now),
                 new SqlParameter("@Status",5),
-                new SqlParameter("@panelNo",panelNo)};
-            return DataAccess.CreateDataAccess.sa.NonQuery(sql, sp);
+                new SqlParameter("@panelNo",panelNo)}),
+                new CommandParameter("update Panel set UpdateDate=@UpdateDate,Status=@Status where panelNo=@panelNo",
+                new SqlParameter[]{
+                new SqlParameter("@UpdateDate",DateTime.Now),
+                new SqlParameter("@Status",5),
+                new SqlParameter("@panelNo",panelNo)})};
+            return DataAccess.CreateDataAccess.sa.NonQueryTran(cps);
         }
 
         public static bool Update(LableCode obj)
         {
-            string sql = @"UPDATE LableCode SET
-      ,[PanelNo] = @PanelNo
-      ,[Status] = @Status
-      ,[Floor] = @Floor
-      ,[FloorIndex] = @FloorIndex
-      ,[Coordinates] = @Coordinates
-      ,[GetOutLCode] = @GetOutLCode
-      ,[UpdateDate] = @UpdateDate
-      ,[Remark] = @Remark
- WHERE SequenceNo =@SequenceNo and [LCode] = @LCode and [ToLocation] = @ToLocation ";
-            SqlParameter[] sp = new SqlParameter[]{
-                new SqlParameter("@PanelNo",obj.panelNo),
-                new SqlParameter("@Status",obj.status),
-                new SqlParameter("@Floor",obj.floor),
-                new SqlParameter("@FloorIndex",obj.floorIndex),
-                new SqlParameter("@Coordinates",obj.coordinates),
-                new SqlParameter("@GetOutLCode",obj.getOutLCode),
-                new SqlParameter("@UpdateDate",DateTime.Now),
-                new SqlParameter("@Remark",obj.remark),
-                new SqlParameter("@SequenceNo",obj.sequenceNo),
-                new SqlParameter("@LCode",obj.lCode),
-                new SqlParameter("@ToLocation",obj.toLocation)};
-            return DataAccess.CreateDataAccess.sa.NonQuery(sql, sp);
+            List<CommandParameter> cps = CreateLableCodeUpdate(obj);
+            cps.Add(new CommandParameter("INSERT INTO Panel (PanelNo,CurrFloor,Remark)" +
+                    "VALUES(@PanelNo,1,@Remark)",
+                new SqlParameter[]{
+                    new SqlParameter("@PanelNo",obj.panelNo),
+                    new SqlParameter("@Remark",obj.toLocation)}));
+            return DataAccess.CreateDataAccess.sa.NonQueryTran(cps);
+        }
+
+        private static List<CommandParameter> CreateLableCodeUpdate(LableCode obj)
+        {
+            return new List<CommandParameter>() {
+                new CommandParameter(@"UPDATE LableCode SET [PanelNo] = @PanelNo
+                  ,[Floor] = @Floor,[FloorIndex] = @FloorIndex,[Coordinates] = @Coordinates
+                  ,[GetOutLCode] = @GetOutLCode,[UpdateDate] = @UpdateDate,[Remark] = @Remark
+                  WHERE SequenceNo =@SequenceNo and [LCode] = @LCode and [ToLocation] = @ToLocation",
+                new SqlParameter[]{
+                    new SqlParameter("@PanelNo",obj.panelNo),
+                    new SqlParameter("@Floor",obj.floor),
+                    new SqlParameter("@FloorIndex",obj.floorIndex),
+                    new SqlParameter("@Coordinates",obj.coordinates),
+                    new SqlParameter("@GetOutLCode",obj.getOutLCode),
+                    new SqlParameter("@UpdateDate",DateTime.Now),
+                    new SqlParameter("@Remark",obj.remark),
+                    new SqlParameter("@SequenceNo",obj.sequenceNo),
+                    new SqlParameter("@LCode",obj.lCode),
+                    new SqlParameter("@ToLocation",obj.toLocation)})};
         }
 
         public static bool DeleteAllFinished()
