@@ -108,45 +108,45 @@ namespace ProduceComm.Scanner
         {
             this.long_0 = 0L;
             this.stoped = false;
-            clsSetting.loger.Error(string.Format("_StartJob  {0}", !this.stoped));
+            //clsSetting.loger.Error(string.Format("_StartJob  {0}", !this.stoped));
             //new Thread(new ThreadStart(run)).Start();
             Task.Factory.StartNew(() =>
             {
-                clsSetting.loger.Error(string.Format("启动扫描任务 IP: {0}; Port: {1};", icom.GetIPOrCom(), icom.GetPortOrBaudRate()));
+                //clsSetting.loger.Error(string.Format("启动扫描任务 IP: {0}; Port: {1};", icom.GetIPOrCom(), icom.GetPortOrBaudRate()));
                 while (!this.stoped)
                 {
                     string data = Encoding.Default.GetString(GetReply());
                     Console.WriteLine(data);
-                    clsSetting.loger.Error(string.Format("IP: {0}; Port: {1}; data: {2};", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), data));
+                    //clsSetting.loger.Error(string.Format("IP: {0}; Port: {1}; data: {2};", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), data));
                     if (!string.IsNullOrEmpty(data))
                     {
                         this.long_0 += 1L;
-                        clsSetting.loger.Error(string.Format("读到了 IP: {0}; Port: {1}; data: {2};", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), data));
+                        //clsSetting.loger.Error(string.Format("读到了 IP: {0}; Port: {1}; data: {2};", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), data));
                         OnDataArrived("", data);
                         Thread.Sleep(2);
                     }
-                    clsSetting.loger.Error(string.Format("启动扫描任务循环尾 IP: {0}; Port: {1};  {2}", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), !this.stoped));
+                    //clsSetting.loger.Error(string.Format("启动扫描任务循环尾 IP: {0}; Port: {1};  {2}", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), !this.stoped));
                 }
-                clsSetting.loger.Error(string.Format("启动扫描结束 IP: {0}; Port: {1};", icom.GetIPOrCom(), icom.GetPortOrBaudRate()));
+                //clsSetting.loger.Error(string.Format("启动扫描结束 IP: {0}; Port: {1};", icom.GetIPOrCom(), icom.GetPortOrBaudRate()));
             });
         }
 
         private void run()
         {
-            clsSetting.loger.Error(string.Format("启动扫描任务 IP: {0}; Port: {1};  {2}", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), !this.stoped));
+            clsSetting.loger.Error(string.Format("run启动扫描任务 IP: {0}; Port: {1};  {2}", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), !this.stoped));
             while (!this.stoped)
             {
                 string data = Encoding.Default.GetString(GetReply());
                 Console.WriteLine(data);
-                clsSetting.loger.Error(string.Format("IP: {0}; Port: {1}; data: {2};", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), data));
+                //clsSetting.loger.Error(string.Format("IP: {0}; Port: {1}; data: {2};", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), data));
                 if (!string.IsNullOrEmpty(data))
                 {
                     this.long_0 += 1L;
-                    clsSetting.loger.Error(string.Format("读到了 IP: {0}; Port: {1}; data: {2};", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), data));
+                    //clsSetting.loger.Error(string.Format("读到了 IP: {0}; Port: {1}; data: {2};", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), data));
                     OnDataArrived("", data);
-                    //Thread.Sleep(2);
+                    Thread.Sleep(2);
                 }
-                clsSetting.loger.Error(string.Format("启动扫描任务循环尾 IP: {0}; Port: {1};  {2}", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), !this.stoped));
+                //clsSetting.loger.Error(string.Format("启动扫描任务循环尾 IP: {0}; Port: {1};  {2}", icom.GetIPOrCom(), icom.GetPortOrBaudRate(), !this.stoped));
             }
         }
 

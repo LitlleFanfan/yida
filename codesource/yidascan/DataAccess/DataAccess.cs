@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
 using ProduceComm;
+using Newtonsoft.Json;
 
 namespace yidascan.DataAccess
 {
@@ -202,6 +203,7 @@ namespace yidascan.DataAccess
             {
                 com.Transaction.Rollback();
                 loger.Error(ex);
+                loger.Info(JsonConvert.SerializeObject(p));
                 return false;
             }
             finally

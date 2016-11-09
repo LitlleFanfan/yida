@@ -22,3 +22,13 @@ E:\lje-work\project\20160620溢达纺织项目\小李\20160830\yidascan\RobotTes
 E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\bin\Debug\RobotControl.pdb
 E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\bin\Debug\RobotControl.dll
 E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotTest\bin\Debug\NLog.dll
+E:\ljework\yida\codesource\RobotTest\bin\Debug\RobotTest.exe.config
+E:\ljework\yida\codesource\RobotTest\obj\Debug\RobotTest.exe
+E:\ljework\yida\codesource\RobotTest\obj\Debug\RobotTest.pdb
+E:\ljework\yida\codesource\RobotTest\bin\Debug\RobotTest.exe
+E:\ljework\yida\codesource\RobotTest\bin\Debug\RobotTest.pdb
+E:\ljework\yida\codesource\RobotTest\bin\Debug\RobotControl.dll
+E:\ljework\yida\codesource\RobotTest\bin\Debug\RobotControl.pdb
+E:\ljework\yida\codesource\RobotTest\obj\Debug\RobotTest.Form1.resources
+E:\ljework\yida\codesource\RobotTest\obj\Debug\RobotTest.Properties.Resources.resources
+E:\ljework\yida\codesource\RobotTest\obj\Debug\RobotTest.csproj.GenerateResource.Cache

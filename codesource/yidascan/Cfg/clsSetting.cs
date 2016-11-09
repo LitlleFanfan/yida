@@ -2,14 +2,53 @@
 using System.Reflection;
 using System.Collections.Generic;
 using ProduceComm;
+using System;
 
 namespace ProduceComm
 {
+    public enum LogViewType
+    {
+        Both,
+        OnlyForm,
+        OnlyFile
+    }
+
+    public class LogOpreate
+    {
+        System.Windows.Forms.ListBox lsvLog = null;
+        public LogOpreate(System.Windows.Forms.ListBox _lsvLog)
+        {
+            lsvLog = _lsvLog;
+        }
+
+        public void ViewInfo(string msg, LogViewType type)
+        {
+            switch (type)
+            {
+                case LogViewType.Both:
+                    lsvLog.Items.Insert(0, string.Format("{0} {1}",
+                        DateTime.Now.ToString(clsSetting.DATE_FORMAT), msg));
+                    clsSetting.loger.Error(msg);
+                    break;
+                case LogViewType.OnlyFile:
+                    clsSetting.loger.Error(msg);
+                    break;
+                case LogViewType.OnlyForm:
+                    lsvLog.Items.Insert(0, string.Format("{0} {1}",
+                        DateTime.Now.ToString(clsSetting.DATE_FORMAT), msg));
+                    break;
+            }
+        }
+    }
 
     public class clsSetting
     {
         public static Dictionary<string, int> AreaNo = new Dictionary<string, int> { { "A", 10 }, { "B", 11 }, { "C", 12 } };
         private const string filename = "config.ini";
+        // 常用常数
+        public const string DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+        public const string LABEL_CODE_DATE_FORMAT = "yyyyMMdd";
+        public const string PRODUCT_NAME = "广州金海狸数据采集软件单机版";
 
         public static string FactoryNo
         {

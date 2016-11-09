@@ -38,6 +38,11 @@
             this.btnQuit = new System.Windows.Forms.ToolStripButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.grbHandwork = new System.Windows.Forms.GroupBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.txtDelLCode = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.txtToLocation = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -93,9 +98,11 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
+            this.txtTest1 = new System.Windows.Forms.TextBox();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.grbHandwork.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -211,16 +218,84 @@
             // 
             this.grbHandwork.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grbHandwork.Controls.Add(this.txtTest1);
+            this.grbHandwork.Controls.Add(this.panel2);
             this.grbHandwork.Controls.Add(this.panel3);
             this.grbHandwork.Controls.Add(this.panel1);
-            this.grbHandwork.Location = new System.Drawing.Point(0, 130);
+            this.grbHandwork.Location = new System.Drawing.Point(223, 70);
             this.grbHandwork.Margin = new System.Windows.Forms.Padding(5);
             this.grbHandwork.Name = "grbHandwork";
             this.grbHandwork.Padding = new System.Windows.Forms.Padding(5);
-            this.grbHandwork.Size = new System.Drawing.Size(1115, 131);
+            this.grbHandwork.Size = new System.Drawing.Size(892, 191);
             this.grbHandwork.TabIndex = 51;
             this.grbHandwork.TabStop = false;
             this.grbHandwork.Text = "手动操作";
+            // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.BackColor = System.Drawing.SystemColors.Control;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.txtDelLCode);
+            this.panel2.Controls.Add(this.label14);
+            this.panel2.Controls.Add(this.btnDelete);
+            this.panel2.Controls.Add(this.label16);
+            this.panel2.Location = new System.Drawing.Point(16, 131);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(861, 48);
+            this.panel2.TabIndex = 11;
+            // 
+            // txtDelLCode
+            // 
+            this.txtDelLCode.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDelLCode.ForeColor = System.Drawing.Color.DarkRed;
+            this.txtDelLCode.Location = new System.Drawing.Point(172, 9);
+            this.txtDelLCode.Margin = new System.Windows.Forms.Padding(4);
+            this.txtDelLCode.Name = "txtDelLCode";
+            this.txtDelLCode.Size = new System.Drawing.Size(545, 29);
+            this.txtDelLCode.TabIndex = 4;
+            this.txtDelLCode.Text = "请输入要删除的标签号";
+            this.txtDelLCode.Enter += new System.EventHandler(this.txtDelLCode_Enter);
+            this.txtDelLCode.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDelLCode_KeyPress);
+            this.txtDelLCode.Leave += new System.EventHandler(this.txtDelLCode_Leave);
+            // 
+            // label14
+            // 
+            this.label14.BackColor = System.Drawing.Color.Moccasin;
+            this.label14.Location = new System.Drawing.Point(9, 5);
+            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(100, 36);
+            this.label14.TabIndex = 7;
+            this.label14.Text = "删除标签";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDelete.BackColor = System.Drawing.Color.DarkGreen;
+            this.btnDelete.Location = new System.Drawing.Point(725, 1);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(125, 44);
+            this.btnDelete.TabIndex = 6;
+            this.btnDelete.Text = "删除";
+            this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // label16
+            // 
+            this.label16.BackColor = System.Drawing.Color.Transparent;
+            this.label16.Location = new System.Drawing.Point(121, 5);
+            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(100, 36);
+            this.label16.TabIndex = 0;
+            this.label16.Text = "标签";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel3
             // 
@@ -237,7 +312,7 @@
             this.panel3.Location = new System.Drawing.Point(16, 78);
             this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1084, 48);
+            this.panel3.Size = new System.Drawing.Size(861, 48);
             this.panel3.TabIndex = 10;
             // 
             // txtToLocation
@@ -245,7 +320,7 @@
             this.txtToLocation.Location = new System.Drawing.Point(172, 9);
             this.txtToLocation.Margin = new System.Windows.Forms.Padding(4);
             this.txtToLocation.Name = "txtToLocation";
-            this.txtToLocation.Size = new System.Drawing.Size(345, 29);
+            this.txtToLocation.Size = new System.Drawing.Size(234, 29);
             this.txtToLocation.TabIndex = 4;
             // 
             // label7
@@ -263,10 +338,10 @@
             // 
             this.txtPanelNo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPanelNo.Location = new System.Drawing.Point(606, 9);
+            this.txtPanelNo.Location = new System.Drawing.Point(492, 9);
             this.txtPanelNo.Margin = new System.Windows.Forms.Padding(4);
             this.txtPanelNo.Name = "txtPanelNo";
-            this.txtPanelNo.Size = new System.Drawing.Size(334, 29);
+            this.txtPanelNo.Size = new System.Drawing.Size(225, 29);
             this.txtPanelNo.TabIndex = 5;
             this.txtPanelNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPanelNo_KeyDown);
             // 
@@ -274,7 +349,7 @@
             // 
             this.btnComplete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnComplete.BackColor = System.Drawing.Color.LimeGreen;
-            this.btnComplete.Location = new System.Drawing.Point(948, 1);
+            this.btnComplete.Location = new System.Drawing.Point(725, 1);
             this.btnComplete.Margin = new System.Windows.Forms.Padding(4);
             this.btnComplete.Name = "btnComplete";
             this.btnComplete.Size = new System.Drawing.Size(125, 44);
@@ -286,7 +361,7 @@
             // label4
             // 
             this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Location = new System.Drawing.Point(556, 5);
+            this.label4.Location = new System.Drawing.Point(444, 5);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(50, 36);
@@ -322,21 +397,21 @@
             this.panel1.Location = new System.Drawing.Point(16, 25);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1084, 48);
+            this.panel1.Size = new System.Drawing.Size(861, 48);
             this.panel1.TabIndex = 8;
             // 
             // txtLength
             // 
-            this.txtLength.Location = new System.Drawing.Point(373, 9);
+            this.txtLength.Location = new System.Drawing.Point(313, 9);
             this.txtLength.Margin = new System.Windows.Forms.Padding(4);
             this.txtLength.Name = "txtLength";
-            this.txtLength.Size = new System.Drawing.Size(144, 29);
+            this.txtLength.Size = new System.Drawing.Size(93, 29);
             this.txtLength.TabIndex = 9;
             // 
             // label13
             // 
             this.label13.BackColor = System.Drawing.Color.Transparent;
-            this.label13.Location = new System.Drawing.Point(322, 5);
+            this.label13.Location = new System.Drawing.Point(262, 5);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(100, 36);
@@ -349,7 +424,7 @@
             this.txtDiameter.Location = new System.Drawing.Point(172, 9);
             this.txtDiameter.Margin = new System.Windows.Forms.Padding(4);
             this.txtDiameter.Name = "txtDiameter";
-            this.txtDiameter.Size = new System.Drawing.Size(144, 29);
+            this.txtDiameter.Size = new System.Drawing.Size(85, 29);
             this.txtDiameter.TabIndex = 7;
             // 
             // label2
@@ -368,10 +443,10 @@
             this.txtLableCode1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLableCode1.ForeColor = System.Drawing.Color.DarkRed;
-            this.txtLableCode1.Location = new System.Drawing.Point(606, 9);
+            this.txtLableCode1.Location = new System.Drawing.Point(492, 9);
             this.txtLableCode1.Margin = new System.Windows.Forms.Padding(4);
             this.txtLableCode1.Name = "txtLableCode1";
-            this.txtLableCode1.Size = new System.Drawing.Size(334, 29);
+            this.txtLableCode1.Size = new System.Drawing.Size(225, 29);
             this.txtLableCode1.TabIndex = 1;
             this.txtLableCode1.Text = "请将光标放置到这里扫描";
             this.txtLableCode1.Enter += new System.EventHandler(this.txtLableCode1_Enter);
@@ -393,7 +468,7 @@
             // 
             this.btnToWeigh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToWeigh.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.btnToWeigh.Location = new System.Drawing.Point(948, 1);
+            this.btnToWeigh.Location = new System.Drawing.Point(725, 1);
             this.btnToWeigh.Margin = new System.Windows.Forms.Padding(4);
             this.btnToWeigh.Name = "btnToWeigh";
             this.btnToWeigh.Size = new System.Drawing.Size(125, 44);
@@ -405,7 +480,7 @@
             // label1
             // 
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(518, 5);
+            this.label1.Location = new System.Drawing.Point(406, 5);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(88, 36);
@@ -694,7 +769,7 @@
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(794, 21);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(826, 21);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // lblTimer
@@ -712,8 +787,6 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.numericUpDown1);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.cmbShiftNo);
@@ -723,21 +796,21 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Location = new System.Drawing.Point(0, 70);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1115, 52);
+            this.groupBox1.Size = new System.Drawing.Size(215, 191);
             this.groupBox1.TabIndex = 54;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "班次信息";
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(484, 18);
+            this.numericUpDown1.Location = new System.Drawing.Point(63, 100);
             this.numericUpDown1.Maximum = new decimal(new int[] {
             1000000,
             0,
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 29);
+            this.numericUpDown1.Size = new System.Drawing.Size(141, 29);
             this.numericUpDown1.TabIndex = 13;
             this.numericUpDown1.Value = new decimal(new int[] {
             1000,
@@ -749,7 +822,7 @@
             // label11
             // 
             this.label11.BackColor = System.Drawing.Color.Transparent;
-            this.label11.Location = new System.Drawing.Point(429, 14);
+            this.label11.Location = new System.Drawing.Point(8, 96);
             this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(77, 36);
@@ -765,17 +838,18 @@
             "白班",
             "中班",
             "夜班"});
-            this.cmbShiftNo.Location = new System.Drawing.Point(300, 19);
+            this.cmbShiftNo.Location = new System.Drawing.Point(63, 68);
             this.cmbShiftNo.Name = "cmbShiftNo";
-            this.cmbShiftNo.Size = new System.Drawing.Size(92, 27);
+            this.cmbShiftNo.Size = new System.Drawing.Size(141, 27);
             this.cmbShiftNo.TabIndex = 10;
+            this.cmbShiftNo.Text = "白班";
             this.cmbShiftNo.SelectedIndexChanged += new System.EventHandler(this.cmbShiftNo_SelectedIndexChanged);
             // 
             // dtpDate
             // 
             this.dtpDate.CustomFormat = "yyyy-MM-dd";
             this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDate.Location = new System.Drawing.Point(153, 18);
+            this.dtpDate.Location = new System.Drawing.Point(63, 33);
             this.dtpDate.Name = "dtpDate";
             this.dtpDate.Size = new System.Drawing.Size(141, 29);
             this.dtpDate.TabIndex = 9;
@@ -786,10 +860,10 @@
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.ForeColor = System.Drawing.Color.DarkRed;
-            this.textBox1.Location = new System.Drawing.Point(765, 18);
+            this.textBox1.Location = new System.Drawing.Point(63, 144);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(335, 29);
+            this.textBox1.Size = new System.Drawing.Size(141, 29);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "请将光标放置到这里扫描";
             this.textBox1.Visible = false;
@@ -798,10 +872,10 @@
             // label10
             // 
             this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.Location = new System.Drawing.Point(91, 14);
+            this.label10.Location = new System.Drawing.Point(5, 29);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(100, 36);
+            this.label10.Size = new System.Drawing.Size(52, 36);
             this.label10.TabIndex = 12;
             this.label10.Text = "班次";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -809,10 +883,10 @@
             // label6
             // 
             this.label6.BackColor = System.Drawing.Color.Transparent;
-            this.label6.Location = new System.Drawing.Point(632, 14);
+            this.label6.Location = new System.Drawing.Point(6, 140);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(125, 36);
+            this.label6.Size = new System.Drawing.Size(152, 36);
             this.label6.TabIndex = 0;
             this.label6.Text = "扫描标签TEST";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -831,6 +905,16 @@
             // 
             this.timer3.Interval = 1000;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
+            // 
+            // txtTest1
+            // 
+            this.txtTest1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTest1.Location = new System.Drawing.Point(456, -2);
+            this.txtTest1.Margin = new System.Windows.Forms.Padding(4);
+            this.txtTest1.Name = "txtTest1";
+            this.txtTest1.Size = new System.Drawing.Size(421, 29);
+            this.txtTest1.TabIndex = 8;
             // 
             // FrmMain
             // 
@@ -857,6 +941,9 @@
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.grbHandwork.ResumeLayout(false);
+            this.grbHandwork.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -946,6 +1033,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Code1;
         private System.Windows.Forms.TextBox txtLength;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TextBox txtDelLCode;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox txtTest1;
     }
 }
 

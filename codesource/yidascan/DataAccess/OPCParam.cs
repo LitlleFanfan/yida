@@ -7,16 +7,37 @@ using ProduceComm;
 using System.Data.SqlClient;
 using System.Data;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace yidascan.DataAccess
 {
-    public struct LCodeSignal
+    public class LCodeSignal
     {
         public string LCode1 { get; set; }
         public string LCode2 { get; set; }
         public string Signal { get; set; }
+
+        public LCodeSignal(string cls)
+        {
+            DataTable dt = OPCParam.Query(string.Format("where Class='{0}'", cls));
+            if (dt == null || dt.Rows.Count < 1)
+            {
+                return;
+            }
+            foreach (DataRow dr in dt.Rows)
+            {
+                foreach (PropertyInfo property in typeof(LCodeSignal).GetProperties())
+                {
+                    if (property.Name == dr["Name"].ToString())
+                    {
+                        property.SetValue(this, dr["Code"].ToString());
+                    }
+                }
+            }
+        }
     }
-    public class OPCParam
+
+    public class OPCScanParam
     {
         /// <summary>
         /// 采集处信号
@@ -32,6 +53,10 @@ namespace yidascan.DataAccess
         /// 长度
         /// </summary>
         public string Length { get; set; }
+
+        public string ScanLable1 { get; set; }
+
+        public string ScanLable2 { get; set; }
 
         /// <summary>
         /// 交地
@@ -53,6 +78,29 @@ namespace yidascan.DataAccess
         /// </summary>
         public string GetWeigh { get; set; }
 
+        public OPCScanParam()
+        {
+            DataTable dt = OPCParam.Query("where Class='Scan'");
+            if (dt == null || dt.Rows.Count < 1)
+            {
+                return;
+            }
+            foreach (DataRow dr in dt.Rows)
+            {
+                foreach (PropertyInfo property in typeof(OPCScanParam).GetProperties())
+                {
+                    if (property.Name == dr["Name"].ToString())
+                    {
+                        property.SetValue(this, dr["Code"].ToString());
+                    }
+                }
+            }
+        }
+
+    }
+
+    public class OPCBeforCacheParam
+    {
         /// <summary>
         /// 缓存前信号
         /// </summary>
@@ -85,29 +133,50 @@ namespace yidascan.DataAccess
         /// </summary>
         public string IsLastOftPanel { get; set; }
 
-        /// <summary>
-        /// 机器人处标签1
-        /// </summary>
-        public string RobotLable11 { get; set; }
+        public OPCBeforCacheParam()
+        {
+            DataTable dt = OPCParam.Query("where Class='Cache'");
+            if (dt == null || dt.Rows.Count < 1)
+            {
+                return;
+            }
+            foreach (DataRow dr in dt.Rows)
+            {
+                foreach (PropertyInfo property in typeof(OPCBeforCacheParam).GetProperties())
+                {
+                    if (property.Name == dr["Name"].ToString())
+                    {
+                        property.SetValue(this, dr["Code"].ToString());
+                    }
+                }
+            }
+        }
 
-        /// <summary>
-        /// 机器人处标签1
-        /// </summary>
-        public string RobotLable12 { get; set; }
-        /// <summary>
-        /// 机器人处标签2
-        /// </summary>
-        public string RobotLable21 { get; set; }
-        /// <summary>
-        /// 机器人处标签2
-        /// </summary>
-        public string RobotLable22 { get; set; }
+    }
 
-        public string ScanLable1 { get; set; }
+    public class OPCParam
+    {
+        public OPCScanParam ScanParam;
 
-        public string ScanLable2 { get; set; }
+        public OPCBeforCacheParam CacheParam;
+
+        public LCodeSignal RobotCarryA;
+
+        public LCodeSignal RobotCarryB;
+
+        public LCodeSignal DeleteLCode;
+
+        public string RobotWorkState;
+
+        public string RobotRunState;
 
         public Dictionary<string, LCodeSignal> ACAreaPanelFinish;
+
+        public Dictionary<string, string> BAreaPanelFinish;
+
+        public Dictionary<string, string> BAreaFloorFinish;
+
+        public Dictionary<string, string> BAreaPanelState;
 
         public static DataTable Query(string where = "")
         {
@@ -115,12 +184,36 @@ namespace yidascan.DataAccess
             return DataAccess.CreateDataAccess.sa.Query(sql);
         }
 
-        public static bool GetNoneCfg(OPCParam param)
+        public void Init()
         {
-            if (param == null)
-            {
-                param = new OPCParam();
-            }
+            InitNone();
+            InitBAreaPanelFinish();
+            //clsSetting.loger.Info(string.Format("BAreaPanelFinish {0}", JsonConvert.SerializeObject(BAreaPanelFinish)));
+            InitBAreaFloorFinish();
+            //clsSetting.loger.Info(string.Format("BAreaFloorFinish {0}", JsonConvert.SerializeObject(BAreaFloorFinish)));
+            InitBAreaPanelState();
+            //clsSetting.loger.Info(string.Format("BAreaPanelState {0}", JsonConvert.SerializeObject(BAreaPanelState)));
+
+            ScanParam = new OPCScanParam();
+            //clsSetting.loger.Info(string.Format("ScanParam {0}", JsonConvert.SerializeObject(ScanParam)));
+            CacheParam = new OPCBeforCacheParam();
+            //clsSetting.loger.Info(string.Format("CacheParam {0}", JsonConvert.SerializeObject(CacheParam)));
+
+            RobotCarryA = new LCodeSignal("RobotCarryA");
+            //clsSetting.loger.Info(string.Format("CacheParam {0}", JsonConvert.SerializeObject(CacheParam)));
+
+            RobotCarryB = new LCodeSignal("RobotCarryB");
+            //clsSetting.loger.Info(string.Format("CacheParam {0}", JsonConvert.SerializeObject(CacheParam)));
+
+            DeleteLCode = new LCodeSignal("DeleteLCode");
+            clsSetting.loger.Info(string.Format("DeleteLCode {0}", JsonConvert.SerializeObject(DeleteLCode)));
+
+            GetACAreaFinishCfg();
+            //clsSetting.loger.Info(string.Format("ACAreaPanelFinish {0}", JsonConvert.SerializeObject(ACAreaPanelFinish)));
+        }
+
+        private bool InitNone()
+        {
             DataTable dt = Query("where Class='None'");
             if (dt == null || dt.Rows.Count < 1)
             {
@@ -132,54 +225,69 @@ namespace yidascan.DataAccess
                 {
                     if (property.Name == dr["Name"].ToString())
                     {
-                        property.SetValue(param, dr["Code"].ToString());
+                        property.SetValue(this, dr["Code"].ToString());
                     }
                 }
             }
             return true;
         }
 
-        private static LCodeSignal GetClassCfg(string cls)
+        private bool InitBAreaPanelFinish()
         {
-            LCodeSignal param = new LCodeSignal();
-            DataTable dt = Query(string.Format("where Class='{0}'", cls));
+            DataTable dt = Query(string.Format("where Class='BAreaPanelFinish'"));
             if (dt == null || dt.Rows.Count < 1)
             {
-                return param;
+                return false;
             }
             foreach (DataRow dr in dt.Rows)
             {
-                foreach (PropertyInfo property in typeof(OPCParam).GetProperties())
-                {
-                    if (property.Name == dr["Name"].ToString())
-                    {
-                        property.SetValue(param, dr["Code"].ToString());
-                    }
-                }
+                BAreaPanelFinish.Add(dr["Name"].ToString(), dr["Code"].ToString());
             }
-            return param;
+            return true;
+        }
+        private bool InitBAreaFloorFinish()
+        {
+            DataTable dt = Query(string.Format("where Class='BAreaFloorFinish'"));
+            if (dt == null || dt.Rows.Count < 1)
+            {
+                return false;
+            }
+            foreach (DataRow dr in dt.Rows)
+            {
+                BAreaFloorFinish.Add(dr["Name"].ToString(), dr["Code"].ToString());
+            }
+            return true;
+        }
+        private bool InitBAreaPanelState()
+        {
+            DataTable dt = Query(string.Format("where Class='BAreaPanelState'"));
+            if (dt == null || dt.Rows.Count < 1)
+            {
+                return false;
+            }
+            foreach (DataRow dr in dt.Rows)
+            {
+                BAreaPanelState.Add(dr["Name"].ToString(), dr["Code"].ToString());
+            }
+            return true;
         }
 
-        public static bool GetACAreaFinishCfg(OPCParam param)
+        private bool GetACAreaFinishCfg()
         {
-            if (param == null)
-            {
-                param = new OPCParam();
-            }
             DataTable dt = Query("where Class like 'AArea%' or Class like 'CArea%'");
             if (dt == null || dt.Rows.Count < 1)
             {
                 return false;
             }
-            param.ACAreaPanelFinish = new Dictionary<string, yidascan.DataAccess.LCodeSignal>();
+            ACAreaPanelFinish = new Dictionary<string, yidascan.DataAccess.LCodeSignal>();
             string tmp;
             foreach (DataRow dr in dt.Rows)
             {
                 tmp = dr["Class"].ToString();
-                if (!param.ACAreaPanelFinish.ContainsKey(tmp))
+                if (!ACAreaPanelFinish.ContainsKey(tmp))
                 {
-                    LCodeSignal p = GetClassCfg(tmp);
-                    param.ACAreaPanelFinish.Add(tmp, p);
+                    LCodeSignal p = new LCodeSignal(tmp);
+                    ACAreaPanelFinish.Add(tmp, p);
                 }
             }
             return true;

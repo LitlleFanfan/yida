@@ -8,3 +8,8 @@ E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotControl\bin\Debug\R
 E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotControl\obj\Debug\RobotControl.dll
 E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotControl\obj\Debug\RobotControl.pdb
 E:\lje-work\project\20160620溢达纺织项目\yidascan\RobotControl\obj\Debug\RobotControl.csprojResolveAssemblyReference.cache
+E:\ljework\yida\codesource\RobotControl\bin\Debug\RobotControl.dll
+E:\ljework\yida\codesource\RobotControl\bin\Debug\RobotControl.pdb
+E:\ljework\yida\codesource\RobotControl\obj\Debug\RobotControl.csprojResolveAssemblyReference.cache
+E:\ljework\yida\codesource\RobotControl\obj\Debug\RobotControl.dll
+E:\ljework\yida\codesource\RobotControl\obj\Debug\RobotControl.pdb

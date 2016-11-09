@@ -22,7 +22,7 @@ namespace yidascan.DataAccess
         /// 日志对象
         /// </summary>
         NLog.Logger loger = NLog.LogManager.GetLogger("general");
-        public string Com = @"server=AIOVQOPOOHCLF4X\SQL2008R2;database=tt2;uid=sa;pwd=sasa;Integrated Security=True";
+        public string Com = @"server=WIN-BK7Q2BLK53K\SQL2005;database=Test;uid=sa;pwd=sasa;";
         public DataAccess()
         {
             con = new SqlConnection(Com);
