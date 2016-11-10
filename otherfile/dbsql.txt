@@ -72,3 +72,5 @@ Code varchar(64) not null,
 Class varchar(64) not null default 'None',
 Remark varchar(255)
 );
+
+-- by jin qilin workshop.
