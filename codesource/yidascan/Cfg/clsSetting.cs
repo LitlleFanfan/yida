@@ -13,6 +13,18 @@ namespace ProduceComm
         OnlyFile
     }
 
+    public class TimeCount
+    {
+        public static long TimeIt(Action act)
+        {
+            var sp = new System.Diagnostics.Stopwatch();
+            sp.Start();
+            act();
+            sp.Stop();
+            return sp.ElapsedMilliseconds;
+        }
+    }
+
     public class LogOpreate
     {
         System.Windows.Forms.ListBox lsvLog = null;

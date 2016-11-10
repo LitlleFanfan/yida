@@ -17,6 +17,8 @@ namespace ProduceComm.OPC
         Opc.Da.Server m_server = null;//定义数据存取服务器
         Dictionary<string, Opc.Da.Subscription> groups = new Dictionary<string, Opc.Da.Subscription>();//定义组对象（订阅者）
 
+        public static int DELAY = 5;
+
         public bool Connected
         {
             get { return m_server != null; }

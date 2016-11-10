@@ -38,6 +38,7 @@
             this.btnQuit = new System.Windows.Forms.ToolStripButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.grbHandwork = new System.Windows.Forms.GroupBox();
+            this.txtTest1 = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.txtDelLCode = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
@@ -72,10 +73,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dgvOpcData = new System.Windows.Forms.DataGridView();
-            this.Name1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Value1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Remark1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Code1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label12 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.lsvLog = new System.Windows.Forms.ListBox();
@@ -98,7 +95,11 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
-            this.txtTest1 = new System.Windows.Forms.TextBox();
+            this.Name1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.序号 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Value1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Remark1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Code1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.grbHandwork.SuspendLayout();
@@ -230,6 +231,16 @@
             this.grbHandwork.TabIndex = 51;
             this.grbHandwork.TabStop = false;
             this.grbHandwork.Text = "手动操作";
+            // 
+            // txtTest1
+            // 
+            this.txtTest1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTest1.Location = new System.Drawing.Point(456, -2);
+            this.txtTest1.Margin = new System.Windows.Forms.Padding(4);
+            this.txtTest1.Name = "txtTest1";
+            this.txtTest1.Size = new System.Drawing.Size(421, 29);
+            this.txtTest1.TabIndex = 8;
             // 
             // panel2
             // 
@@ -642,6 +653,7 @@
             this.dgvOpcData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvOpcData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Name1,
+            this.序号,
             this.Value1,
             this.Remark1,
             this.Code1});
@@ -652,34 +664,6 @@
             this.dgvOpcData.ShowEditingIcon = false;
             this.dgvOpcData.Size = new System.Drawing.Size(485, 187);
             this.dgvOpcData.TabIndex = 3;
-            // 
-            // Name1
-            // 
-            this.Name1.DataPropertyName = "Name";
-            this.Name1.HeaderText = "项名称";
-            this.Name1.Name = "Name1";
-            this.Name1.ReadOnly = true;
-            // 
-            // Value1
-            // 
-            this.Value1.DataPropertyName = "Value";
-            this.Value1.HeaderText = "值";
-            this.Value1.Name = "Value1";
-            this.Value1.ReadOnly = true;
-            // 
-            // Remark1
-            // 
-            this.Remark1.DataPropertyName = "Remark";
-            this.Remark1.HeaderText = "描述";
-            this.Remark1.Name = "Remark1";
-            this.Remark1.ReadOnly = true;
-            // 
-            // Code1
-            // 
-            this.Code1.DataPropertyName = "Code";
-            this.Code1.HeaderText = "项代码";
-            this.Code1.Name = "Code1";
-            this.Code1.ReadOnly = true;
             // 
             // label12
             // 
@@ -906,15 +890,40 @@
             this.timer3.Interval = 1000;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
-            // txtTest1
+            // Name1
             // 
-            this.txtTest1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTest1.Location = new System.Drawing.Point(456, -2);
-            this.txtTest1.Margin = new System.Windows.Forms.Padding(4);
-            this.txtTest1.Name = "txtTest1";
-            this.txtTest1.Size = new System.Drawing.Size(421, 29);
-            this.txtTest1.TabIndex = 8;
+            this.Name1.DataPropertyName = "Name";
+            this.Name1.HeaderText = "项名称";
+            this.Name1.Name = "Name1";
+            this.Name1.ReadOnly = true;
+            // 
+            // 序号
+            // 
+            this.序号.DataPropertyName = "IndexNo";
+            this.序号.HeaderText = "IndexNo";
+            this.序号.Name = "序号";
+            this.序号.Visible = false;
+            // 
+            // Value1
+            // 
+            this.Value1.DataPropertyName = "Value";
+            this.Value1.HeaderText = "值";
+            this.Value1.Name = "Value1";
+            this.Value1.ReadOnly = true;
+            // 
+            // Remark1
+            // 
+            this.Remark1.DataPropertyName = "Remark";
+            this.Remark1.HeaderText = "描述";
+            this.Remark1.Name = "Remark1";
+            this.Remark1.ReadOnly = true;
+            // 
+            // Code1
+            // 
+            this.Code1.DataPropertyName = "Code";
+            this.Code1.HeaderText = "项代码";
+            this.Code1.Name = "Code1";
+            this.Code1.ReadOnly = true;
             // 
             // FrmMain
             // 
@@ -1027,10 +1036,6 @@
         private System.Windows.Forms.DataGridView dgvOpcData;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Timer timer3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Name1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Value1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Remark1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Code1;
         private System.Windows.Forms.TextBox txtLength;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Panel panel2;
@@ -1039,6 +1044,11 @@
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox txtTest1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Name1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 序号;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Value1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Remark1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Code1;
     }
 }
 

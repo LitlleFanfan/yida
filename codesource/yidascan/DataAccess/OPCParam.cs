@@ -180,7 +180,7 @@ namespace yidascan.DataAccess
 
         public static DataTable Query(string where = "")
         {
-            string sql = string.Format("select Name,Code,Class,Remark from OPCParam {0} order by IndexNo DESC", where);
+            string sql = string.Format("select IndexNo,Name,Code,Class,Remark from OPCParam {0} order by IndexNo DESC", where);
             return DataAccess.CreateDataAccess.sa.Query(sql);
         }
 
@@ -206,7 +206,7 @@ namespace yidascan.DataAccess
             //clsSetting.loger.Info(string.Format("CacheParam {0}", JsonConvert.SerializeObject(CacheParam)));
 
             DeleteLCode = new LCodeSignal("DeleteLCode");
-            clsSetting.loger.Info(string.Format("DeleteLCode {0}", JsonConvert.SerializeObject(DeleteLCode)));
+            //clsSetting.loger.Info(string.Format("DeleteLCode {0}", JsonConvert.SerializeObject(DeleteLCode)));
 
             GetACAreaFinishCfg();
             //clsSetting.loger.Info(string.Format("ACAreaPanelFinish {0}", JsonConvert.SerializeObject(ACAreaPanelFinish)));
