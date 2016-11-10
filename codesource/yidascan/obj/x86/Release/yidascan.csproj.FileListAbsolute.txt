@@ -35,4 +35,3 @@ E:\ljework\yida\codesource\yidascan\obj\x86\Release\yidascan.Properties.Resource
 E:\ljework\yida\codesource\yidascan\obj\x86\Release\yidascan.csproj.GenerateResource.Cache
 E:\ljework\yida\codesource\yidascan\bin\Release\yidascan.exe
 E:\ljework\yida\codesource\yidascan\bin\Release\yidascan.pdb
-E:\ljework\yida\codesource\yidascan\obj\x86\Release\yidascan.csprojResolveAssemblyReference.cache

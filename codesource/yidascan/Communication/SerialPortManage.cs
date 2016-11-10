@@ -30,8 +30,10 @@ namespace ProduceComm
         /// <summary>
         /// 构造方法
         /// </summary>
-        public SerialPortManage()
+        public SerialPortManage(string portName, int baudRate)
         {
+                 PortName=portName;
+                 BaudRate=baudRate;
         }
 
         /// <summary>
@@ -55,17 +57,15 @@ namespace ProduceComm
         /// <param name="stopBits">停止位</param>
         /// <param name="parity">奇偶校验位</param>
         /// <returns></returns>
-        public bool Open(string portName, int baudRate)
+        public bool Open()
         {
             try
             {
-                 PortName=portName;
-                 BaudRate=baudRate;
                 this.serialPort.DataBits = 8;
                 this.serialPort.StopBits = StopBits.One;
-                this.serialPort.BaudRate = baudRate;
+                this.serialPort.BaudRate = BaudRate;
                 this.serialPort.Parity = Parity.None;
-                this.serialPort.PortName = portName;
+                this.serialPort.PortName = PortName;
                 this.serialPort.DtrEnable = true;
                 this.serialPort.RtsEnable = true;
                 this.serialPort.Open();

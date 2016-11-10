@@ -22,8 +22,10 @@ namespace ProduceComm
         /// </summary>
         private int WriteTimeout = -1;//串口本身的默认值
 
-        public TcpIpManage(int readtimeout = 1000, int writetimeout = 1000)
+        public TcpIpManage(string ip, int port,int readtimeout = 1000, int writetimeout = 1000)
         {
+            IP = ip;
+            Port = port;
             ReadTimeout = readtimeout;
             WriteTimeout = writetimeout;
         }
@@ -35,20 +37,18 @@ namespace ProduceComm
         /// <param name="ip">IP</param>
         /// <param name="port"></param>
         /// <returns></returns>
-        public bool Open(string ip, int port)
+        public bool Open()
         {
-            IP = ip;
-            Port = port;
             try
             {
-                IPEndPoint iep = new IPEndPoint(IPAddress.Parse(ip), port);
+                IPEndPoint iep = new IPEndPoint(IPAddress.Parse(IP), Port);
                 tc = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 tc.Connect(iep);
                 return tc.Connected;
             }
             catch (Exception ex)
             {
-                clsSetting.loger.Error(string.Format("创建连接 IP: {0}; Port: {1};  {2}", ip, port, ex));
+                clsSetting.loger.Error(string.Format("创建连接 IP: {0}; Port: {1};  {2}", IP, Port, ex));
                 return false;
             }
         }

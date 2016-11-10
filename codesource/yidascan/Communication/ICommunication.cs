@@ -7,11 +7,11 @@ namespace ProduceComm
         SerialPort
     }
 
-    interface ICommunication
+    public interface ICommunication
     {
         string GetIPOrCom();
         int GetPortOrBaudRate();
-        bool Open(string ip, int port);
+        bool Open();
         void Write(byte[] sendData);
         byte[] Read(int length, int? timeout = null);
         void Close();

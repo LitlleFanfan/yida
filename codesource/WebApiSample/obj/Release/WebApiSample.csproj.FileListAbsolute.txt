@@ -340,6 +340,5 @@ E:\ljework\yida\codesource\WebApiSample\bin\zh-Hans\Microsoft.Owin.Security.Goog
 E:\ljework\yida\codesource\WebApiSample\bin\zh-Hans\Microsoft.Owin.Security.Twitter.resources.dll
 E:\ljework\yida\codesource\WebApiSample\bin\zh-Hans\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
 E:\ljework\yida\codesource\WebApiSample\bin\zh-Hans\System.Web.Http.Owin.resources.dll
-E:\ljework\yida\codesource\WebApiSample\obj\Release\WebApiSample.csprojResolveAssemblyReference.cache
 E:\ljework\yida\codesource\WebApiSample\obj\Release\WebApiSample.dll
 E:\ljework\yida\codesource\WebApiSample\obj\Release\WebApiSample.pdb

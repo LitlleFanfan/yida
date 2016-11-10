@@ -16,8 +16,8 @@ namespace yidascan
     public partial class FrmMain : Form
     {
         private DataTable dtview = new DataTable();
-        NormalScan nscan1 = new NormalScan();
-        NormalScan nscan2 = new NormalScan();
+        NormalScan nscan1;
+        NormalScan nscan2;
         private LableCodeBll lcb = new LableCodeBll();
         bool isrun = false;
         OPCParam opcParam = new OPCParam();
@@ -40,10 +40,10 @@ namespace yidascan
             dtview.Columns.Add(new DataColumn("Coordinates"));
             dtview.Columns.Add(new DataColumn("Finished"));
 
-#if !DEBUG
             dtopc = OPCParam.Query();
             dtopc.Columns.Remove("Class");
             dtopc.Columns.Add(new DataColumn("Value"));
+#if !DEBUG
             if (opcClient.Open(clsSetting.OPCServerIP))
             {
                 logOpt.ViewInfo(string.Format("OPC服务连接成功。加订阅。"), LogViewType.Both);
@@ -79,6 +79,8 @@ namespace yidascan
         {
             dtview = LableCode.Query(string.Format("{0}{1}", dtpDate.Value.ToString(clsSetting.LABEL_CODE_DATE_FORMAT), cmbShiftNo.SelectedIndex));
             dgvData.DataSource = dtview.DefaultView;
+            lblCount.Text = dtview.DefaultView.Count.ToString();
+
             dtopc.DefaultView.RowFilter = string.Format("IndexNo<15");
             dgvOpcData.DataSource = dtopc.DefaultView;
         }
@@ -101,34 +103,40 @@ namespace yidascan
             dtpDate.Value = DateTime.Now;
             SetButtonState(true);
             logOpt.ViewInfo(string.Format("运行"), LogViewType.Both);
+
+            if (OpenPort(ref nscan1, FrmSet.pcfgScan1))
+            {
+                nscan1.OnDataArrived += new NormalScan.DataArrivedEventHandler(nscan1_OnDataArrived);
+                nscan1._StartJob();
+                lblScanner.BackColor = System.Drawing.Color.Green;
+                logOpt.ViewInfo(string.Format("1#采集器启动成功。"), LogViewType.Both);
+            }
+            else
+            {
+                lblScanner2.BackColor = System.Drawing.Color.Gray;
+                logOpt.ViewInfo(string.Format("1#采集器启动失败。"), LogViewType.Both);
+            }
+            //if (OpenPort(FrmSet.pcfgScan2))
+            //{
+            //    nscan2.OnDataArrived += new NormalScan.DataArrivedEventHandler(nscan2_OnDataArrived);
+            //    nscan2._StartJob();
+            //    lblScanner2.BackColor = System.Drawing.Color.Green;
+            //    logOpt.ViewInfo(string.Format("2#采集器启动成功。"), LogViewType.Both);
+            //}
+            //else
+            //{
+            //    lblScanner2.BackColor = System.Drawing.Color.Gray;
+            //    logOpt.ViewInfo(string.Format("2#采集器启动失败。"), LogViewType.Both);
+            //}
+            isrun = true;
 #if DEBUG
             timer2.Interval = int.Parse(numericUpDown1.Value.ToString());
             timer2.Start();
 #endif
 #if !DEBUG
-            nscan1.OnDataArrived += new NormalScan.DataArrivedEventHandler(nscan1_OnDataArrived);
-            if (OpenPort(FrmSet.pcfgScan1))
-            {
-                nscan1._StartJob();
-                logOpt.ViewInfo(string.Format("1#采集器启动成功。"), LogViewType.Both);
-            }
-            else
-            {
-                logOpt.ViewInfo(string.Format("1#采集器启动失败。"), LogViewType.Both);
-            }
-            nscan2.OnDataArrived += new NormalScan.DataArrivedEventHandler(nscan2_OnDataArrived);
-            if (OpenPort(FrmSet.pcfgScan2))
-            {
-                nscan2._StartJob();
-                logOpt.ViewInfo(string.Format("2#采集器启动成功。"), LogViewType.Both);
-            }
-            else
-            {
-                logOpt.ViewInfo(string.Format("2#采集器启动失败。"), LogViewType.Both);
-            }
-            isrun = true;
             if (opcClient.Connected)
             {
+                lblOpcIp.BackColor = System.Drawing.Color.Green;
                 WeighTask();
                 ACAreaFinishTask();
                 BeforCacheTask();
@@ -265,6 +273,28 @@ namespace yidascan
                 return val;
             }
         }
+
+        private void GetDiameterAndLong(out decimal diameter, out decimal length)
+        {
+            if (string.IsNullOrEmpty(txtDiameter.Text))
+            {
+                string tmp = OPCRead(opcParam.ScanParam.Diameter).ToString();
+                diameter = decimal.Parse(tmp);
+            }
+            else
+            {
+                diameter = decimal.Parse(txtDiameter.Text);
+            }
+            if (string.IsNullOrEmpty(txtLength.Text))
+            {
+                string tmp = OPCRead(opcParam.ScanParam.Length).ToString();
+                length = decimal.Parse(tmp);
+            }
+            else
+            {
+                length = decimal.Parse(txtLength.Text);
+            }
+        }
 #endif
 
 #if DEBUG
@@ -309,28 +339,20 @@ namespace yidascan
             ScanLableCode(diameter, length, code, scanNo, false);
         }
 
-        private bool OpenPort(CommunicationCfg cfg)
+        private bool OpenPort(ref NormalScan nscan, CommunicationCfg cfg)
         {
             try
             {
                 switch ((CommunicationType)Enum.Parse(typeof(CommunicationType), cfg.CommunicationType, true))
                 {
                     case CommunicationType.Network:
-                        if (!nscan1.Open(CommunicationType.Network, cfg.IPAddr, int.Parse(cfg.IPPort)))
-                        {
-                            logOpt.ViewInfo(string.Format("{0}/{1}打开失败。", cfg.IPAddr, cfg.IPPort), LogViewType.Both);
-                            return false;
-                        }
+                        nscan = new NormalScan(new TcpIpManage(cfg.IPAddr, int.Parse(cfg.IPPort)));
                         break;
                     case CommunicationType.SerialPort:
-                        if (!nscan1.Open(CommunicationType.SerialPort, cfg.ComPort, int.Parse(cfg.BaudRate)))
-                        {
-                            logOpt.ViewInfo(string.Format("{0}/{1}打开失败。", cfg.ComPort, cfg.BaudRate), LogViewType.Both);
-                            return false;
-                        }
-                        break;
+                        nscan = new NormalScan(new SerialPortManage(cfg.ComPort, int.Parse(cfg.BaudRate)));
+                        break;                        
                 }
-                return true;
+                return nscan.Open();
             }
             catch (Exception ex)
             {
@@ -525,30 +547,9 @@ namespace yidascan
             }
         }
 
-        private void GetDiameterAndLong(out decimal diameter, out decimal length)
-        {
-            if (string.IsNullOrEmpty(txtDiameter.Text))
-            {
-                string tmp = OPCRead(opcParam.ScanParam.Diameter).ToString();
-                diameter = decimal.Parse(tmp);
-            }
-            else
-            {
-                diameter = decimal.Parse(txtDiameter.Text);
-            }
-            if (string.IsNullOrEmpty(txtLength.Text))
-            {
-                string tmp = OPCRead(opcParam.ScanParam.Length).ToString();
-                length = decimal.Parse(tmp);
-            }
-            else
-            {
-                length = decimal.Parse(txtLength.Text);
-            }
-        }
-
         private void ScanLableCode(decimal diameter, decimal length, string code, int scanNo, bool handwork)
         {
+            ShowWarning("", false);
             string tolocation = string.Empty;
             long t = TimeCount.TimeIt(() =>
             {
@@ -593,6 +594,10 @@ namespace yidascan
                 }
                 //viewopcdata();
 #endif
+            }
+            else
+            {
+                ShowWarning("程序异常");
             }
         }
 
@@ -695,6 +700,8 @@ namespace yidascan
             dr["Finished"] = "未完成";
             dtview.Rows.InsertAt(dr, 0);
             dgvData.FirstDisplayedScrollingRowIndex = 0;
+            lblCount.Text = dtview.DefaultView.Count.ToString();
+
             if (finish)
             {
                 PanelEnd(lc.PanelNo);
@@ -711,6 +718,8 @@ namespace yidascan
             if (dt != null)
             {
                 logOpt.ViewInfo(string.Format("{0}重复扫描{1}", (handwork ? "手工" : "自动"), code), LogViewType.Both);
+
+                ShowWarning("重复扫码");
             }
             else
             {
@@ -722,6 +731,7 @@ namespace yidascan
                     DataTable res = JsonConvert.DeserializeObject<DataTable>(str["Data"].ToString());
                     if (str["State"] == "Fail" || res.Rows[0]["LOCATION"].ToString() == "Fail")
                     {
+                        ShowWarning("取交地失败");
                         logOpt.ViewInfo(string.Format("{0}{1}获取交地失败。",
                             code, JsonConvert.SerializeObject(str)), LogViewType.Both);
                     }
@@ -733,6 +743,7 @@ namespace yidascan
                     }
                     else
                     {
+                        ShowWarning("取交地失败");
                         logOpt.ViewInfo(string.Format("{0}{1}获取交地失败。{2}",
                             (handwork ? "手工" : "自动"), code, JsonConvert.SerializeObject(str)), LogViewType.Both);
                     }
@@ -743,6 +754,12 @@ namespace yidascan
                 }
             }
             return re;
+        }
+
+        private void ShowWarning(string msg, bool status = true)
+        {
+            lblMsgInfo.Text = msg;
+            lblMsgInfo.BackColor = status ? System.Drawing.Color.Red : System.Drawing.Color.Green;
         }
 
         private void txtLableCode1_Enter(object sender, EventArgs e)
@@ -896,7 +913,8 @@ namespace yidascan
                         dtview.Rows.Remove(r);
                     }
                     dtview.DefaultView.RowFilter = string.Empty;
-
+                    lblCount.Text = dtview.DefaultView.Count.ToString();
+#if !DEBUG
                     string signal = OPCRead(opcParam.DeleteLCode.Signal).ToString();
 
                     while (bool.Parse(signal))
@@ -907,7 +925,7 @@ namespace yidascan
                     opcClient.Write(opcParam.DeleteLCode.LCode1, code.Substring(0, 6));
                     opcClient.Write(opcParam.DeleteLCode.LCode2, code.Substring(6, 6));
                     opcClient.Write(opcParam.DeleteLCode.Signal, true);
-
+#endif
                     logOpt.ViewInfo(string.Format("删除标签{0}成功", code), LogViewType.Both);
                 }
                 else
