@@ -1,3 +1,5 @@
+test git
+-- for sqlite.
 
 create table LableCode(
 SequenceNo Integer PRIMARY KEY AUTOINCREMENT,
@@ -16,9 +18,10 @@ UpdateDate datetime not null default (datetime('now', 'localtime')),
 Remark varchar(256)
 );
 
+-- for sql server.
 
 create table LableCode(
-SequenceNo Integer identity PRIMARY KEY,
+SequenceNo Integer identity PRIMARY KEY,--
 LCode varchar(64) not null unique,
 ToLocation varchar(64) null,
 PanelNo varchar(64) null,
@@ -28,7 +31,7 @@ FloorIndex int null,
 Diameter NUMERIC default 0,
 Length NUMERIC default 0,
 Coordinates varchar(64) null,
-GetOutLCode varchar(64) null,
+GetOutLCode varchar(64) null, 
 CreateDate datetime not null default getdate(),
 UpdateDate datetime not null default getdate(),
 Remark varchar(256)

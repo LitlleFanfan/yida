@@ -79,7 +79,8 @@ namespace yidascan
         {
             dtview = LableCode.Query(string.Format("{0}{1}", dtpDate.Value.ToString(clsSetting.LABEL_CODE_DATE_FORMAT), cmbShiftNo.SelectedIndex));
             dgvData.DataSource = dtview.DefaultView;
-            dgvOpcData.DataSource = dtopc;
+            dtopc.DefaultView.RowFilter = string.Format("IndexNo<15");
+            dgvOpcData.DataSource = dtopc.DefaultView;
         }
 
         void SetButtonState(bool isRun)
@@ -142,13 +143,16 @@ namespace yidascan
             {
                 while (isrun)
                 {
-                    string getWeight = OPCRead(opcParam.ScanParam.GetWeigh).ToString();
-                    if (getWeight == "1")
+                    lock (opcClient)
                     {
-                        getWeight = ToWeigh(false) ? "0" : "2";
-                        opcClient.Write(opcParam.ScanParam.GetWeigh, getWeight);
+                        string getWeight = OPCRead(opcParam.ScanParam.GetWeigh).ToString();
+                        if (getWeight == "1")
+                        {
+                            getWeight = ToWeigh(false) ? "0" : "2";
+                            opcClient.Write(opcParam.ScanParam.GetWeigh, getWeight);
+                        }
                     }
-                    Thread.Sleep(2);
+                    Thread.Sleep(OPCClient.DELAY);
                 }
             });
         }
@@ -156,7 +160,7 @@ namespace yidascan
         private void ACAreaFinishTask()
         {
             //OPCParam.GetACAreaFinishCfg(opcParam);
-            logOpt.ViewInfo(JsonConvert.SerializeObject(opcParam.ACAreaPanelFinish), LogViewType.Both);
+            //logOpt.ViewInfo(JsonConvert.SerializeObject(opcParam.ACAreaPanelFinish), LogViewType.Both);
             foreach (KeyValuePair<string, LCodeSignal> kv in opcParam.ACAreaPanelFinish)
             {
                 Task.Factory.StartNew(() =>
@@ -164,30 +168,33 @@ namespace yidascan
                     int count = 0;
                     while (isrun)
                     {
-                        string signal = OPCRead(kv.Value.Signal).ToString();
-                        txtTest1.Text = string.Format("{0} {1} {2}", count++, kv.Value.Signal, signal);
-                        if (bool.Parse(signal))
+                        lock (opcClient)
                         {
-                            string lable1 = OPCRead(kv.Value.LCode1).ToString();
-                            string lable2 = OPCRead(kv.Value.LCode2).ToString();
-                            string fullLable = lable1.PadLeft(6, '0') + lable2.PadLeft(6, '0');
+                            string signal = OPCRead(kv.Value.Signal).ToString();
+                            txtTest1.Text = string.Format("{0} {1} {2}", count++, kv.Value.Signal, signal);
+                            if (bool.Parse(signal))
+                            {
+                                string lable1 = OPCRead(kv.Value.LCode1).ToString();
+                                string lable2 = OPCRead(kv.Value.LCode2).ToString();
+                                string fullLable = lable1.PadLeft(6, '0') + lable2.PadLeft(6, '0');
 
-                            logOpt.ViewInfo(string.Format("收到完成信号：{0}", fullLable), LogViewType.Both);
-                            try
-                            {
-                                if (!string.IsNullOrEmpty(fullLable))
+                                logOpt.ViewInfo(string.Format("{0} 收到完成信号：{1}", kv.Value.Signal, fullLable), LogViewType.Both);
+                                try
                                 {
-                                    logOpt.ViewInfo(string.Format("执行状态：{0}",
-                                        AreaAAndCFinish(fullLable)), LogViewType.Both);
+                                    if (!string.IsNullOrEmpty(fullLable))
+                                    {
+                                        logOpt.ViewInfo(string.Format("执行状态：{0}",
+                                            AreaAAndCFinish(fullLable)), LogViewType.Both);
+                                    }
                                 }
+                                catch (Exception ex)
+                                {
+                                    logOpt.ViewInfo(ex.Message, LogViewType.Both);
+                                }
+                                opcClient.Write(kv.Value.Signal, 0);
                             }
-                            catch (Exception ex)
-                            {
-                                logOpt.ViewInfo(ex.Message, LogViewType.Both);
-                            }
-                            opcClient.Write(kv.Value.Signal, 0);
                         }
-                        Thread.Sleep(1);
+                        Thread.Sleep(OPCClient.DELAY);
                     }
                 });
             }
@@ -199,38 +206,50 @@ namespace yidascan
             {
                 while (isrun)
                 {
-                    string signal = opcClient.Read(opcParam.CacheParam.BeforCacheStatus).ToString();
-                    if (bool.Parse(signal))
+                    lock (opcClient)
                     {
-                        string lable1 = opcClient.Read(opcParam.CacheParam.BeforCacheLable1).ToString();
-                        string lable2 = opcClient.Read(opcParam.CacheParam.BeforCacheLable2).ToString();
-                        string fullLable = lable1.PadLeft(6, '0') + lable2.PadLeft(6, '0');
-                        if (!string.IsNullOrEmpty(fullLable))
+                        string signal = opcClient.Read(opcParam.CacheParam.BeforCacheStatus).ToString();
+                        if (bool.Parse(signal))
                         {
-                            //计算位置
-                            AreaBCalculate(fullLable);
+                            string lable1 = opcClient.Read(opcParam.CacheParam.BeforCacheLable1).ToString();
+                            string lable2 = opcClient.Read(opcParam.CacheParam.BeforCacheLable2).ToString();
+                            string fullLable = lable1.PadLeft(6, '0') + lable2.PadLeft(6, '0');
+                            if (!string.IsNullOrEmpty(fullLable))
+                            {
+                                //计算位置
+                                AreaBCalculate(fullLable);
 
-                            opcClient.Write(opcParam.CacheParam.BeforCacheStatus, false);
+                                opcClient.Write(opcParam.CacheParam.BeforCacheStatus, false);
+                            }
                         }
                     }
-                    Thread.Sleep(2);
+                    Thread.Sleep(OPCClient.DELAY);
                 }
             });
         }
 
         private void viewopcdata()
         {
-            Task.Factory.StartNew(() =>
+            long t = TimeCount.TimeIt(() =>
             {
-                foreach (DataRow dr in dtopc.Rows)
+                Task.Factory.StartNew(() =>
                 {
-                    try
+                    for (int i = 0; i < dtopc.DefaultView.Count; i++)
                     {
-                        dr["Value"] = OPCRead(dr["Code"].ToString());
+                        try
+                        {
+                            lock (opcClient)
+                            {
+                                DataRow r = dtopc.DefaultView[i].Row;//这是一个行对象
+                                r["Value"] = OPCRead(r["Code"].ToString());
+                            }
+                            Thread.Sleep(OPCClient.DELAY);
+                        }
+                        catch { }
                     }
-                    catch { }
-                }
+                });
             });
+            logOpt.ViewInfo(string.Format("更新ＯＰＣ显示耗时：{0}ms", t), LogViewType.Both);
         }
 
         private object OPCRead(string code)
@@ -269,7 +288,7 @@ namespace yidascan
             }
             code = code.Substring(0, 12);//条码请取前面12位,有些扫描器会扫出13位是因为把后面的识别码也读出来了.摘自2016年9月10日(星期六) 下午2:37邮件：答复: 答复: 9月9号夜班布卷扫描枪PC连接不上ERP说明
 
-            decimal diameter, length;
+            decimal diameter = 0, length = 0;
 #if DEBUG
             diameter = decimal.Parse(txtDiameter.Text);
             txtDiameter.Text = ran.Next(diameterMin, diameterMax).ToString();
@@ -277,12 +296,15 @@ namespace yidascan
             txtLength.Text = ran.Next(lengthMin, lengthMax).ToString();
 #endif
 #if !DEBUG
-            string tmp = OPCRead(opcParam.ScanParam.Diameter).ToString();
-            logOpt.ViewInfo(string.Format("Diameter {0}", tmp), LogViewType.OnlyForm);
-            diameter = decimal.Parse(tmp);
-            tmp = OPCRead(opcParam.ScanParam.Length).ToString();
-            logOpt.ViewInfo(string.Format("Length {0}", tmp), LogViewType.OnlyForm);
-            length = decimal.Parse(tmp);
+            long t = TimeCount.TimeIt(() =>
+            {
+                //string tmp = OPCRead(opcParam.ScanParam.Diameter).ToString();
+                diameter = decimal.Parse(OPCRead(opcParam.ScanParam.Diameter).ToString());
+                //tmp = OPCRead(opcParam.ScanParam.Length).ToString();
+                length = decimal.Parse(OPCRead(opcParam.ScanParam.Length).ToString());
+            });
+            logOpt.ViewInfo(string.Format("Diameter: {0} Length: {1} timer:　{2}ms", diameter, length, t),
+                LogViewType.OnlyForm);
 #endif
             ScanLableCode(diameter, length, code, scanNo, false);
         }
@@ -490,37 +512,50 @@ namespace yidascan
                 txtLength.Text = ran.Next(lengthMin, lengthMax).ToString();
 #endif
 #if !DEBUG
-                decimal diameter;
-                decimal length;
-                if (string.IsNullOrEmpty(txtDiameter.Text))
+                decimal diameter = 0, length = 0;
+                long t = TimeCount.TimeIt(() =>
                 {
-                    string tmp = OPCRead(opcParam.ScanParam.Diameter).ToString();
-                    logOpt.ViewInfo(string.Format("Diameter {0}", tmp), LogViewType.OnlyForm);
-                    diameter = decimal.Parse(tmp);
-                }
-                else
-                {
-                    diameter = decimal.Parse(txtDiameter.Text);
-                }
-                if (string.IsNullOrEmpty(txtLength.Text))
-                {
-                    string tmp = OPCRead(opcParam.ScanParam.Length).ToString();
-                    logOpt.ViewInfo(string.Format("Length {0}", tmp), LogViewType.OnlyForm);
-                    length = decimal.Parse(tmp);
-                }
-                else
-                {
-                    length = decimal.Parse(txtLength.Text);
-                }
+                    GetDiameterAndLong(out diameter, out length);
+                });
+                logOpt.ViewInfo(string.Format("Diameter: {0} Length: {1} timer:　{2}ms", diameter, length, t),
+                    LogViewType.OnlyForm);
 #endif
-                ScanLableCode(diameter, length, code, 1, true);
+                ScanLableCode(diameter, length, code, 0, true);
                 txtLableCode1.Text = string.Empty;
+            }
+        }
+
+        private void GetDiameterAndLong(out decimal diameter, out decimal length)
+        {
+            if (string.IsNullOrEmpty(txtDiameter.Text))
+            {
+                string tmp = OPCRead(opcParam.ScanParam.Diameter).ToString();
+                diameter = decimal.Parse(tmp);
+            }
+            else
+            {
+                diameter = decimal.Parse(txtDiameter.Text);
+            }
+            if (string.IsNullOrEmpty(txtLength.Text))
+            {
+                string tmp = OPCRead(opcParam.ScanParam.Length).ToString();
+                length = decimal.Parse(tmp);
+            }
+            else
+            {
+                length = decimal.Parse(txtLength.Text);
             }
         }
 
         private void ScanLableCode(decimal diameter, decimal length, string code, int scanNo, bool handwork)
         {
-            string tolocation = GetLocation(code, handwork);
+            string tolocation = string.Empty;
+            long t = TimeCount.TimeIt(() =>
+            {
+                tolocation = GetLocation(code, handwork);
+            });
+            logOpt.ViewInfo(string.Format("取交地耗时:　{0}ms", t), LogViewType.Both);
+
             if (string.IsNullOrEmpty(tolocation))
                 return;
 
@@ -531,22 +566,34 @@ namespace yidascan
             lc.Remark = (handwork ? "handwork" : "automatic");
             lc.Coordinates = "";
             if (LableCode.Add(lc))
+            {
                 ViewAddLable(false, lc);
 #if !DEBUG
-            object f = OPCRead(opcParam.ScanParam.ScanState);
-            while (bool.Parse(f.ToString()))
-            {
-                Thread.Sleep(2);
-                f = OPCRead(opcParam.ScanParam.ScanState);
-            }
-            bool tmp = opcClient.Write(opcParam.ScanParam.ToLocationArea, clsSetting.AreaNo[lc.ToLocation.Substring(0, 1)]);
-            tmp = opcClient.Write(opcParam.ScanParam.ToLocationNo, lc.ToLocation.Substring(1, 2));
-            tmp = opcClient.Write(opcParam.ScanParam.ScanLable1, lc.LCode.Substring(0, 6));
-            tmp = opcClient.Write(opcParam.ScanParam.ScanLable2, lc.LCode.Substring(6, 6));
-            tmp = opcClient.Write(opcParam.ScanParam.CameraNo, scanNo);
-            tmp = opcClient.Write(opcParam.ScanParam.ScanState, true);
-            viewopcdata();
+                lock (opcClient)
+                {
+                    t = TimeCount.TimeIt(() =>
+                    {
+                        object f = OPCRead(opcParam.ScanParam.ScanState);
+                        while (bool.Parse(f.ToString()))
+                        {
+                            f = OPCRead(opcParam.ScanParam.ScanState);
+                        }
+                    });
+                    logOpt.ViewInfo(string.Format("等ＯＰＣ　ScanState　状态信号耗时：{0}ms", t), LogViewType.Both);
+                    t = TimeCount.TimeIt(() =>
+                    {
+                        bool tmp = opcClient.Write(opcParam.ScanParam.ToLocationArea, clsSetting.AreaNo[lc.ToLocation.Substring(0, 1)]);
+                        tmp = opcClient.Write(opcParam.ScanParam.ToLocationNo, lc.ToLocation.Substring(1, 2));
+                        tmp = opcClient.Write(opcParam.ScanParam.ScanLable1, lc.LCode.Substring(0, 6));
+                        tmp = opcClient.Write(opcParam.ScanParam.ScanLable2, lc.LCode.Substring(6, 6));
+                        tmp = opcClient.Write(opcParam.ScanParam.CameraNo, scanNo);
+                        tmp = opcClient.Write(opcParam.ScanParam.ScanState, true);
+                    });
+                    logOpt.ViewInfo(string.Format("写ＯＰＣ耗时：{0}ms", t), LogViewType.Both);
+                }
+                //viewopcdata();
 #endif
+            }
         }
 
         private bool AreaAAndCFinish(string lCode)
@@ -554,7 +601,7 @@ namespace yidascan
             LableCode lc = LableCode.QueryByLCode(lCode);
             if (lc == null)
             {
-                logOpt.ViewInfo(string.Format("找不到标签号：{0}u"), LogViewType.Both);
+                logOpt.ViewInfo(string.Format("找不到标签号：{0}"), LogViewType.Both);
                 return false;
             }
             lcb.GetPanelNo(lc, dtpDate.Value, cmbShiftNo.SelectedIndex);
@@ -798,7 +845,7 @@ namespace yidascan
         {
 #if !DEBUG
             timer3.Stop();
-            viewopcdata();
+            //viewopcdata();
             timer3.Start();
 #endif
         }
@@ -854,7 +901,6 @@ namespace yidascan
 
                     while (bool.Parse(signal))
                     {
-                        Thread.Sleep(2);
                         signal = OPCRead(opcParam.DeleteLCode.Signal).ToString();
                     }
 
@@ -868,6 +914,8 @@ namespace yidascan
                 {
                     logOpt.ViewInfo(string.Format("删除标签{0}失败", code), LogViewType.Both);
                 }
+
+                txtDelLCode.Text = string.Empty;
             }
         }
     }

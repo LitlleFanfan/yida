@@ -250,8 +250,8 @@ namespace yidascan.DataAccess
         public static bool Update(LableCode obj)
         {
             List<CommandParameter> cps = CreateLableCodeUpdate(obj);
-            cps.Add(new CommandParameter("INSERT INTO Panel (PanelNo,CurrFloor,Remark)" +
-                    "VALUES(@PanelNo,1,@Remark)",
+            cps.Add(new CommandParameter("INSERT INTO Panel (PanelNo,Status,CurrFloor,Remark)" +
+                    "VALUES(@PanelNo,5,1,@Remark)",
                 new SqlParameter[]{
                     new SqlParameter("@PanelNo",obj.panelNo),
                     new SqlParameter("@Remark",obj.toLocation)}));
@@ -269,8 +269,8 @@ namespace yidascan.DataAccess
                     new SqlParameter("@PanelNo",obj.panelNo),
                     new SqlParameter("@Floor",obj.floor),
                     new SqlParameter("@FloorIndex",obj.floorIndex),
-                    new SqlParameter("@Coordinates",obj.coordinates),
-                    new SqlParameter("@GetOutLCode",obj.getOutLCode),
+                    obj.coordinates==null?new SqlParameter("@Coordinates",DBNull.Value):new SqlParameter("@Coordinates",obj.coordinates),
+                    obj.getOutLCode==null?new SqlParameter("@GetOutLCode",DBNull.Value):new SqlParameter("@GetOutLCode",obj.getOutLCode),
                     new SqlParameter("@UpdateDate",DateTime.Now),
                     new SqlParameter("@Remark",obj.remark),
                     new SqlParameter("@SequenceNo",obj.sequenceNo),
@@ -345,7 +345,7 @@ namespace yidascan.DataAccess
 
         public static bool SetPanelNo(string lCode)
         {
-            string sql = @"update lablecode set PanelNo=tmp.PanelNo,updatedate=getdate() from 
+            string sql = @"update lablecode set PanelNo=tmp.PanelNo,updatedate=getdate(),Status=5 from 
                 (select SequenceNo,ToLocation,PanelNo from lablecode where LCode=@lCode) tmp 
                 where
                 tmp.ToLocation = lablecode.ToLocation and
