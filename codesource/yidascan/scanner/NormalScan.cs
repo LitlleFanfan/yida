@@ -106,8 +106,8 @@ namespace ProduceComm.Scanner
                     {
                         this.long_0 += 1L;
                         OnDataArrived("", data);
-                        Thread.Sleep(2);
                     }
+                    Thread.Sleep(1000);
                 }
             });
         }

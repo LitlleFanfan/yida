@@ -90,6 +90,8 @@
             this.lblTimer = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblMsgInfo = new System.Windows.Forms.Label();
+            this.lblCount = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
             this.cmbShiftNo = new System.Windows.Forms.ComboBox();
@@ -100,8 +102,7 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
-            this.lblCount = new System.Windows.Forms.Label();
-            this.lblMsgInfo = new System.Windows.Forms.Label();
+            this.btnReset = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.grbHandwork.SuspendLayout();
@@ -128,6 +129,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnRun,
             this.btnStop,
+            this.btnReset,
             this.btnSet,
             this.btnLog,
             this.btnQuit});
@@ -209,10 +211,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackColor = System.Drawing.Color.White;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(809, 0);
+            this.pictureBox1.Location = new System.Drawing.Point(983, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(5);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(475, 67);
+            this.pictureBox1.Size = new System.Drawing.Size(301, 67);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 50;
             this.pictureBox1.TabStop = false;
@@ -824,6 +826,31 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "班次信息";
             // 
+            // lblMsgInfo
+            // 
+            this.lblMsgInfo.BackColor = System.Drawing.Color.Green;
+            this.lblMsgInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblMsgInfo.Font = new System.Drawing.Font("SimHei", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMsgInfo.ForeColor = System.Drawing.Color.White;
+            this.lblMsgInfo.Location = new System.Drawing.Point(9, 128);
+            this.lblMsgInfo.Name = "lblMsgInfo";
+            this.lblMsgInfo.Size = new System.Drawing.Size(300, 55);
+            this.lblMsgInfo.TabIndex = 16;
+            this.lblMsgInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // lblCount
+            // 
+            this.lblCount.BackColor = System.Drawing.Color.White;
+            this.lblCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblCount.Font = new System.Drawing.Font("Microsoft YaHei", 35F, System.Drawing.FontStyle.Bold);
+            this.lblCount.ForeColor = System.Drawing.Color.Black;
+            this.lblCount.Location = new System.Drawing.Point(9, 65);
+            this.lblCount.Name = "lblCount";
+            this.lblCount.Size = new System.Drawing.Size(300, 59);
+            this.lblCount.TabIndex = 15;
+            this.lblCount.Text = "0";
+            this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // numericUpDown1
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(63, 88);
@@ -929,26 +956,18 @@
             this.timer3.Interval = 1000;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
-            // lblCount
+            // btnReset
             // 
-            this.lblCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblCount.Font = new System.Drawing.Font("Nina", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCount.Location = new System.Drawing.Point(9, 69);
-            this.lblCount.Name = "lblCount";
-            this.lblCount.Size = new System.Drawing.Size(300, 55);
-            this.lblCount.TabIndex = 15;
-            this.lblCount.Text = "0";
-            this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // lblMsgInfo
-            // 
-            this.lblMsgInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblMsgInfo.Font = new System.Drawing.Font("Nina", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMsgInfo.Location = new System.Drawing.Point(9, 128);
-            this.lblMsgInfo.Name = "lblMsgInfo";
-            this.lblMsgInfo.Size = new System.Drawing.Size(300, 55);
-            this.lblMsgInfo.TabIndex = 16;
-            this.lblMsgInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnReset.AutoSize = false;
+            this.btnReset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.btnReset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnReset.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
+            this.btnReset.Image = ((System.Drawing.Image)(resources.GetObject("btnReset.Image")));
+            this.btnReset.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(160, 64);
+            this.btnReset.Text = "复位";
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // FrmMain
             // 
@@ -1076,6 +1095,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Code1;
         private System.Windows.Forms.Label lblMsgInfo;
         private System.Windows.Forms.Label lblCount;
+        private System.Windows.Forms.ToolStripButton btnReset;
     }
 }
 

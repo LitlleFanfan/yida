@@ -61,7 +61,7 @@ namespace ProduceComm.OPC
                 groupstate.ServerHandle = null;//服务器给该组分配的句柄。
                 groupstate.ClientHandle = Guid.NewGuid().ToString();//客户端给该组分配的句柄。
                 groupstate.Active = true;//激活该组。
-                groupstate.UpdateRate = 1000;//刷新频率为1秒。
+                groupstate.UpdateRate = 500;//刷新频率为1秒。
                 groupstate.Deadband = 0;// 死区值，设为0时，服务器端该组内任何数据变化都通知组。
                 groupstate.Locale = null;//不设置地区值。  
 

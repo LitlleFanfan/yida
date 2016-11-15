@@ -23,6 +23,9 @@ namespace yidascan
         OPCParam opcParam = new OPCParam();
         DataTable dtopc = new DataTable();
         LogOpreate logOpt;
+
+        // mutex to ensure securely calling opc.
+        Mutex OPC_IDLE = new Mutex();
 #if !DEBUG
         OPCClient opcClient = new OPCClient();
 #endif
@@ -160,7 +163,7 @@ namespace yidascan
                             opcClient.Write(opcParam.ScanParam.GetWeigh, getWeight);
                         }
                     }
-                    Thread.Sleep(OPCClient.DELAY);
+                    Thread.Sleep(OPCClient.DELAY * 300);
                 }
             });
         }
@@ -202,7 +205,7 @@ namespace yidascan
                                 opcClient.Write(kv.Value.Signal, 0);
                             }
                         }
-                        Thread.Sleep(OPCClient.DELAY);
+                        Thread.Sleep(OPCClient.DELAY * 200);
                     }
                 });
             }
@@ -231,7 +234,7 @@ namespace yidascan
                             }
                         }
                     }
-                    Thread.Sleep(OPCClient.DELAY);
+                    Thread.Sleep(OPCClient.DELAY * 200);
                 }
             });
         }
@@ -274,25 +277,25 @@ namespace yidascan
             }
         }
 
-        private void GetDiameterAndLong(out decimal diameter, out decimal length)
+        private void GetDiameterAndLong(ClothRollSize clothsize)
         {
             if (string.IsNullOrEmpty(txtDiameter.Text))
             {
                 string tmp = OPCRead(opcParam.ScanParam.Diameter).ToString();
-                diameter = decimal.Parse(tmp);
+                clothsize.diameter = decimal.Parse(tmp);
             }
             else
             {
-                diameter = decimal.Parse(txtDiameter.Text);
+                clothsize.diameter = decimal.Parse(txtDiameter.Text);
             }
             if (string.IsNullOrEmpty(txtLength.Text))
             {
                 string tmp = OPCRead(opcParam.ScanParam.Length).ToString();
-                length = decimal.Parse(tmp);
+                clothsize.length = decimal.Parse(tmp);
             }
             else
             {
-                length = decimal.Parse(txtLength.Text);
+                clothsize.length = decimal.Parse(txtLength.Text);
             }
         }
 #endif
@@ -312,31 +315,43 @@ namespace yidascan
 
         void nscan_OnDataArrived(string type, string code, int scanNo)
         {
+            const string ROLLSIZE_FMT = "Diameter: {0} Length: {1} timer:　{2}ms";
+
             if (code == "ERROR" || code.Length < 12)
             {
                 return;
             }
             code = code.Substring(0, 12);//条码请取前面12位,有些扫描器会扫出13位是因为把后面的识别码也读出来了.摘自2016年9月10日(星期六) 下午2:37邮件：答复: 答复: 9月9号夜班布卷扫描枪PC连接不上ERP说明
 
-            decimal diameter = 0, length = 0;
+            var clothsize = new ClothRollSize();
 #if DEBUG
             diameter = decimal.Parse(txtDiameter.Text);
             txtDiameter.Text = ran.Next(diameterMin, diameterMax).ToString();
             length = decimal.Parse(txtLength.Text);
             txtLength.Text = ran.Next(lengthMin, lengthMax).ToString();
 #endif
-#if !DEBUG
-            long t = TimeCount.TimeIt(() =>
+            // wait for opc available.
+            // must use try/finally block to release this mutex.
+            OPC_IDLE.WaitOne();
+
+            try
             {
-                //string tmp = OPCRead(opcParam.ScanParam.Diameter).ToString();
-                diameter = decimal.Parse(OPCRead(opcParam.ScanParam.Diameter).ToString());
-                //tmp = OPCRead(opcParam.ScanParam.Length).ToString();
-                length = decimal.Parse(OPCRead(opcParam.ScanParam.Length).ToString());
-            });
-            logOpt.ViewInfo(string.Format("Diameter: {0} Length: {1} timer:　{2}ms", diameter, length, t),
-                LogViewType.OnlyForm);
+#if !DEBUG
+                long t = TimeCount.TimeIt(() =>
+                {
+                    clothsize.getFromOPC(opcClient, opcParam);
+                });
+
+                var msg = string.Format(ROLLSIZE_FMT, clothsize.diameter, clothsize.length, t);
+                logOpt.ViewInfo(msg, LogViewType.OnlyForm);
 #endif
-            ScanLableCode(diameter, length, code, scanNo, false);
+
+                ScanLableCode(clothsize.diameter, clothsize.length, code, scanNo, false);
+            }
+            finally
+            {
+                OPC_IDLE.ReleaseMutex();
+            }
         }
 
         private bool OpenPort(ref NormalScan nscan, CommunicationCfg cfg)
@@ -350,7 +365,7 @@ namespace yidascan
                         break;
                     case CommunicationType.SerialPort:
                         nscan = new NormalScan(new SerialPortManage(cfg.ComPort, int.Parse(cfg.BaudRate)));
-                        break;                        
+                        break;
                 }
                 return nscan.Open();
             }
@@ -533,23 +548,32 @@ namespace yidascan
                 txtDiameter.Text = ran.Next(diameterMin, diameterMax).ToString();
                 txtLength.Text = ran.Next(lengthMin, lengthMax).ToString();
 #endif
-#if !DEBUG
-                decimal diameter = 0, length = 0;
-                long t = TimeCount.TimeIt(() =>
+                // waiting for mutex available.
+                OPC_IDLE.WaitOne();
+                try
                 {
-                    GetDiameterAndLong(out diameter, out length);
-                });
-                logOpt.ViewInfo(string.Format("Diameter: {0} Length: {1} timer:　{2}ms", diameter, length, t),
-                    LogViewType.OnlyForm);
+#if !DEBUG
+                    var clothsize = new ClothRollSize();
+                    long t = TimeCount.TimeIt(() =>
+                    {
+                        GetDiameterAndLong(clothsize);
+                    });
+                    logOpt.ViewInfo(string.Format("Diameter: {0} Length: {1} timer:　{2}ms",
+                        clothsize.diameter, clothsize.length, t),
+                        LogViewType.OnlyForm);
 #endif
-                ScanLableCode(diameter, length, code, 0, true);
-                txtLableCode1.Text = string.Empty;
+                    ScanLableCode(clothsize.diameter, clothsize.length, code, 0, true);
+                    txtLableCode1.Text = string.Empty;
+                }
+                finally {
+                    OPC_IDLE.ReleaseMutex();
+                }
             }
         }
 
         private void ScanLableCode(decimal diameter, decimal length, string code, int scanNo, bool handwork)
         {
-            ShowWarning("", false);
+            ShowWarning("OK", false);
             string tolocation = string.Empty;
             long t = TimeCount.TimeIt(() =>
             {
@@ -577,7 +601,8 @@ namespace yidascan
                         object f = OPCRead(opcParam.ScanParam.ScanState);
                         while (bool.Parse(f.ToString()))
                         {
-                            f = OPCRead(opcParam.ScanParam.ScanState);
+                            f = OPCRead(opcParam.ScanParam.ScanState);                            
+                            Thread.Sleep(OPCClient.DELAY);
                         }
                     });
                     logOpt.ViewInfo(string.Format("等ＯＰＣ　ScanState　状态信号耗时：{0}ms", t), LogViewType.Both);
@@ -728,6 +753,8 @@ namespace yidascan
                 {
                     str = CallWebApi.Post(clsSetting.GetLocation, new Dictionary<string, string>()
                     { { "Bar_Code", code } });
+                    logOpt.ViewInfo(string.Format("{0}{1}获取交地。",
+                        code, JsonConvert.SerializeObject(str)), LogViewType.OnlyFile);
                     DataTable res = JsonConvert.DeserializeObject<DataTable>(str["Data"].ToString());
                     if (str["State"] == "Fail" || res.Rows[0]["LOCATION"].ToString() == "Fail")
                     {
@@ -934,6 +961,14 @@ namespace yidascan
                 }
 
                 txtDelLCode.Text = string.Empty;
+            }
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            lock (opcClient)
+            {
+                opcClient.Write(opcParam.ScanParam.ScanState, true);
             }
         }
     }

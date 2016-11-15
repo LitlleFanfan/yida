@@ -88,6 +88,7 @@
   <ItemGroup>
     <Compile Include="Cfg\clsSetting.cs" />
     <Compile Include="Cfg\FileIo.cs" />
+    <Compile Include="ClothRollSise.cs" />
     <Compile Include="Communication\CallWebApi.cs" />
     <Compile Include="Communication\ICommunication.cs" />
     <Compile Include="Communication\SerialPortManage.cs" />
@@ -138,6 +139,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

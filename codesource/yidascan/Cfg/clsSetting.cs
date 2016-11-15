@@ -33,7 +33,7 @@ namespace ProduceComm
             lsvLog = _lsvLog;
         }
 
-        public void ViewInfo(string msg, LogViewType type)
+        public void ViewInfo(string msg, LogViewType type = LogViewType.Both)
         {
             switch (type)
             {
