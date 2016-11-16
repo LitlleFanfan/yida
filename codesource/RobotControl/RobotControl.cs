@@ -66,7 +66,7 @@ namespace RobotControl
             sck.SendTimeout = 50;
             sck.Connect(ipPort);
             string s = ReadSck();
-            connected = s == "Connected to TCP server...\r\n";
+            connected = true;// s == "Connected to TCP server...\r\n";
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace RobotControl
 
         private string ReadSck()
         {
-            byte[] bytes = new byte[1024];
+            byte[] bytes = new byte[3024];
             try
             {
                 int bytesRead = sck.Receive(bytes);
@@ -182,11 +182,11 @@ namespace RobotControl
             return currPos;
         }
 
-        private List<string> GetRobotResult()
+        public List<string> GetRobotResult()
         {
             List<string> re = new List<string>();
             DateTime d1 = DateTime.Now;
-            while (connected && new TimeSpan(DateTime.Now.Ticks - d1.Ticks).Milliseconds < 5)
+            while (connected && new TimeSpan(DateTime.Now.Ticks - d1.Ticks).Milliseconds < 10)
             {
                 string s = ReadSck();
                 if (!string.IsNullOrEmpty(s))
@@ -250,7 +250,7 @@ namespace RobotControl
                 decimal.Parse(currPos["(Z)"]),
                 decimal.Parse(currPos["(Rx)"]),
                 decimal.Parse(currPos["(Ry)"]),
-                decimal.Parse(currPos["(Rz)"]),0, false);
+                decimal.Parse(currPos["(Rz)"]), 0, false);
             return pv;
         }
         /// <summary>
@@ -329,23 +329,95 @@ namespace RobotControl
 
             List<string> re = GetRobotResult();
             Dictionary<string, string> ret = new Dictionary<string, string>();
-            if (re[0].Contains("OK") && re.Count > 0)
+            if (re.Count > 0)
             {
-                string[] tmp = re[1].Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-                if (cmdID == Commands.CMD_MpGetVarData)
+                foreach (string reitem in re)
                 {
-                    foreach (string str in tmp)
+                    if (reitem.Contains("OK"))
                     {
-                        string[] stmp = str.Split(new string[] { "= " }, StringSplitOptions.RemoveEmptyEntries);
-                        ret.Add(stmp[0], stmp[1]);
+                        continue;
                     }
-                }
-                else
-                {
-                    ret = GetVal(tmp);
+                    string[] tmp = reitem.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    if (cmdID == Commands.CMD_MpGetVarData)
+                    {
+                        foreach (string str in tmp)
+                        {
+                            string[] stmp = str.Split(new string[] { "= " }, StringSplitOptions.RemoveEmptyEntries);
+                            ret.Add(stmp[0], stmp[1]);
+                        }
+                    }
+                    else
+                    {
+                        ret = GetVal(tmp);
+                    }
                 }
             }
             return ret;
+        }
+
+        /// <summary>
+        /// 获得机器人运行状态
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, bool> GetPlayStatus()
+        {
+            Send(string.Format("cmd={0};a1=0;a2=0;a3=0;a4=0;a5=0;", Commands.CMD_MpGetPlayStatus));
+            List<string> re = GetRobotResult();
+            Dictionary<string, bool> ret = new Dictionary<string, bool>();
+            if (re.Count > 0)
+            {
+                foreach (string reitem in re)
+                {
+                    string[] tmp = reitem.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string str in tmp)
+                    {
+                        if (str.Contains("Start") || str.Contains("Hold"))
+                        {
+                            string[] stmp = str.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                            ret.Add(stmp[0], stmp[1] == "ON");
+                        }
+                    }
+                }
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// 启动程序
+        /// </summary>
+        /// <param name="jobName">程序名称</param>
+        /// <returns></returns>
+        public bool StartJob(string jobName)
+        {
+            Send(string.Format("cmd={0};a1=0;a2={1};", Commands.CMD_MpStartJob, jobName));
+            return ReadSck().Contains("OK");
+        }
+
+        /// <summary>
+        /// 伺服准备
+        /// </summary>
+        /// <param name="on">开：true；关：false；</param>
+        /// <returns></returns>
+        public bool ServoPower(bool on)
+        {
+            Send(string.Format("cmd={0};a1={1};a2=0;a3=0;a4=0;a5=0;", Commands.CMD_MpSetServoPower, on ? 1 : 0));
+            return ReadSck().Contains("OK");
+        }
+
+        /// <summary>
+        /// 清除报警
+        /// </summary>
+        public void ClearAlarm()
+        {
+            Send(string.Format("cmd={0};a1=0;a2=0;a3=0;a4=0;a5=0;", Commands.CMD_MpResetAlarm));
+        }
+
+        /// <summary>
+        /// 清除错误
+        /// </summary>
+        public void ClearError()
+        {
+            Send(string.Format("cmd={0};a1=0;a2=0;a3=0;a4=0;a5=0;", Commands.CMD_MpCancelError));
         }
 
         /// <summary>

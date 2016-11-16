@@ -10,6 +10,7 @@ using ProduceComm.OPC;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
+using System.Drawing;
 
 namespace yidascan
 {
@@ -59,6 +60,9 @@ namespace yidascan
             opcParam.Init();
 #endif
 #if DEBUG
+            lblCount.Visible = false;
+            lblMsgInfo.Visible = false;
+
             label11.Visible = true;
             label6.Visible = true;
             numericUpDown1.Visible = true;
@@ -277,6 +281,7 @@ namespace yidascan
             }
         }
 
+        [Obsolete]
         private void GetDiameterAndLong(ClothRollSize clothsize)
         {
             if (string.IsNullOrEmpty(txtDiameter.Text))
@@ -325,9 +330,9 @@ namespace yidascan
 
             var clothsize = new ClothRollSize();
 #if DEBUG
-            diameter = decimal.Parse(txtDiameter.Text);
+            decimal diameter = decimal.Parse(txtDiameter.Text);
             txtDiameter.Text = ran.Next(diameterMin, diameterMax).ToString();
-            length = decimal.Parse(txtLength.Text);
+            decimal length = decimal.Parse(txtLength.Text);
             txtLength.Text = ran.Next(lengthMin, lengthMax).ToString();
 #endif
             // wait for opc available.
@@ -474,7 +479,7 @@ namespace yidascan
 
         private void btnComplete_Click(object sender, EventArgs e)
         {
-            PanelEnd(txtPanelNo.Text, true);
+            PanelEnd(txtToLocation.Text, true);
         }
 
         private bool PanelEnd(string panelNo, bool handwork = false)
@@ -532,41 +537,58 @@ namespace yidascan
         int diameterMax = 260;
         int lengthMin = 1100;
         int lengthMax = 1800;
+
+        /// <summary>
+        /// read scanned code from input box.
+        /// </summary>
+        /// <returns></returns>
+        private string getCodeFromInput()
+        {
+            string code = txtLableCode1.Text.Trim();
+            return code.Length >= 12
+                ? code.Substring(0, 12)
+                : string.Empty;
+        }
+
         private void txtLableCode1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == '\r')
             {
-                string code = txtLableCode1.Text.Trim();
-                if (code.Length < 12)
-                {
-                    return;
-                }
-                code = code.Substring(0, 12);
+                var code = getCodeFromInput();
+                if (string.IsNullOrEmpty(code)) { return; }
+
+                txtLableCode1.Enabled = false;
+                // waiting for mutex available.
+                OPC_IDLE.WaitOne();
+                var clothsize = new ClothRollSize();
 #if DEBUG
-                decimal diameter = decimal.Parse(txtDiameter.Text);
-                decimal length = decimal.Parse(txtLength.Text);
+                clothsize.diameter = decimal.Parse(txtDiameter.Text);
+                clothsize.length = decimal.Parse(txtLength.Text);
                 txtDiameter.Text = ran.Next(diameterMin, diameterMax).ToString();
                 txtLength.Text = ran.Next(lengthMin, lengthMax).ToString();
 #endif
-                // waiting for mutex available.
-                OPC_IDLE.WaitOne();
                 try
                 {
 #if !DEBUG
-                    var clothsize = new ClothRollSize();
                     long t = TimeCount.TimeIt(() =>
-                    {
-                        GetDiameterAndLong(clothsize);
+                    {   
+                        clothsize.getFromOPC(opcClient, opcParam);
                     });
+
                     logOpt.ViewInfo(string.Format("Diameter: {0} Length: {1} timer:　{2}ms",
                         clothsize.diameter, clothsize.length, t),
                         LogViewType.OnlyForm);
 #endif
                     ScanLableCode(clothsize.diameter, clothsize.length, code, 0, true);
-                    txtLableCode1.Text = string.Empty;
                 }
-                finally {
+                finally
+                {
                     OPC_IDLE.ReleaseMutex();
+
+                    // reset the code input box.
+                    txtLableCode1.Text = string.Empty;
+                    txtLableCode1.Enabled = true;
+                    txtLableCode1.Focus();
                 }
             }
         }
@@ -574,7 +596,9 @@ namespace yidascan
         private void ScanLableCode(decimal diameter, decimal length, string code, int scanNo, bool handwork)
         {
             ShowWarning("OK", false);
+
             string tolocation = string.Empty;
+
             long t = TimeCount.TimeIt(() =>
             {
                 tolocation = GetLocation(code, handwork);
@@ -590,6 +614,7 @@ namespace yidascan
             lc.Diameter = diameter;
             lc.Remark = (handwork ? "handwork" : "automatic");
             lc.Coordinates = "";
+
             if (LableCode.Add(lc))
             {
                 ViewAddLable(false, lc);
@@ -597,15 +622,17 @@ namespace yidascan
                 lock (opcClient)
                 {
                     t = TimeCount.TimeIt(() =>
-                    {
-                        object f = OPCRead(opcParam.ScanParam.ScanState);
-                        while (bool.Parse(f.ToString()))
+                    {                        
+                        while (true)
                         {
-                            f = OPCRead(opcParam.ScanParam.ScanState);                            
+                            var f = OPCRead(opcParam.ScanParam.ScanState);
+                            if (!bool.Parse(f.ToString())) { break; }
                             Thread.Sleep(OPCClient.DELAY);
                         }
                     });
-                    logOpt.ViewInfo(string.Format("等ＯＰＣ　ScanState　状态信号耗时：{0}ms", t), LogViewType.Both);
+
+                    logOpt.ViewInfo(string.Format("等OPC ScanState 状态信号耗时：{0}ms", t), LogViewType.Both);
+
                     t = TimeCount.TimeIt(() =>
                     {
                         bool tmp = opcClient.Write(opcParam.ScanParam.ToLocationArea, clsSetting.AreaNo[lc.ToLocation.Substring(0, 1)]);
@@ -628,20 +655,25 @@ namespace yidascan
 
         private bool AreaAAndCFinish(string lCode)
         {
+            // debug
+            logOpt.ViewInfo(">>>>> area a anc c finished.");
+
             LableCode lc = LableCode.QueryByLCode(lCode);
-            if (lc == null)
-            {
-                logOpt.ViewInfo(string.Format("找不到标签号：{0}"), LogViewType.Both);
-                return false;
-            }
-            lcb.GetPanelNo(lc, dtpDate.Value, cmbShiftNo.SelectedIndex);
+            
+            logOpt.ViewInfo(lc == null ? "无效号码: " + lCode : lc.LCode);
+            if (lc == null) { return false; }
+           
+            lcb.GetPanelNo(lc, dtpDate.Value, cmbShiftNo.SelectedIndex);            
             LableCode.Update(lc);
+
             if (LableCode.SetPanelNo(lCode))
             {
                 return PanelEnd(lc.PanelNo);
             }
             else
+            {
                 return false;
+            }
         }
 
         private void AreaBCalculate(string lCode)
@@ -786,7 +818,12 @@ namespace yidascan
         private void ShowWarning(string msg, bool status = true)
         {
             lblMsgInfo.Text = msg;
-            lblMsgInfo.BackColor = status ? System.Drawing.Color.Red : System.Drawing.Color.Green;
+            lblMsgInfo.BackColor = status 
+                ? Color.Red 
+                : Color.Green;
+            lblMsgInfo.ForeColor = status
+                ? Color.White
+                : Color.White;
         }
 
         private void txtLableCode1_Enter(object sender, EventArgs e)
@@ -963,13 +1000,14 @@ namespace yidascan
                 txtDelLCode.Text = string.Empty;
             }
         }
-
         private void btnReset_Click(object sender, EventArgs e)
         {
+#if !DEBUG
             lock (opcClient)
             {
                 opcClient.Write(opcParam.ScanParam.ScanState, true);
             }
+#endif
         }
     }
 }

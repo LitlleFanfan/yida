@@ -167,17 +167,11 @@ namespace RobotControl
         }
         decimal _axis7;
 
-        /// <summary>
-        /// Base
-        /// </summary>
         public decimal axis7
         {
             get { return _axis7; }
         }
 
-        /// <summary>
-        /// Base
-        /// </summary>
         public decimal Axis7
         {
             get { return _axis7 / 1000; }
@@ -218,14 +212,6 @@ namespace RobotControl
             get { return rGt180; }
         }
         bool tGt180;
-        private int v1;
-        private int v2;
-        private int v3;
-        private int v4;
-        private int v5;
-        private int v6;
-        private int v7;
-        private bool v8;
 
         public bool TGt180
         {
@@ -288,7 +274,7 @@ namespace RobotControl
         /// <param name="rgt"></param>
         /// <param name="tgt"></param>
         public PostionVar(decimal x, decimal y, decimal z, decimal rx, decimal ry, decimal rz, decimal axi7, decimal axi8,
-            bool nf,bool la,bool b,bool rgt,bool tgt)
+            bool nf, bool la, bool b, bool rgt, bool tgt)
         {
             _sOrX = x;
             _lOrY = y;
@@ -315,7 +301,7 @@ namespace RobotControl
         /// <param name="ry">y角度</param>
         /// <param name="rz">z角度</param>
         /// <param name="isUser">单位（true:毫米;）</param>
-        public PostionVar(decimal x, decimal y, decimal z, decimal rx, decimal ry, decimal rz, decimal axi7, bool isUser)
+        internal PostionVar(decimal x, decimal y, decimal z, decimal rx, decimal ry, decimal rz, decimal axi7, bool isUser)
         {
             if (isUser)
             {
@@ -337,18 +323,6 @@ namespace RobotControl
                 _tOrRz = rz;
                 _axis7 = axi7;
             }
-        }
-
-        public PostionVar(int v1, int v2, int v3, int v4, int v5, int v6, int v7, bool v8)
-        {
-            this.v1 = v1;
-            this.v2 = v2;
-            this.v3 = v3;
-            this.v4 = v4;
-            this.v5 = v5;
-            this.v6 = v6;
-            this.v7 = v7;
-            this.v8 = v8;
         }
     }
 }

@@ -33,6 +33,7 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnRun = new System.Windows.Forms.ToolStripButton();
             this.btnStop = new System.Windows.Forms.ToolStripButton();
+            this.btnReset = new System.Windows.Forms.ToolStripButton();
             this.btnSet = new System.Windows.Forms.ToolStripButton();
             this.btnLog = new System.Windows.Forms.ToolStripButton();
             this.btnQuit = new System.Windows.Forms.ToolStripButton();
@@ -102,7 +103,6 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
-            this.btnReset = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.grbHandwork.SuspendLayout();
@@ -165,6 +165,19 @@
             this.btnStop.Size = new System.Drawing.Size(160, 64);
             this.btnStop.Text = "停止(&S)";
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            // 
+            // btnReset
+            // 
+            this.btnReset.AutoSize = false;
+            this.btnReset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.btnReset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnReset.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
+            this.btnReset.Image = ((System.Drawing.Image)(resources.GetObject("btnReset.Image")));
+            this.btnReset.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(160, 64);
+            this.btnReset.Text = "复位";
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // btnSet
             // 
@@ -955,19 +968,6 @@
             // 
             this.timer3.Interval = 1000;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
-            // 
-            // btnReset
-            // 
-            this.btnReset.AutoSize = false;
-            this.btnReset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.btnReset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnReset.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
-            this.btnReset.Image = ((System.Drawing.Image)(resources.GetObject("btnReset.Image")));
-            this.btnReset.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(160, 64);
-            this.btnReset.Text = "复位";
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // FrmMain
             // 

@@ -32,7 +32,7 @@ namespace WebApiSample.Controllers
             return dt;
         }
 
-        List<string> location = new List<string>() { "B02", "B01" };//, "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "B02","B01", "C01"
+        List<string> location = new List<string>() { "B03", "B02", "B01", "A01", "A02", "A03", "C01", "C02", "C03" };//, "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "B02","B01"
         /// <summary>
         ///     接口 3 完成码垛
         /// </summary>
