@@ -542,7 +542,7 @@ namespace yidascan
         /// read scanned code from input box.
         /// </summary>
         /// <returns></returns>
-        private string getCodeFromInput()
+        private string GetCodeFromInput()
         {
             string code = txtLableCode1.Text.Trim();
             return code.Length >= 12
@@ -554,7 +554,7 @@ namespace yidascan
         {
             if (e.KeyChar == '\r')
             {
-                var code = getCodeFromInput();
+                var code = GetCodeFromInput();
                 if (string.IsNullOrEmpty(code)) { return; }
 
                 txtLableCode1.Enabled = false;
@@ -571,7 +571,7 @@ namespace yidascan
                 {
 #if !DEBUG
                     long t = TimeCount.TimeIt(() =>
-                    {   
+                    {
                         clothsize.getFromOPC(opcClient, opcParam);
                     });
 
@@ -612,45 +612,47 @@ namespace yidascan
             lc.LCode = code;
             lc.ToLocation = tolocation;
             lc.Diameter = diameter;
+            lc.Length = length;
             lc.Remark = (handwork ? "handwork" : "automatic");
             lc.Coordinates = "";
 
-            if (LableCode.Add(lc))
-            {
-                ViewAddLable(false, lc);
 #if !DEBUG
-                lock (opcClient)
-                {
-                    t = TimeCount.TimeIt(() =>
-                    {                        
-                        while (true)
-                        {
-                            var f = OPCRead(opcParam.ScanParam.ScanState);
-                            if (!bool.Parse(f.ToString())) { break; }
-                            Thread.Sleep(OPCClient.DELAY);
-                        }
-                    });
-
-                    logOpt.ViewInfo(string.Format("等OPC ScanState 状态信号耗时：{0}ms", t), LogViewType.Both);
-
-                    t = TimeCount.TimeIt(() =>
-                    {
-                        bool tmp = opcClient.Write(opcParam.ScanParam.ToLocationArea, clsSetting.AreaNo[lc.ToLocation.Substring(0, 1)]);
-                        tmp = opcClient.Write(opcParam.ScanParam.ToLocationNo, lc.ToLocation.Substring(1, 2));
-                        tmp = opcClient.Write(opcParam.ScanParam.ScanLable1, lc.LCode.Substring(0, 6));
-                        tmp = opcClient.Write(opcParam.ScanParam.ScanLable2, lc.LCode.Substring(6, 6));
-                        tmp = opcClient.Write(opcParam.ScanParam.CameraNo, scanNo);
-                        tmp = opcClient.Write(opcParam.ScanParam.ScanState, true);
-                    });
-                    logOpt.ViewInfo(string.Format("写ＯＰＣ耗时：{0}ms", t), LogViewType.Both);
-                }
-                //viewopcdata();
-#endif
-            }
-            else
+            logOpt.ViewInfo(string.Format("开始读OPC"), LogViewType.Both);
+            lock (opcClient)
             {
-                ShowWarning("程序异常");
+                t = TimeCount.TimeIt(() =>
+                {
+                    while (true)
+                    {
+                        var f = OPCRead(opcParam.ScanParam.ScanState);
+                        if (!bool.Parse(f.ToString())) { break; }
+                        Thread.Sleep(OPCClient.DELAY);
+                    }
+                });
+
+                logOpt.ViewInfo(string.Format("等OPC ScanState 状态信号耗时：{0}ms", t), LogViewType.Both);
+
+                t = TimeCount.TimeIt(() =>
+                {
+                    opcClient.Write(opcParam.ScanParam.ToLocationArea, clsSetting.AreaNo[lc.ToLocation.Substring(0, 1)]);
+                    opcClient.Write(opcParam.ScanParam.ToLocationNo, lc.ToLocation.Substring(1, 2));
+                    opcClient.Write(opcParam.ScanParam.ScanLable1, lc.LCode.Substring(0, 6));
+                    opcClient.Write(opcParam.ScanParam.ScanLable2, lc.LCode.Substring(6, 6));
+                    opcClient.Write(opcParam.ScanParam.CameraNo, scanNo);
+                    opcClient.Write(opcParam.ScanParam.ScanState, true);
+                });
+                logOpt.ViewInfo(string.Format("写ＯＰＣ耗时：{0}ms", t), LogViewType.Both);
+
+                if (LableCode.Add(lc))
+                {
+                    ViewAddLable(false, lc);
+                }
+                else
+                {
+                    ShowWarning("程序异常");
+                }
             }
+#endif
         }
 
         private bool AreaAAndCFinish(string lCode)
@@ -659,11 +661,11 @@ namespace yidascan
             logOpt.ViewInfo(">>>>> area a anc c finished.");
 
             LableCode lc = LableCode.QueryByLCode(lCode);
-            
+
             logOpt.ViewInfo(lc == null ? "无效号码: " + lCode : lc.LCode);
             if (lc == null) { return false; }
-           
-            lcb.GetPanelNo(lc, dtpDate.Value, cmbShiftNo.SelectedIndex);            
+
+            lcb.GetPanelNo(lc, dtpDate.Value, cmbShiftNo.SelectedIndex);
             LableCode.Update(lc);
 
             if (LableCode.SetPanelNo(lCode))
@@ -818,12 +820,10 @@ namespace yidascan
         private void ShowWarning(string msg, bool status = true)
         {
             lblMsgInfo.Text = msg;
-            lblMsgInfo.BackColor = status 
-                ? Color.Red 
+            lblMsgInfo.BackColor = status
+                ? Color.Red
                 : Color.Green;
-            lblMsgInfo.ForeColor = status
-                ? Color.White
-                : Color.White;
+            lblMsgInfo.ForeColor = Color.White;
         }
 
         private void txtLableCode1_Enter(object sender, EventArgs e)
@@ -913,13 +913,8 @@ namespace yidascan
 
         private void btnLog_Click(object sender, EventArgs e)
         {
-            openFileDialog1.InitialDirectory = System.IO.Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, @"log");//注意这里写路径时要用c:\\而不是c:\
-            openFileDialog1.Filter = "文本文件|*.log";
-            openFileDialog1.RestoreDirectory = true;
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                System.Diagnostics.Process.Start("notepad.exe", openFileDialog1.FileName);
-            }
+            var path = System.IO.Path.Combine(Application.StartupPath, "log");
+            System.Diagnostics.Process.Start(path);
         }
 
         private void timer3_Tick(object sender, EventArgs e)
@@ -956,49 +951,79 @@ namespace yidascan
             }
         }
 
+        /// <summary>
+        /// 从窗口的dtview控件中，删除含有code的那一行。
+        /// </summary>
+        /// <param name="code"></param>
+        private void RemoveRowFromView(string code)
+        {
+            dtview.DefaultView.RowFilter = string.Format("Code='{0}'", code);
+            for (int i = 0; i < dtview.DefaultView.Count; i++)
+            {
+                DataRow r = dtview.DefaultView[i].Row;
+                dtview.Rows.Remove(r);
+            }
+            dtview.DefaultView.RowFilter = string.Empty;
+        }
+
+        /// <summary>
+        /// 等待为OPC允许删除信号，然后删除号码，最后信号复位。
+        /// </summary>
+        /// <param name="fullLabelCode">长度12位的号码</param>
+        public void WriteLabelCodeToOpc(string fullLabelCode)
+        {
+            string signal = OPCRead(opcParam.DeleteLCode.Signal).ToString();
+
+            while (bool.Parse(signal))
+            {
+                signal = OPCRead(opcParam.DeleteLCode.Signal).ToString();
+                Thread.Sleep(OPCClient.DELAY);
+            }
+
+            opcClient.Write(opcParam.DeleteLCode.LCode1, fullLabelCode.Substring(0, 6));
+            opcClient.Write(opcParam.DeleteLCode.LCode2, fullLabelCode.Substring(6, 6));
+            opcClient.Write(opcParam.DeleteLCode.Signal, true);
+        }
+
+        public bool confirm(string question)
+        {
+            var r = MessageBox.Show(question, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            return r == DialogResult.Yes;
+        }
+
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (txtDelLCode.Text.Trim().Length < 12)
             {
-                logOpt.ViewInfo("请输入正确的标签号！", LogViewType.OnlyForm);
+                ShowWarning("删除号码长度不正确");                
                 return;
             }
+
             string code = txtDelLCode.Text.Trim().Substring(0, 12);
-            if (MessageBox.Show(string.Format("您确定要删除标签[{0}]吗？", code), "提示",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question) == DialogResult.Yes)
+
+            //提示用户确认。
+            var question = string.Format("您确定要删除标签[{0}]吗？", code);
+            if (!confirm(question)) { return; }
+
+            // 删除号码。
+            if (LableCode.Delete(code))
             {
-                if (LableCode.Delete(code))
-                {
-                    dtview.DefaultView.RowFilter = string.Format("Code='{0}'", code);
-                    for (int i = 0; i < dtview.DefaultView.Count; i++)
-                    {
-                        DataRow r = dtview.DefaultView[i].Row;
-                        dtview.Rows.Remove(r);
-                    }
-                    dtview.DefaultView.RowFilter = string.Empty;
-                    lblCount.Text = dtview.DefaultView.Count.ToString();
+                RemoveRowFromView(code);
+                lblCount.Text = dtview.DefaultView.Count.ToString();
+
 #if !DEBUG
-                    string signal = OPCRead(opcParam.DeleteLCode.Signal).ToString();
-
-                    while (bool.Parse(signal))
-                    {
-                        signal = OPCRead(opcParam.DeleteLCode.Signal).ToString();
-                    }
-
-                    opcClient.Write(opcParam.DeleteLCode.LCode1, code.Substring(0, 6));
-                    opcClient.Write(opcParam.DeleteLCode.LCode2, code.Substring(6, 6));
-                    opcClient.Write(opcParam.DeleteLCode.Signal, true);
+                //WriteLabelCodeToOpc(code);
 #endif
-                    logOpt.ViewInfo(string.Format("删除标签{0}成功", code), LogViewType.Both);
-                }
-                else
-                {
-                    logOpt.ViewInfo(string.Format("删除标签{0}失败", code), LogViewType.Both);
-                }
 
-                txtDelLCode.Text = string.Empty;
+                logOpt.ViewInfo(string.Format("删除标签{0}成功", code), LogViewType.Both);
             }
+            else
+            {
+                logOpt.ViewInfo(string.Format("删除标签{0}失败", code), LogViewType.Both);
+            }
+
+            txtDelLCode.Text = string.Empty;
+
         }
         private void btnReset_Click(object sender, EventArgs e)
         {

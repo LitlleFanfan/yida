@@ -98,6 +98,7 @@
     <Compile Include="DataAccess\LableCode.cs" />
     <Compile Include="DataAccess\OPCParam.cs" />
     <Compile Include="DataAccess\Panel.cs" />
+    <Compile Include="DataAccess\RobotParam.cs" />
     <Compile Include="DataAccess\SqliteAccess.cs" />
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
@@ -117,6 +118,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="scanner\NormalScan.cs" />
     <Compile Include="scanner\OPCClient.cs" />
+    <Compile Include="scanner\RobotHelper.cs" />
     <Compile Include="Web References\ERPService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -195,6 +197,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Web References\ERPService\WebService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RobotControl\RobotControl.csproj">
+      <Project>{058228c7-945c-4bf7-81b8-e153d9e5ad3f}</Project>
+      <Name>RobotControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

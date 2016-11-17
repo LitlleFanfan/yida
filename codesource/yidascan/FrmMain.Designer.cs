@@ -240,11 +240,11 @@
             this.grbHandwork.Controls.Add(this.panel2);
             this.grbHandwork.Controls.Add(this.panel3);
             this.grbHandwork.Controls.Add(this.panel1);
-            this.grbHandwork.Location = new System.Drawing.Point(328, 70);
+            this.grbHandwork.Location = new System.Drawing.Point(432, 70);
             this.grbHandwork.Margin = new System.Windows.Forms.Padding(5);
             this.grbHandwork.Name = "grbHandwork";
             this.grbHandwork.Padding = new System.Windows.Forms.Padding(5);
-            this.grbHandwork.Size = new System.Drawing.Size(956, 191);
+            this.grbHandwork.Size = new System.Drawing.Size(852, 191);
             this.grbHandwork.TabIndex = 51;
             this.grbHandwork.TabStop = false;
             this.grbHandwork.Text = "手动操作";
@@ -256,7 +256,7 @@
             this.txtTest1.Location = new System.Drawing.Point(456, -2);
             this.txtTest1.Margin = new System.Windows.Forms.Padding(4);
             this.txtTest1.Name = "txtTest1";
-            this.txtTest1.Size = new System.Drawing.Size(485, 29);
+            this.txtTest1.Size = new System.Drawing.Size(381, 29);
             this.txtTest1.TabIndex = 8;
             // 
             // panel2
@@ -272,7 +272,7 @@
             this.panel2.Location = new System.Drawing.Point(16, 131);
             this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(925, 48);
+            this.panel2.Size = new System.Drawing.Size(821, 48);
             this.panel2.TabIndex = 11;
             // 
             // txtDelLCode
@@ -283,7 +283,7 @@
             this.txtDelLCode.Location = new System.Drawing.Point(172, 9);
             this.txtDelLCode.Margin = new System.Windows.Forms.Padding(4);
             this.txtDelLCode.Name = "txtDelLCode";
-            this.txtDelLCode.Size = new System.Drawing.Size(609, 29);
+            this.txtDelLCode.Size = new System.Drawing.Size(505, 29);
             this.txtDelLCode.TabIndex = 4;
             this.txtDelLCode.Text = "请输入要删除的标签号";
             this.txtDelLCode.Enter += new System.EventHandler(this.txtDelLCode_Enter);
@@ -305,7 +305,7 @@
             // 
             this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDelete.BackColor = System.Drawing.Color.DarkGreen;
-            this.btnDelete.Location = new System.Drawing.Point(789, 1);
+            this.btnDelete.Location = new System.Drawing.Point(685, 1);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(4);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(125, 44);
@@ -340,7 +340,7 @@
             this.panel3.Location = new System.Drawing.Point(16, 78);
             this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(925, 48);
+            this.panel3.Size = new System.Drawing.Size(821, 48);
             this.panel3.TabIndex = 10;
             // 
             // txtToLocation
@@ -369,7 +369,7 @@
             this.txtPanelNo.Location = new System.Drawing.Point(492, 9);
             this.txtPanelNo.Margin = new System.Windows.Forms.Padding(4);
             this.txtPanelNo.Name = "txtPanelNo";
-            this.txtPanelNo.Size = new System.Drawing.Size(289, 29);
+            this.txtPanelNo.Size = new System.Drawing.Size(185, 29);
             this.txtPanelNo.TabIndex = 5;
             this.txtPanelNo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPanelNo_KeyDown);
             // 
@@ -377,7 +377,7 @@
             // 
             this.btnComplete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnComplete.BackColor = System.Drawing.Color.LimeGreen;
-            this.btnComplete.Location = new System.Drawing.Point(789, 1);
+            this.btnComplete.Location = new System.Drawing.Point(685, 1);
             this.btnComplete.Margin = new System.Windows.Forms.Padding(4);
             this.btnComplete.Name = "btnComplete";
             this.btnComplete.Size = new System.Drawing.Size(125, 44);
@@ -425,7 +425,7 @@
             this.panel1.Location = new System.Drawing.Point(16, 25);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(925, 48);
+            this.panel1.Size = new System.Drawing.Size(821, 48);
             this.panel1.TabIndex = 8;
             // 
             // txtLength
@@ -474,7 +474,7 @@
             this.txtLableCode1.Location = new System.Drawing.Point(492, 9);
             this.txtLableCode1.Margin = new System.Windows.Forms.Padding(4);
             this.txtLableCode1.Name = "txtLableCode1";
-            this.txtLableCode1.Size = new System.Drawing.Size(289, 29);
+            this.txtLableCode1.Size = new System.Drawing.Size(185, 29);
             this.txtLableCode1.TabIndex = 1;
             this.txtLableCode1.Text = "请将光标放置到这里扫描";
             this.txtLableCode1.Enter += new System.EventHandler(this.txtLableCode1_Enter);
@@ -496,7 +496,7 @@
             // 
             this.btnToWeigh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnToWeigh.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.btnToWeigh.Location = new System.Drawing.Point(789, 1);
+            this.btnToWeigh.Location = new System.Drawing.Point(685, 1);
             this.btnToWeigh.Margin = new System.Windows.Forms.Padding(4);
             this.btnToWeigh.Name = "btnToWeigh";
             this.btnToWeigh.Size = new System.Drawing.Size(125, 44);
@@ -834,7 +834,7 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Location = new System.Drawing.Point(0, 70);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(320, 191);
+            this.groupBox1.Size = new System.Drawing.Size(424, 191);
             this.groupBox1.TabIndex = 54;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "班次信息";
@@ -847,7 +847,7 @@
             this.lblMsgInfo.ForeColor = System.Drawing.Color.White;
             this.lblMsgInfo.Location = new System.Drawing.Point(9, 128);
             this.lblMsgInfo.Name = "lblMsgInfo";
-            this.lblMsgInfo.Size = new System.Drawing.Size(300, 55);
+            this.lblMsgInfo.Size = new System.Drawing.Size(409, 55);
             this.lblMsgInfo.TabIndex = 16;
             this.lblMsgInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -859,7 +859,7 @@
             this.lblCount.ForeColor = System.Drawing.Color.Black;
             this.lblCount.Location = new System.Drawing.Point(9, 65);
             this.lblCount.Name = "lblCount";
-            this.lblCount.Size = new System.Drawing.Size(300, 59);
+            this.lblCount.Size = new System.Drawing.Size(409, 59);
             this.lblCount.TabIndex = 15;
             this.lblCount.Text = "0";
             this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -901,9 +901,9 @@
             "白班",
             "中班",
             "夜班"});
-            this.cmbShiftNo.Location = new System.Drawing.Point(210, 35);
+            this.cmbShiftNo.Location = new System.Drawing.Point(272, 35);
             this.cmbShiftNo.Name = "cmbShiftNo";
-            this.cmbShiftNo.Size = new System.Drawing.Size(99, 27);
+            this.cmbShiftNo.Size = new System.Drawing.Size(146, 27);
             this.cmbShiftNo.TabIndex = 10;
             this.cmbShiftNo.Text = "白班";
             this.cmbShiftNo.SelectedIndexChanged += new System.EventHandler(this.cmbShiftNo_SelectedIndexChanged);
@@ -914,7 +914,7 @@
             this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpDate.Location = new System.Drawing.Point(63, 33);
             this.dtpDate.Name = "dtpDate";
-            this.dtpDate.Size = new System.Drawing.Size(141, 29);
+            this.dtpDate.Size = new System.Drawing.Size(203, 29);
             this.dtpDate.TabIndex = 9;
             this.dtpDate.ValueChanged += new System.EventHandler(this.dtpDate_ValueChanged);
             // 
@@ -926,7 +926,7 @@
             this.textBox1.Location = new System.Drawing.Point(63, 132);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(246, 29);
+            this.textBox1.Size = new System.Drawing.Size(350, 29);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "请将光标放置到这里扫描";
             this.textBox1.Visible = false;
