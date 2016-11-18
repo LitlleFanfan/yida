@@ -1,18 +1,17 @@
-﻿using RobotControl;
+﻿using ProduceComm.OPC;
+using RobotControl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using yidascan.DataAccess;
 
-namespace yidascan.scanner
-{
-    public class RollPosition
-    {
-        public RollPosition(int locationNo, decimal x, decimal y, decimal z, decimal rz)
-        {
+namespace yidascan.scanner {
+    public class RollPosition {
+        public RollPosition(int locationNo, decimal x, decimal y, decimal z, decimal rz) {
             X = x;
             Y = y;
             Z = z;
@@ -27,21 +26,15 @@ namespace yidascan.scanner
             Target = new PostionVar(x, y, z, point.Rz + rz, point.Base);
         }
 
-        private int CalculateBaseIndex(decimal x, decimal y, decimal rz)
-        {
+        private int CalculateBaseIndex(decimal x, decimal y, decimal rz) {
             int baseindex = 0;
-            if (rz > 0)
-            {
-                if (y < 0)
-                {
+            if (rz > 0) {
+                if (y < 0) {
                     baseindex += 1;
                 }
-            }
-            else
-            {
+            } else {
                 baseindex = 2;
-                if (x < 0)
-                {
+                if (x < 0) {
                     baseindex += 1;
                 }
             }
@@ -61,17 +54,16 @@ namespace yidascan.scanner
         public decimal Rz;
     }
 
-    public class RobotHelper : IDisposable
-    {
+    public class RobotHelper : IDisposable {
         RobotControl.RobotControl rCtrl;
-        public RobotHelper(string ip)
-        {
+        public static RobotJob robotJobs = new RobotJob();
+        public RobotHelper(string ip) {
             rCtrl = new RobotControl.RobotControl(ip);
             rCtrl.Connect();
+            rCtrl.ServoPower(true);
         }
 
-        public void WritePosition(RollPosition rollPos)
-        {
+        public void WritePosition(RollPosition rollPos) {
             rCtrl.SetVariables(RobotControl.VariableType.B, 10, 1, rollPos.ChangeAngle ? "1" : "0");
             rCtrl.SetVariables(RobotControl.VariableType.B, 0, 1, rollPos.LocationNo.ToString());
 
@@ -90,14 +82,30 @@ namespace yidascan.scanner
                rollPos.Target, 0, RobotControl.PosType.User, 0, rollPos.LocationNo);
         }
 
-        public void RunJob(string jobName)
-        {
-            rCtrl.ServoPower(true);
+        public void RunJob(string jobName) {
             rCtrl.StartJob(jobName);
         }
 
-        public void Dispose()
-        {
+        public bool IsBusy() {
+            Dictionary<string, bool> status = rCtrl.GetPlayStatus();
+            return (status["Start"] || status["Hold"]);
+        }
+
+        public void JobLoop(ref bool isrun) {
+            while (isrun) {
+                if (robotJobs.Rolls.Count > 0) {
+                    while (isrun && IsBusy()) {
+                        Thread.Sleep(OPCClient.DELAY);
+                    }
+                    WritePosition(robotJobs.GetRoll());
+                    RunJob("");//
+                }
+                Thread.Sleep(OPCClient.DELAY);
+            }
+        }
+
+        public void Dispose() {
+            rCtrl.ServoPower(false);
             rCtrl.Close();
         }
     }

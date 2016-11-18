@@ -34,6 +34,8 @@ namespace ProduceComm.Scanner
 
         public event HostErrEventHandler OnHostErr;
 
+        public Action<string> logger;
+
         public long ScanCounter
         {
             get

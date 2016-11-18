@@ -849,6 +849,7 @@
             this.lblMsgInfo.Name = "lblMsgInfo";
             this.lblMsgInfo.Size = new System.Drawing.Size(409, 55);
             this.lblMsgInfo.TabIndex = 16;
+            this.lblMsgInfo.Text = "空闲";
             this.lblMsgInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblCount

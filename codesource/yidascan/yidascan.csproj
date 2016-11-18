@@ -119,6 +119,7 @@
     <Compile Include="scanner\NormalScan.cs" />
     <Compile Include="scanner\OPCClient.cs" />
     <Compile Include="scanner\RobotHelper.cs" />
+    <Compile Include="scanner\RobotJob.cs" />
     <Compile Include="Web References\ERPService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

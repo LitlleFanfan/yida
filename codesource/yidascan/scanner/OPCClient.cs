@@ -21,7 +21,7 @@ namespace ProduceComm.OPC
 
         public bool Connected
         {
-            get { return m_server != null; }
+            get { return m_server != null && m_server.IsConnected; }
         }
 
         public bool Open(string mAddr)
