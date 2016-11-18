@@ -100,30 +100,35 @@ namespace yidascan
         /// <param name="lcs">当前层所有标签</param>
         /// <param name="lc">当前标签</param>
         /// <returns></returns>
-        public LableCode CalculateFinish(List<LableCode> lcs, LableCode lc)//, ref LableCode result, decimal z, decimal r, ref decimal xory
+        public LableCode CalculateFinish(List<LableCode> lcs, LableCode lc)
         {
-            int floorindex = lcs.Count - 1;
-            LableCode result = null;
-            decimal sumlen = 800;
+            const decimal MAX_LEN = 800;
+
+            int floorindex = lcs.Count - 1;            
+            
             var cache = from s in lcs where s.FloorIndex == 0 orderby s.Diameter ascending select s;
             var len = (from s in lcs where s.FloorIndex != 0 && s.FloorIndex % 2 == floorindex % 2 select s.Diameter).Sum();
             var width = len + lc.Diameter;
-            foreach (LableCode l in cache)
+
+            LableCode result = null;
+            foreach (LableCode item in cache)
             {
-                decimal tmp = Math.Abs(sumlen - (l.Diameter + width));
+                decimal tmp = Math.Abs(MAX_LEN - (item.Diameter + width));
                 if (result == null && tmp < clsSetting.EdgeObligate)
                 {
-                    result = l;
+                    result = item;
                 }
                 else if (tmp < clsSetting.EdgeObligate)
                 {
-                    decimal re = Math.Abs(sumlen - (result.Diameter + width));
+                    decimal re = Math.Abs(MAX_LEN - (result.Diameter + width));
                     if (tmp < re)
-                        result = l;
+                        result = item;
                 }
             }
+
             Console.WriteLine(string.Format("lc.floorindex {1}, calindex {2}, finish {3}, width {0}, result.diameter {4}",
                 width, lc.FloorIndex, floorindex, result != null, (result != null ? result.Diameter : 0)));
+
             return result;
         }
 

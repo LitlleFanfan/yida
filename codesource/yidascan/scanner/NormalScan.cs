@@ -12,6 +12,7 @@ namespace ProduceComm.Scanner
 {
     public class NormalScan
     {
+        public string name { get; set; }
         public delegate void DataArrivedEventHandler(string type, string data);
 
         public delegate void ErrEventHandler(Exception ex);
@@ -60,8 +61,9 @@ namespace ProduceComm.Scanner
             }
         }
 
-        public NormalScan(ICommunication _icom)
+        public NormalScan(string devicename, ICommunication _icom)
         {
+            this.name = devicename;
             icom = _icom;
             this.long_0 = 0L;
             this.mlsAckData = new List<string>();
