@@ -12,10 +12,10 @@ using System.Threading;
 using System.Linq;
 using System.Drawing;
 
+using yidascan.scanner;
+
 namespace yidascan {
     public partial class FrmMain : Form {
-        Random rand = new Random();
-
         private DataTable dtview = new DataTable();
         NormalScan nscan1;
         NormalScan nscan2;
@@ -30,21 +30,47 @@ namespace yidascan {
         // mutex to ensure securely calling opc.
         Mutex OPC_IDLE = new Mutex();
         OPCClient opcClient = new OPCClient();
+        RobotJobQueue robotJobQueue;
 
         public FrmMain() {
             InitializeComponent();
-            logOpt = new ProduceComm.LogOpreate(lsvLog);
 
-            SetupDview();
-            StartOpc();           
+            try {
+                // 初始化机器人布卷消息队列。
+                robotJobQueue = new RobotJobQueue();
+
+                logOpt = new ProduceComm.LogOpreate();
+                timer_message.Enabled = true;
+
+                logOpt.ViewInfo(string.Format("{0} V{1} 启动。",
+                                  clsSetting.PRODUCT_NAME,
+                                  Application.ProductVersion.ToString()));
+
+                SetupDview();
+                StartOpc();
+                lblOpcIp.BackColor = Color.LightGreen;
+            } catch (Exception ex) {
+                logOpt.ViewInfo(string.Format("启动opc失败.\n{0}", ex));
+            }
         }
+
+        private void ShowTitle() {
+            this.Text = string.Format("{0} V{1}",
+                clsSetting.PRODUCT_NAME,
+                Application.ProductVersion.ToString());
+        }
+
         private void FrmMain_Load(object sender, EventArgs e) {
-            this.Text = string.Format("{0} V{1}", clsSetting.PRODUCT_NAME, Application.ProductVersion.ToString());
-            cmbShiftNo.SelectedIndex = 0;
-            BindDgv();
-            SetButtonState(false);
-            InitCfgView();
-            LableCode.DeleteAllFinished();
+            try {
+                ShowTitle();
+                cmbShiftNo.SelectedIndex = 0;
+                BindDgv();
+                SetButtonState(false);
+                InitCfgView();
+                LableCode.DeleteAllFinished();
+            } catch (Exception ex) {
+                logOpt.ViewInfo(string.Format("初始化失败。\n{0}", ex));
+            }
         }
 
 
@@ -64,7 +90,7 @@ namespace yidascan {
             dtopc.Columns.Remove("Class");
             dtopc.Columns.Add(new DataColumn("Value"));
             if (opcClient.Open(clsSetting.OPCServerIP)) {
-                logOpt.ViewInfo(string.Format("OPC服务连接成功。加订阅。"));
+                logOpt.ViewInfo(string.Format("OPC服务连接成功。"));
                 opcClient.AddSubscription(dtopc);
             } else {
                 logOpt.ViewInfo(string.Format("OPC服务连接失败。"));
@@ -72,13 +98,115 @@ namespace yidascan {
             opcParam.Init();
         }
 
+        /// <summary>
+        /// 启动机器人布卷队列等待。
+        /// </summary>
+        private void StartRobotJobATask() {
+            Task.Factory.StartNew(() => {
+                while (isrun) {
+                    // 等待布卷
+                    var r = (bool)opcClient.Read(opcParam.RobotCarryA.Signal);
+                    if (r) {
+                        // 加入机器人布卷队列。
+                        var code1 = opcClient.Read(opcParam.RobotCarryA.LCode1).ToString();
+                        var code2 = opcClient.Read(opcParam.RobotCarryA.LCode2).ToString();
+                        var fullcode = code1.PadLeft(6, '0') + code2.PadLeft(6, '0');
+
+                        PushInQueue(fullcode, "A");
+                    }
+
+                    Thread.Sleep(100);
+                }
+            });
+            logOpt.ViewInfo("机器人抓料A布卷队列任务启动。");
+        }
+        /// <summary>
+        /// 启动机器人布卷队列等待。
+        /// </summary>
+        private void StartRobotJobBTask() {
+            Task.Factory.StartNew(() => {
+                while (isrun) {
+                    // 等待布卷
+                    var r = (bool)opcClient.Read(opcParam.RobotCarryB.Signal);
+                    if (r) {
+                        // 加入机器人布卷队列。
+                        var code1 = opcClient.Read(opcParam.RobotCarryB.LCode1).ToString();
+                        var code2 = opcClient.Read(opcParam.RobotCarryB.LCode2).ToString();
+                        var fullcode = code1.PadLeft(6, '0') + code2.PadLeft(6, '0');
+
+                        PushInQueue(fullcode, "B");
+                    }
+
+                    Thread.Sleep(100);
+                }
+            });
+            logOpt.ViewInfo("机器人抓料B布卷队列任务启动。");
+        }
+
+        private void PushInQueue(string fullcode, string side) {
+            logOpt.ViewInfo(string.Format("机器人抓料{0}处,标签{1}", side, fullcode));
+            var label = LableCode.QueryByLCode(fullcode);
+            if (label == null) {
+                logOpt.ViewInfo("标签找不到。");
+                return;
+            }
+            var state = PanelState.LessHalf;
+            if (label.Floor < 6) { state = PanelState.HalfFull; }
+
+            // lc.Coordinates = string.Format("{0},{1},{2}", z, r, xory);
+            var ar_s = label.Coordinates.Split(new char[] { ',' });
+            var ar = (from item in ar_s select decimal.Parse(item)).ToList();
+            decimal x = 0; decimal y = 0;
+
+            if (ar[1] > 0) {
+                x = x + ar[2] * 1000;
+            } else {
+                y = ar[2] * 1000;
+            }
+
+            var z = ar[0];
+            var rz = ar[1];
+            var roll = new RollPosition(side, label.ToLocation, state, x, y, z, rz);
+            RobotHelper.robotJobs.AddRoll(roll);
+        }
+
+        private void StartRobotTask() {
+            ShowWarning("机器人没有启动。");
+            return;
+
+            Task.Factory.StartNew(() => {
+                var jobname = ""; // 存于机器人本身的程序名。                
+                using (var robot = new RobotHelper(clsSetting.RobotIP, jobname)) {
+                    robot.JobLoop(ref isrun);
+                }
+            });
+            logOpt.ViewInfo("机器人任务启动。");
+        }
+
+        private void StartAreaBPnlStateTask() {
+            foreach (KeyValuePair<string, string> kv in opcParam.BAreaPanelState) {
+                Task.Factory.StartNew(() => {
+                    while (isrun) {
+                        lock (opcClient) {
+                            int signal = int.Parse(OPCRead(kv.Value).ToString());
+
+                            if (signal == 3) {
+                                if (LableCode.SetMaxFloor(kv.Key)) {
+                                    opcClient.Write(kv.Value, 2);
+                                }
+                            }
+                        }
+                        Thread.Sleep(OPCClient.DELAY * 200);
+                    }
+                });
+            }
+        }
 
         private void BindDgv() {
-            dtview = LableCode.Query(string.Format("{0}{1}", dtpDate.Value.ToString(clsSetting.LABEL_CODE_DATE_FORMAT), cmbShiftNo.SelectedIndex));
             dgvData.DataSource = dtview.DefaultView;
             lblCount.Text = dtview.DefaultView.Count.ToString();
 
-            dtopc.DefaultView.RowFilter = string.Format("IndexNo<15");            
+            dtopc.DefaultView.RowFilter = string.Format("IndexNo<15");
         }
 
         void SetButtonState(bool isRun) {
@@ -86,7 +214,7 @@ namespace yidascan {
                 btnSet.Enabled = !isRun;
                 btnRun.Enabled = !isRun;
                 btnQuit.Enabled = !isRun;
-                
+
                 dtpDate.Enabled = !isRun;
                 cmbShiftNo.Enabled = !isRun;
 
@@ -106,10 +234,11 @@ namespace yidascan {
                 nscan1.logger = Logger;
                 nscan1.OnDataArrived += new NormalScan.DataArrivedEventHandler(nscan1_OnDataArrived);
                 nscan1._StartJob();
-                lblScanner.BackColor = System.Drawing.Color.Green;
+                lblScanner.BackColor = Color.LightGreen;
                 logOpt.ViewInfo(nscan1.name + "ok.");
             } else {
                 lblScanner2.BackColor = System.Drawing.Color.Gray;
+                ShowWarning("启动相机失败。");
                 logOpt.ViewInfo(nscan1.name + "启动失败！");
             }
             //if (OpenPort(ref nscan2, SECOND_CAMERA, FrmSet.pcfgScan2))
@@ -135,11 +264,16 @@ namespace yidascan {
 
             StartScanner();
             isrun = true;
+
             if (opcClient.Connected) {
-                lblOpcIp.BackColor = System.Drawing.Color.Green;
                 WeighTask();
                 ACAreaFinishTask();
                 BeforCacheTask();
+
+                StartRobotTask();
+                StartRobotJobATask();
+                StartRobotJobBTask();
+                StartAreaBPnlStateTask();
             } else {
                 var msg = "启动设备失败！";
                 ShowWarning(msg);
@@ -148,6 +282,8 @@ namespace yidascan {
         }
 
         private void WeighTask() {
+            logOpt.ViewInfo("称重任务启动。");
+
             Task.Factory.StartNew(() => {
                 while (isrun) {
                     lock (opcClient) {
@@ -163,6 +299,8 @@ namespace yidascan {
         }
 
         private void ACAreaFinishTask() {
+            logOpt.ViewInfo("完成信号任务启动。");
+
             foreach (KeyValuePair<string, LCodeSignal> kv in opcParam.ACAreaPanelFinish) {
                 Task.Factory.StartNew(() => {
                     while (isrun) {
@@ -172,12 +310,12 @@ namespace yidascan {
                             if (bool.Parse(signal)) {
                                 string fullLable = ReadACCompleteLable(kv.Value);
 
-                                logOpt.ViewInfo(string.Format("{0} 收到完成信号。标签：{1}", kv.Value.Signal, fullLable));
+                                logOpt.ViewInfo(string.Format(">>>>>{0} 收到完成信号。标签:{1}", kv.Value.Signal, fullLable), "ACPanelFinish");
 
                                 try {
                                     if (!string.IsNullOrEmpty(fullLable)) {
-                                        logOpt.ViewInfo(string.Format("执行状态：{0}",
-                                            AreaAAndCFinish(fullLable)));
+                                        logOpt.ViewInfo(string.Format("执行状态:{0}",
+                                            AreaAAndCFinish(fullLable)), "ACPanelFinish");
                                     }
                                 } catch (Exception ex) {
                                     logOpt.ViewInfo(ex.Message);
@@ -192,6 +330,11 @@ namespace yidascan {
             }
         }
 
+        /// <summary>
+        /// AC区完成信号时，读取完整标签号码。
+        /// </summary>
+        /// <param name="slot"></param>
+        /// <returns></returns>
         private string ReadACCompleteLable(LCodeSignal slot) {
             const int MAX_LEN = 6;
             string lable1 = OPCRead(slot.LCode1).ToString();
@@ -226,15 +369,28 @@ namespace yidascan {
         }
 
         private void BeforCacheTask() {
+            logOpt.ViewInfo("缓存任务启动。");
+
             Task.Factory.StartNew(() => {
                 while (isrun) {
                     lock (opcClient) {
                         if (ReadBeforeCacheStatus(opcClient, opcParam)) {
                             var fullLable = ReadFullBeforeCacheLabel(opcClient, opcParam);
-                            logOpt.ViewInfo(string.Format("{0} 收到缓存信号。标签：{1}",
-                                opcParam.CacheParam.BeforCacheStatus, fullLable));
+                            logOpt.ViewInfo(string.Format("收到缓存信号。从OPC读到号码: {0}", fullLable), "CaChe");
+
                             if (!string.IsNullOrEmpty(fullLable)) {
-                                AreaBCalculate(fullLable); //计算位置
+                                LableCode lc = LableCode.QueryByLCode(fullLable);
+                                if (lc == null) {
+                                    logOpt.ViewInfo(string.Format("{0}标签找不到", fullLable), "CaChe");
+                                } else {
+                                    string outCacheLable;
+                                    CacheState cState = AreaBCalculate(lc, out outCacheLable); //计算位置
+
+                                    opcClient.Write(opcParam.CacheParam.IsCache, cState);
+                                    opcClient.Write(opcParam.CacheParam.GetOutLable1, string.IsNullOrEmpty(outCacheLable) ? "0" : outCacheLable.Substring(0, 6));
+                                    opcClient.Write(opcParam.CacheParam.GetOutLable2, string.IsNullOrEmpty(outCacheLable) ? "0" : outCacheLable.Substring(6, 6));
+                                }
+
                                 opcClient.Write(opcParam.CacheParam.BeforCacheStatus, false);
                             }
                         }
@@ -247,7 +403,7 @@ namespace yidascan {
         private object OPCRead(string code) {
             object val = opcClient.Read(code);
             if (val == null) {
-                logOpt.ViewInfo(string.Format("警告：OPC项目[{0}]质量：坏。", code));
+                logOpt.ViewInfo(string.Format("警告:OPC项目[{0}]质量:坏。", code));
                 return string.Empty;
             } else {
                 return val;
@@ -263,11 +419,11 @@ namespace yidascan {
         }
 
         void nscan_OnDataArrived(string type, string code, int scanNo) {
+            if (code == "ERROR" || code.Length < 12) { return; }
 
-            if (code == "ERROR" || code.Length < 12) {
-                return;
-            }
-            code = code.Substring(0, 12);//条码请取前面12位,有些扫描器会扫出13位是因为把后面的识别码也读出来了.摘自2016年9月10日(星期六) 下午2:37邮件：答复: 答复: 9月9号夜班布卷扫描枪PC连接不上ERP说明
+            // 条码请取前面12位,有些扫描器会扫出13位是因为把后面的识别码也读出来了.
+            // 摘自2016年9月10日(星期六) 下午2:37邮件:答复: 答复: 9月9号夜班布卷扫描枪PC连接不上ERP说明
+            code = code.Substring(0, 12);
 
             // wait for opc available.
             // must use try/finally block to release this mutex.
@@ -319,7 +475,7 @@ namespace yidascan {
         }
 
         private void btnStop_Click(object sender, EventArgs e) {
-            if (!confirm("确定停止吗?")) { return; }            
+            if (!confirm("确定停止吗?")) { return; }
             StopAllJobs();
         }
 
@@ -357,10 +513,12 @@ namespace yidascan {
                     lblScanner2.Text = string.Format("Scanner2:Unknown");
                     break;
             }
-            lblOpcIp.Text = string.Format("OPCIP:{0}", string.IsNullOrEmpty(clsSetting.OPCServerIP) ? "Unknown" : clsSetting.OPCServerIP);
+
+            lblOpcIp.Text = string.Format("OPC server ip:{0}", clsSetting.OPCServerIP);
         }
 
         private void btnQuit_Click(object sender, EventArgs e) {
+            logOpt.ViewInfo("程序正常退出。");
             Close();
         }
 
@@ -372,30 +530,26 @@ namespace yidascan {
             var re = CallWebApi.Post(clsSetting.ToWeight,
                 new Dictionary<string, string>());
 
-            if (re["State"] == "Fail") {
-                logOpt.ViewInfo(string.Format("{0}称重{1}", (handwork ? "手工" : "自动"), re["ERR"]));
+            DataTable res = JsonConvert.DeserializeObject<DataTable>(re["Data"].ToString());
+
+            if (re["result"] == "Fail") {
+                logOpt.ViewInfo(string.Format("{0}称重{1}", (handwork ? "手工" : "自动"), JsonConvert.SerializeObject(re)));
                 return false;
             } else {
-                logOpt.ViewInfo(string.Format("{0}称重{1}", (handwork ? "手工" : "自动"), re["Data"]));
+                logOpt.ViewInfo(string.Format("{0}称重{1}", (handwork ? "手工" : "自动"), JsonConvert.SerializeObject(re)));
                 return true;
             }
         }
 
-        private List<string> GetLabelCodeWhenAcComplete(string panelnumb) {
-            var data = new List<string>();
-            dtview.DefaultView.RowFilter = string.Format("PanelNo='{0}'", panelnumb);
-            for (int i = 0; i < dtview.DefaultView.Count; i++) {
-                DataRow r = dtview.DefaultView[i].Row;//这是一个行对象
-                r["Finished"] = "完成";
-                data.Add(r["Code"].ToString());
-            }
-            dtview.DefaultView.RowFilter = string.Empty;
-            return data;
-        }
-
         private bool PanelEnd(string panelNo, bool handwork = false) {
             if (!string.IsNullOrEmpty(panelNo)) {
-                var data = GetLabelCodeWhenAcComplete(panelNo);
+                // 这个从数据库取似更合理。                
+                var data = LableCode.QueryLabelcodeByPanelNo(panelNo);
+
+                if (data == null) {
+                    logOpt.ViewInfo("板号完成失败，未能查到数据库的标签。");
+                    return false;
+                }
 
                 Dictionary<string, string> erpParam = new Dictionary<string, string>() {
                         { "Board_No", panelNo },  // first item.
@@ -419,10 +573,10 @@ namespace yidascan {
         private void timer1_Tick(object sender, EventArgs e) {
             if (isrun) {
                 var span = DateTime.Now - StartTime;
-                lblTimer.Text = string.Format("{0:c}", span);
+                lblTimer.Text = span.ToString(@"dd\.hh\:mm\:ss");
             }
         }
-        
+
         /// <summary>
         /// read scanned code from input box.
         /// </summary>
@@ -456,7 +610,7 @@ namespace yidascan {
         }
 
         private void ScanLableCode(string code, int scanNo, bool handwork) {
-            ShowWarning("OK", false);
+            ShowWarning(code, false);
 
             string tolocation = string.Empty;
 
@@ -472,7 +626,7 @@ namespace yidascan {
             t = TimeCount.TimeIt(() => {
                 clothsize.getFromOPC(opcClient, opcParam);
             });
-            const string ROLLSIZE_FMT = "Diameter: {0} Length: {1} timer:　{2}ms";
+            const string ROLLSIZE_FMT = "布卷直径:{0};布卷长:{1};耗时:{2}ms;";
             var msg = string.Format(ROLLSIZE_FMT, clothsize.diameter, clothsize.length, t);
             logOpt.ViewInfo(msg);
 
@@ -493,7 +647,7 @@ namespace yidascan {
                     }
                 });
 
-                logOpt.ViewInfo(string.Format("等OPC ScanState 状态信号耗时：{0}ms", t));
+                logOpt.ViewInfo(string.Format("等OPC ScanState 状态信号耗时:{0}ms", t));
 
                 t = TimeCount.TimeIt(() => {
                     opcClient.Write(opcParam.ScanParam.ToLocationArea, clsSetting.AreaNo[lc.ToLocation.Substring(0, 1)]);
@@ -503,10 +657,10 @@ namespace yidascan {
                     opcClient.Write(opcParam.ScanParam.CameraNo, scanNo);
                     opcClient.Write(opcParam.ScanParam.ScanState, true);
                 });
-                logOpt.ViewInfo(string.Format("写ＯＰＣ耗时：{0}ms", t));
+                logOpt.ViewInfo(string.Format("写OPC耗时:{0}ms", t));
 
                 if (LableCode.Add(lc)) {
-                    ViewAddLable(false, lc);
+                    ViewAddLable(lc);
                 } else {
                     ShowWarning("程序异常");
                 }
@@ -518,88 +672,115 @@ namespace yidascan {
             if (lc == null) { return false; }
 
             lcb.GetPanelNo(lc, dtpDate.Value, cmbShiftNo.SelectedIndex);
+
             LableCode.Update(lc);
 
-            if (LableCode.SetPanelNo(lCode)) {
-                return PanelEnd(lc.PanelNo);
-            } else {
-                return false;
-            }
+            LableCode.SetPanelNo(lCode);
+
+            logOpt.ViewInfo("当前板号:" + lc.PanelNo, "ACPanelFinish");
+            return PanelEnd(lc.PanelNo);
         }
 
-        private void AreaBCalculate(string lCode) {
-            LableCode lc = LableCode.QueryByLCode(lCode);
-            List<LableCode> lcs = LableCode.GetLastLableCode(lc.ToLocation, string.Format("{0}{1}", dtpDate.Value.ToString(clsSetting.LABEL_CODE_DATE_FORMAT),
-                            cmbShiftNo.SelectedIndex.ToString()));
-            if (lcs == null || lcs.Count == 0) {
-                lcb.GetPanelNo(lc, dtpDate.Value, cmbShiftNo.SelectedIndex);
-                LableCode.Update(lc);
-            } else {
-                FloorPerformance fp = FloorPerformance.None;
-                PanelInfo pinfo = LableCode.GetPanel(lcs[0].PanelNo);
+        private void SetupPanel(LableCode lc, PanelInfo pinfo) {
+            lc.PanelNo = pinfo.PanelNo;
+            lc.Floor = pinfo.CurrFloor;
+            lc.FloorIndex = 0;
+            lc.Coordinates = "";
+        }
 
-                lc.PanelNo = lcs[0].PanelNo;
-                lc.Floor = pinfo.CurrFloor;
-                lc.FloorIndex = 0;
-                lc.Coordinates = "";
+        private CacheState AreaBCalculate(LableCode lc, out string outCacheLable) {
+            CacheState cState = CacheState.Error;
+            outCacheLable = string.Empty;
+            LableCode lc2 = null;
+            try {
+                // 取当前交地、最后板、最后层所有标签。
+                List<LableCode> lcs = LableCode.GetLableCodesOfRecentFloor(lc.ToLocation,
+                    string.Format("{0}{1}",
+                        dtpDate.Value.ToString(clsSetting.LABEL_CODE_DATE_FORMAT),
+                        cmbShiftNo.SelectedIndex.ToString()));
 
-                LableCode lc2 = null;
-                if (pinfo.CurrFloor == lcs[0].Floor) {
-                    lc2 = lcb.CalculateFinish(lcs, lc);
-                    if (lc2 != null)//不为NULL，表示满
-                    {
-                        lcb.CalculatePosition(lcs, lc, lc2);//计算位置坐标
+                if (lcs == null || lcs.Count == 0) {
+                    // 产生新板号赋予当前标签。
+                    lcb.GetPanelNo(lc, dtpDate.Value, cmbShiftNo.SelectedIndex);
+                    LableCode.Update(lc);
+                    cState = CacheState.Cache;
 
-                        if (lc.FloorIndex % 2 == 0) {
-                            pinfo.EvenStatus = true;
-                            fp = FloorPerformance.EvenFinish;
+                } else {
+                    FloorPerformance fp = FloorPerformance.None;
+                    PanelInfo pinfo = LableCode.GetPanel(lcs[0].PanelNo);
+                    lc.SetupPanelInfo(pinfo);
+
+                    if (pinfo.CurrFloor == lcs[0].Floor) {
+                        // 最近一层没满。
+                        lc2 = lcb.CalculateFinish(lcs, lc);
+
+                        if (lc2 != null)//不为NULL，表示满
+                        {
+                            lcb.CalculatePosition(lcs, lc, lc2);//计算位置坐标
+
+                            if (lc.FloorIndex % 2 == 0) {
+                                pinfo.EvenStatus = true;
+                                fp = FloorPerformance.EvenFinish;
+                            } else {
+                                pinfo.OddStatus = true;
+                                fp = FloorPerformance.OddFinish;
+                            }
                         } else {
-                            pinfo.OddStatus = true;
-                            fp = FloorPerformance.OddFinish;
+                            lc2 = lcb.CalculateCache(pinfo, lc, lcs);//计算缓存，lc2不为NULL需要缓存
                         }
+                    }
+
+                    if (pinfo.EvenStatus && pinfo.OddStatus)
+                        fp = FloorPerformance.BothFinish;
+
+                    if (lc2 != null) {
+                        if (LableCode.Update(fp, lc, lc2))
+                            outCacheLable = lc2.LCode;
+                        cState = lc.FloorIndex == 0 ? CacheState.GetThenCache : CacheState.GoThenGet;
                     } else {
-                        lc2 = lcb.CalculateCache(pinfo, lc, lcs);//计算缓存，lc2不为NULL需要缓存
+                        if (LableCode.Update(fp, lc))
+                            cState = lc.FloorIndex == 0 ? CacheState.Cache : CacheState.Go;
+                    }
+
+                    if (fp == FloorPerformance.BothFinish && lc.Floor == pinfo.MaxFloor) {
+                        PanelEnd(lc.PanelNo);
                     }
                 }
-
-                if (pinfo.EvenStatus && pinfo.OddStatus)
-                    fp = FloorPerformance.BothFinish;
-
-                if (lc2 != null) {
-                    if (LableCode.Update(fp, lc, lc2))
-                        ViewAddLable(fp == FloorPerformance.BothFinish && lc.Floor == 7, lc, lc2);
-                } else {
-                    if (LableCode.Update(fp, lc))
-                        ViewAddLable(fp == FloorPerformance.BothFinish && lc.Floor == 7, lc);
-                }
+                logOpt.ViewInfo(string.Format(@"交地:{0};当前标签:{1};直径:{2};长:{3};缓存状态:{4};取出标签:{5};直径:{6};长:{7};",
+                    lc.ToLocation, lc.LCode, lc.Diameter, lc.Length, cState, outCacheLable,
+                    (string.IsNullOrEmpty(outCacheLable) ? 0 : lc2.Diameter),
+                    (string.IsNullOrEmpty(outCacheLable) ? 0 : lc2.Length)), "CaChe");
+            } catch (Exception ex) {
+                logOpt.ViewInfo(ex.ToString(), "Cache", LogViewType.OnlyFile);
             }
+            return cState;
         }
 
-        private void ViewAddLable(bool finish, LableCode lc, LableCode lc2 = null) {
-            if (lc2 != null) {
-                dtview.DefaultView.RowFilter = string.Format("Code='{0}'", lc2.LCode);
-                for (int i = 0; i < dtview.DefaultView.Count; i++) {
-                    DataRow r = dtview.DefaultView[i].Row;//这是一个行对象
-                    r["FloorIndex"] = lc2.FloorIndex;
-                    r["Coordinates"] = lc2.Coordinates;
+        private void ViewAddLable(LableCode lc, LableCode lc2 = null) {
+            lock (dtview) {
+                if (lc2 != null) {
+                    dtview.DefaultView.RowFilter = string.Format("Code='{0}'", lc2.LCode);
+                    for (int i = 0; i < dtview.DefaultView.Count; i++) {
+                        DataRow r = dtview.DefaultView[i].Row;//这是一个行对象
+                        r["FloorIndex"] = lc2.FloorIndex;
+                        r["Coordinates"] = lc2.Coordinates;
+                    }
+                    dtview.DefaultView.RowFilter = string.Empty;
                 }
-                dtview.DefaultView.RowFilter = string.Empty;
-            }
-            DataRow dr = dtview.NewRow();
-            dr["Code"] = lc.LCode;
-            dr["ToLocation"] = lc.ToLocation;
-            dr["PanelNo"] = lc.PanelNo;
-            dr["Floor"] = lc.Floor;
-            dr["FloorIndex"] = lc.FloorIndex;
-            dr["Diameter"] = lc.Diameter;
-            dr["Coordinates"] = lc.Coordinates;
-            dr["Finished"] = "未完成";
-            dtview.Rows.InsertAt(dr, 0);
-            dgvData.FirstDisplayedScrollingRowIndex = 0;
-            lblCount.Text = dtview.DefaultView.Count.ToString();
 
-            if (finish) {
-                PanelEnd(lc.PanelNo);
+                DataRow dr = dtview.NewRow();
+                dr["Code"] = lc.LCode;
+                dr["ToLocation"] = lc.ToLocation;
+                dr["PanelNo"] = lc.PanelNo;
+                dr["Floor"] = lc.Floor;
+                dr["FloorIndex"] = lc.FloorIndex;
+                dr["Diameter"] = lc.Diameter;
+                dr["Coordinates"] = lc.Coordinates;
+                dr["Finished"] = "未完成";
+                dtview.Rows.InsertAt(dr, 0);
+
+                dgvData.FirstDisplayedScrollingRowIndex = 0;
+                lblCount.Text = dtview.DefaultView.Count.ToString();
             }
             txtLableCode1.Text = string.Empty;
         }
@@ -617,7 +798,7 @@ namespace yidascan {
                     str = CallWebApi.Post(clsSetting.GetLocation, new Dictionary<string, string>()
                     { { "Bar_Code", code } });
                     logOpt.ViewInfo(string.Format("{0}{1}获取交地。",
-                        code, JsonConvert.SerializeObject(str)), LogViewType.OnlyFile);
+                        code, JsonConvert.SerializeObject(str)), "normal", LogViewType.OnlyFile);
                     DataTable res = JsonConvert.DeserializeObject<DataTable>(str["Data"].ToString());
                     if (str["State"] == "Fail" || res.Rows[0]["LOCATION"].ToString() == "Fail") {
                         ShowWarning("取交地失败");
@@ -674,7 +855,11 @@ namespace yidascan {
                 MessageBox.Show(string.Format("正在运行无法关闭软件！"));
                 e.Cancel = true;
             } else {
-                opcClient.Close();
+                try {
+                    opcClient.Close();
+                } catch (Exception ex) {
+                    logOpt.ViewInfo("关闭OPC异常。\n" + ex);
+                }
             }
         }
 
@@ -729,12 +914,13 @@ namespace yidascan {
         /// </summary>
         /// <param name="fullLabelCode">长度12位的号码</param>
         public void WriteLabelCodeToOpc(string fullLabelCode) {
-            string signal = OPCRead(opcParam.DeleteLCode.Signal).ToString();
+            //等PLC做了此功能再放出来
+            //string signal = OPCRead(opcParam.DeleteLCode.Signal).ToString();
 
-            while (isrun && bool.Parse(signal)) {
-                signal = OPCRead(opcParam.DeleteLCode.Signal).ToString();
-                Thread.Sleep(OPCClient.DELAY);
-            }
+            //while (isrun && bool.Parse(signal)) {
+            //    signal = OPCRead(opcParam.DeleteLCode.Signal).ToString();
+            //    Thread.Sleep(OPCClient.DELAY);
+            //}
 
             opcClient.Write(opcParam.DeleteLCode.LCode1, fullLabelCode.Substring(0, 6));
             opcClient.Write(opcParam.DeleteLCode.LCode2, fullLabelCode.Substring(6, 6));
@@ -762,7 +948,7 @@ namespace yidascan {
             if (LableCode.Delete(code)) {
                 RemoveRowFromView(code);
                 lblCount.Text = dtview.DefaultView.Count.ToString();
-
+                WriteLabelCodeToOpc(code);
                 logOpt.ViewInfo(string.Format("删除标签{0}成功", code));
             } else {
                 logOpt.ViewInfo(string.Format("删除标签{0}失败", code));
@@ -774,7 +960,21 @@ namespace yidascan {
         private void btnReset_Click(object sender, EventArgs e) {
             lock (opcClient) {
                 opcClient.Write(opcParam.ScanParam.ScanState, true);
+                logOpt.ViewInfo("传送复位。", "hand");
             }
+        }
+
+        private void timer_message_Tick(object sender, EventArgs e) {
+            var msgs = logOpt.msgCenter.GetAll();
+            if (msgs.Count > 0) {
+                lsvLog.Items.AddRange(msgs.ToArray());
+                lsvLog.SelectedIndex = lsvLog.Items.Count - 1;
+            }
+        }
+
+        private void btnHelp_Click(object sender, EventArgs e) {
+            var path = System.IO.Path.Combine(Application.StartupPath, @"help\index.html");
+            System.Diagnostics.Process.Start(path);
         }
     }
 }

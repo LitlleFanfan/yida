@@ -64,6 +64,8 @@ namespace yidascan
             clsSetting.SplintLength = nudSplintLength.Value;
             clsSetting.SplintWidth = nudSplintWidth.Value;
             clsSetting.SplintHeight = nudSplintHeight.Value;
+
+            clsSetting.RobotIP = txtRobotIP.Text;
             
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -153,6 +155,8 @@ namespace yidascan
             nudSplintLength.Value = clsSetting.SplintLength;
             nudSplintWidth.Value = clsSetting.SplintWidth;
             nudSplintHeight.Value = clsSetting.SplintHeight;
+
+            txtRobotIP.Text = clsSetting.RobotIP;
         }
     }
 }

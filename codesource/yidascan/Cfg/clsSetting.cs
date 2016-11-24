@@ -4,19 +4,15 @@ using System.Collections.Generic;
 using ProduceComm;
 using System;
 
-namespace ProduceComm
-{
-    public enum LogViewType
-    {
+namespace ProduceComm {
+    public enum LogViewType {
         Both,
         OnlyForm,
         OnlyFile
     }
 
-    public class TimeCount
-    {
-        public static long TimeIt(Action act)
-        {
+    public class TimeCount {
+        public static long TimeIt(Action act) {
             var sp = new System.Diagnostics.Stopwatch();
             sp.Start();
             act();
@@ -25,223 +21,178 @@ namespace ProduceComm
         }
     }
 
-    public class LogOpreate
-    {
-        System.Windows.Forms.ListBox lsvLog = null;
-        public LogOpreate(System.Windows.Forms.ListBox _lsvLog)
-        {
-            lsvLog = _lsvLog;
-        }
+    public class LogOpreate {
+        public yidascan.MessageCenter msgCenter = new yidascan.MessageCenter();
 
-        public void ViewInfo(string msg, LogViewType type = LogViewType.Both)
-        {
-            switch (type)
-            {
+        public void ViewInfo(string msg, string group = "normal", LogViewType type = LogViewType.Both) {
+            switch (type) {
                 case LogViewType.Both:
-                    lsvLog.Items.Insert(0, string.Format("{0} {1}",
-                        DateTime.Now.ToString(clsSetting.DATE_FORMAT), msg));
-                    clsSetting.loger.Error(msg);
-                    break;
-                case LogViewType.OnlyFile:
-                    clsSetting.loger.Error(msg);
+                    msgCenter.Push(msg, group);
+                    clsSetting.loger.Error(string.Format("[{0}] {1}", group, msg));
                     break;
                 case LogViewType.OnlyForm:
-                    lsvLog.Items.Insert(0, string.Format("{0} {1}",
-                        DateTime.Now.ToString(clsSetting.DATE_FORMAT), msg));
+                    msgCenter.Push(msg, group);
+                    break;
+                case LogViewType.OnlyFile:
+                    clsSetting.loger.Error(string.Format("[{0}] {1}", group, msg));
                     break;
             }
         }
     }
 
-    public class clsSetting
-    {
+    public class clsSetting {
         public static Dictionary<string, int> AreaNo = new Dictionary<string, int> { { "A", 10 }, { "B", 11 }, { "C", 12 } };
         private const string filename = "config.ini";
         // 常用常数
         public const string DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-        public const string LABEL_CODE_DATE_FORMAT = "yyyyMMdd";
-        public const string PRODUCT_NAME = "广州金海狸数据采集软件单机版";
+        public const string LABEL_CODE_DATE_FORMAT = "yyMMdd";
+        public const string PRODUCT_NAME = "广州恒微数据采集软件单机版";
 
-        public static string FactoryNo
-        {
+        private const string ROBOT_IP = "RobotIP";
+
+        public static string RobotIP {
+            get { return clsSetting.GetCfgValue(ROBOT_IP); }
+            set { clsSetting.SetCfgValue(ROBOT_IP, value); }
+        }
+
+        public static string FactoryNo {
             get { return clsSetting.GetCfgValue("FactoryNo"); }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("FactoryNo", value);
             }
         }
 
-        public static string LineNo
-        {
+        public static string LineNo {
             get { return clsSetting.GetCfgValue("LineNo"); }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("LineNo", value);
             }
         }
 
-        public static string ERPService
-        {
+        public static string ERPService {
             get { return clsSetting.GetCfgValue("ERPService"); }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("ERPService", value);
             }
         }
 
-        public static string GetLocation
-        {
+        public static string GetLocation {
             get { return clsSetting.GetCfgValue("GetLocation"); }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("GetLocation", value);
             }
         }
 
-        public static string PanelFinish
-        {
+        public static string PanelFinish {
             get { return clsSetting.GetCfgValue("PanelFinish"); }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("PanelFinish", value);
             }
         }
 
-        public static string ToWeight
-        {
+        public static string ToWeight {
             get { return clsSetting.GetCfgValue("ToWeight"); }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("ToWeight", value);
             }
         }
 
-        public static decimal SplintLength
-        {
-            get
-            {
+        public static decimal SplintLength {
+            get {
                 string tmp = clsSetting.GetCfgValue("SplintLength");
                 return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("SplintLength", value.ToString());
             }
         }
 
-        public static decimal SplintWidth
-        {
-            get
-            {
+        public static decimal SplintWidth {
+            get {
                 string tmp = clsSetting.GetCfgValue("SplintWidth");
                 return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("SplintWidth", value.ToString());
             }
         }
 
-        public static decimal SplintHeight
-        {
-            get
-            {
+        public static decimal SplintHeight {
+            get {
                 string tmp = clsSetting.GetCfgValue("SplintHeight");
                 return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("SplintHeight", value.ToString());
             }
         }
 
-        public static decimal ShelfWidth
-        {
-            get
-            {
+        public static decimal ShelfWidth {
+            get {
                 string tmp = clsSetting.GetCfgValue("ShelfWidth");
                 return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("ShelfWidth", value.ToString());
             }
         }
 
-        public static decimal ShelfTallFirst
-        {
-            get
-            {
+        public static decimal ShelfTallFirst {
+            get {
                 string tmp = clsSetting.GetCfgValue("ShelfTallFirst");
                 return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("ShelfTallFirst", value.ToString());
             }
         }
 
-        public static decimal ShelfTallSecond
-        {
-            get
-            {
+        public static decimal ShelfTallSecond {
+            get {
                 string tmp = clsSetting.GetCfgValue("ShelfTallSecond");
                 return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("ShelfTallSecond", value.ToString());
             }
         }
 
-        public static decimal ShelfTallThird
-        {
-            get
-            {
+        public static decimal ShelfTallThird {
+            get {
                 string tmp = clsSetting.GetCfgValue("ShelfTallThird");
                 return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("ShelfTallThird", value.ToString());
             }
         }
 
-        public static decimal ShelfTallFourth
-        {
-            get
-            {
+        public static decimal ShelfTallFourth {
+            get {
                 string tmp = clsSetting.GetCfgValue("ShelfTallFourth");
                 return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("ShelfTallFourth", value.ToString());
             }
         }
 
-        public static decimal ShelfObligateLen
-        {
-            get
-            {
+        public static decimal ShelfObligateLen {
+            get {
                 string tmp = clsSetting.GetCfgValue("ShelfObligateLen");
                 return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("ShelfObligateLen", value.ToString());
             }
         }
 
-        public static int DiameterDiff
-        {
-            get
-            {
+        public static int DiameterDiff {
+            get {
                 string tmp = clsSetting.GetCfgValue("DiameterDiff");
                 return int.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("DiameterDiff", value.ToString());
             }
         }
@@ -249,15 +200,12 @@ namespace ProduceComm
         /// <summary>
         /// 奇数层横放
         /// </summary>
-        public static bool OddTurn
-        {
-            get
-            {
+        public static bool OddTurn {
+            get {
                 string tmp = clsSetting.GetCfgValue("OddTurn");
                 return bool.Parse(string.IsNullOrEmpty(tmp) ? "True" : tmp);
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("OddTurn", value.ToString());
             }
         }
@@ -265,15 +213,12 @@ namespace ProduceComm
         /// <summary>
         /// 允许偏差宽度
         /// </summary>
-        public static decimal AllowDeviation
-        {
-            get
-            {
+        public static decimal AllowDeviation {
+            get {
                 string tmp = clsSetting.GetCfgValue("AllowDeviation");
                 return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("AllowDeviation", value.ToString());
             }
         }
@@ -281,15 +226,12 @@ namespace ProduceComm
         /// <summary>
         /// 边缘预留宽度
         /// </summary>
-        public static decimal EdgeObligate
-        {
-            get
-            {
+        public static decimal EdgeObligate {
+            get {
                 string tmp = clsSetting.GetCfgValue("EdgeObligate");
                 return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("EdgeObligate", value.ToString());
             }
         }
@@ -297,41 +239,32 @@ namespace ProduceComm
         /// <summary>
         /// OPC服务IP
         /// </summary>
-        public static string OPCServerIP
-        {
-            get
-            {
+        public static string OPCServerIP {
+            get {
                 return clsSetting.GetCfgValue("OPCServerIP");
             }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue("OPCServerIP", value.ToString());
             }
         }
 
-        public static string ConStr
-        {
+        public static string ConStr {
             //get { return Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, @"Data.db"); }
             get { return clsSetting.GetCfgValue("ConStr"); }
         }
         #region "params"
-        public static string GetCfgValue(string key)
-        {
+        public static string GetCfgValue(string key) {
             string str = null;
             List<string> lst = new FileIo().ReaderFiles(Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, filename));
-            if (lst != null)
-            {
-                foreach (string s in lst)
-                {
+            if (lst != null) {
+                foreach (string s in lst) {
                     int index = s.IndexOf('=');
-                    if (index <= 0)
-                    {
+                    if (index <= 0) {
                         continue;
                     }
                     string k = s.Substring(0, index);
                     string v = s.Substring(index + 1, s.Length - index - 1);
-                    if (k == key)
-                    {
+                    if (k == key) {
                         str = v;
                         break;
                     }
@@ -340,32 +273,24 @@ namespace ProduceComm
             return str;
         }
 
-        public static bool SetCfgValue(string key, string value)
-        {
+        public static bool SetCfgValue(string key, string value) {
             List<string> lst = new FileIo().ReaderFiles(Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, filename));
-            if (lst != null)
-            {
-                for (int i = 0; i < lst.Count; i++)
-                {
-                    if (lst[i].Length == 0)
-                    {
+            if (lst != null) {
+                for (int i = 0; i < lst.Count; i++) {
+                    if (lst[i].Length == 0) {
                         continue;
                     }
                     string[] st = lst[i].Split('=');
-                    if (st.Length == 1)
-                    {
+                    if (st.Length == 1) {
                         continue;
                     }
-                    if (st[0] == key)
-                    {
+                    if (st[0] == key) {
                         lst[i] = key + "=" + value;
                         new FileIo().WriterFile(Path.Combine(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase, filename), lst.ToArray());
                         return true;
                     }
                 }
-            }
-            else
-            {
+            } else {
                 lst = new List<string>();
             }
             lst.Add(key + "=" + value);
@@ -380,53 +305,41 @@ namespace ProduceComm
         public static NLog.Logger loger = NLog.LogManager.GetCurrentClassLogger();
     }
 
-    public class CommunicationCfg
-    {
+    public class CommunicationCfg {
         private string Prdfix = string.Empty;
-        public CommunicationCfg(string prdfix)
-        {
+        public CommunicationCfg(string prdfix) {
             Prdfix = prdfix;
         }
 
-        public string CommunicationType
-        {
+        public string CommunicationType {
             get { return clsSetting.GetCfgValue(string.Format("{0}CommunicationType{1}", Prdfix, "")); }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue(string.Format("{0}CommunicationType{1}", Prdfix, ""), value);
             }
         }
 
-        public string IPAddr
-        {
+        public string IPAddr {
             get { return clsSetting.GetCfgValue(string.Format("{0}IPAddr{1}", Prdfix, "")); }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue(string.Format("{0}IPAddr{1}", Prdfix, ""), value);
             }
         }
-        public string IPPort
-        {
+        public string IPPort {
             get { return clsSetting.GetCfgValue(string.Format("{0}IPPort{1}", Prdfix, "")); }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue(string.Format("{0}IPPort{1}", Prdfix, ""), value);
             }
         }
 
-        public string ComPort
-        {
+        public string ComPort {
             get { return clsSetting.GetCfgValue(string.Format("{0}ComPort{1}", Prdfix, "")); }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue(string.Format("{0}ComPort{1}", Prdfix, ""), value);
             }
         }
-        public string BaudRate
-        {
+        public string BaudRate {
             get { return clsSetting.GetCfgValue(string.Format("{0}BaudRate{1}", Prdfix, "")); }
-            set
-            {
+            set {
                 clsSetting.SetCfgValue(string.Format("{0}BaudRate{1}", Prdfix, ""), value);
             }
         }

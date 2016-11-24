@@ -101,3 +101,45 @@ INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('82','LCode2','MicroWin.S
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','Signal','MicroWin.S7-1200.NewItem38','CArea8','C8板标签信息开关量');
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('84','LCode1','MicroWin.S7-1200.NewItem162','CArea8','C8板标签1');
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('85','LCode2','MicroWin.S7-1200.NewItem163','CArea8','C8板标签2');
+
+
+--B区板完成信号
+
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B01','MicroWin.S7-1200.NewItem86','BAreaPanelFinish','板完成信号Ｂ区板号1');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B02','MicroWin.S7-1200.NewItem87','BAreaPanelFinish','板完成信号Ｂ区板号2');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B03','MicroWin.S7-1200.NewItem88','BAreaPanelFinish','板完成信号Ｂ区板号3');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B04','MicroWin.S7-1200.NewItem89','BAreaPanelFinish','板完成信号Ｂ区板号4');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B05','MicroWin.S7-1200.NewItem90','BAreaPanelFinish','板完成信号Ｂ区板号5');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B06','MicroWin.S7-1200.NewItem91','BAreaPanelFinish','板完成信号Ｂ区板号6');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B07','MicroWin.S7-1200.NewItem92','BAreaPanelFinish','板完成信号Ｂ区板号7');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B08','MicroWin.S7-1200.NewItem93','BAreaPanelFinish','板完成信号Ｂ区板号8');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B09','MicroWin.S7-1200.NewItem94','BAreaPanelFinish','板完成信号Ｂ区板号9');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B10','MicroWin.S7-1200.NewItem95','BAreaPanelFinish','板完成信号Ｂ区板号10');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B11','MicroWin.S7-1200.NewItem96','BAreaPanelFinish','板完成信号Ｂ区板号11');
+
+--B区半析完成信号
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B01','MicroWin.S7-1200.NewItem97','BAreaFloorFinish','半板完成信号Ｂ区板号1');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B02','MicroWin.S7-1200.NewItem98','BAreaFloorFinish','半板完成信号Ｂ区板号2');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B03','MicroWin.S7-1200.NewItem99','BAreaFloorFinish','半板完成信号Ｂ区板号3');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B04','MicroWin.S7-1200.NewItem100','BAreaFloorFinish','半板完成信号Ｂ区板号4');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B05','MicroWin.S7-1200.NewItem101','BAreaFloorFinish','半板完成信号Ｂ区板号5');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B06','MicroWin.S7-1200.NewItem102','BAreaFloorFinish','半板完成信号Ｂ区板号6');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B07','MicroWin.S7-1200.NewItem103','BAreaFloorFinish','半板完成信号Ｂ区板号7');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B08','MicroWin.S7-1200.NewItem104','BAreaFloorFinish','半板完成信号Ｂ区板号8');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B09','MicroWin.S7-1200.NewItem105','BAreaFloorFinish','半板完成信号Ｂ区板号9');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B10','MicroWin.S7-1200.NewItem106','BAreaFloorFinish','半板完成信号Ｂ区板号10');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B11','MicroWin.S7-1200.NewItem107','BAreaFloorFinish','半板完成信号Ｂ区板号11');
+
+--B区板状态信号
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B01','MicroWin.S7-1200.NewItem55','BAreaPanelState','板状态Ｂ区板号1');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B02','MicroWin.S7-1200.NewItem56','BAreaPanelState','板状态Ｂ区板号2');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B03','MicroWin.S7-1200.NewItem57','BAreaPanelState','板状态Ｂ区板号3');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B04','MicroWin.S7-1200.NewItem58','BAreaPanelState','板状态Ｂ区板号4');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B05','MicroWin.S7-1200.NewItem59','BAreaPanelState','板状态Ｂ区板号5');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B06','MicroWin.S7-1200.NewItem60','BAreaPanelState','板状态Ｂ区板号6');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B07','MicroWin.S7-1200.NewItem61','BAreaPanelState','板状态Ｂ区板号7');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B08','MicroWin.S7-1200.NewItem62','BAreaPanelState','板状态Ｂ区板号8');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B09','MicroWin.S7-1200.NewItem63','BAreaPanelState','板状态Ｂ区板号9');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B10','MicroWin.S7-1200.NewItem64','BAreaPanelState','板状态Ｂ区板号10');
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B11','MicroWin.S7-1200.NewItem65','BAreaPanelState','板状态Ｂ区板号11');
+

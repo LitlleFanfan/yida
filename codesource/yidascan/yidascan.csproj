@@ -114,6 +114,7 @@
     </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="LableCodeBll.cs" />
+    <Compile Include="MessageCenter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="scanner\NormalScan.cs" />
@@ -204,6 +205,11 @@
       <Project>{058228c7-945c-4bf7-81b8-e153d9e5ad3f}</Project>
       <Name>RobotControl</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="help\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -188,28 +188,19 @@ namespace yidascan.DataAccess
         {
             InitNone();
             InitBAreaPanelFinish();
-            //clsSetting.loger.Info(string.Format("BAreaPanelFinish {0}", JsonConvert.SerializeObject(BAreaPanelFinish)));
             InitBAreaFloorFinish();
-            //clsSetting.loger.Info(string.Format("BAreaFloorFinish {0}", JsonConvert.SerializeObject(BAreaFloorFinish)));
             InitBAreaPanelState();
-            //clsSetting.loger.Info(string.Format("BAreaPanelState {0}", JsonConvert.SerializeObject(BAreaPanelState)));
 
             ScanParam = new OPCScanParam();
-            //clsSetting.loger.Info(string.Format("ScanParam {0}", JsonConvert.SerializeObject(ScanParam)));
             CacheParam = new OPCBeforCacheParam();
-            //clsSetting.loger.Info(string.Format("CacheParam {0}", JsonConvert.SerializeObject(CacheParam)));
 
             RobotCarryA = new LCodeSignal("RobotCarryA");
-            //clsSetting.loger.Info(string.Format("CacheParam {0}", JsonConvert.SerializeObject(CacheParam)));
 
             RobotCarryB = new LCodeSignal("RobotCarryB");
-            //clsSetting.loger.Info(string.Format("CacheParam {0}", JsonConvert.SerializeObject(CacheParam)));
 
             DeleteLCode = new LCodeSignal("DeleteLCode");
-            //clsSetting.loger.Info(string.Format("DeleteLCode {0}", JsonConvert.SerializeObject(DeleteLCode)));
 
             GetACAreaFinishCfg();
-            //clsSetting.loger.Info(string.Format("ACAreaPanelFinish {0}", JsonConvert.SerializeObject(ACAreaPanelFinish)));
         }
 
         private bool InitNone()

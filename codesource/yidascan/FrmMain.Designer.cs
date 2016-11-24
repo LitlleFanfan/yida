@@ -37,7 +37,6 @@
             this.btnSet = new System.Windows.Forms.ToolStripButton();
             this.btnLog = new System.Windows.Forms.ToolStripButton();
             this.btnQuit = new System.Windows.Forms.ToolStripButton();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.grbHandwork = new System.Windows.Forms.GroupBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.txtDelLCode = new System.Windows.Forms.TextBox();
@@ -51,17 +50,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dgvData = new System.Windows.Forms.DataGridView();
-            this.Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Floor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FloorIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Diameter = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Coordinates = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ToLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PanelNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Finished = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.lsvLog = new System.Windows.Forms.ListBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblScanner = new System.Windows.Forms.ToolStripStatusLabel();
@@ -77,9 +69,18 @@
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.label10 = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.timer_message = new System.Windows.Forms.Timer(this.components);
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnHelp = new System.Windows.Forms.ToolStripButton();
+            this.Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Floor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FloorIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Diameter = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Coordinates = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ToLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PanelNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Finished = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.grbHandwork.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -88,9 +89,10 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvData)).BeginInit();
+            this.panel3.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -101,6 +103,7 @@
             this.btnReset,
             this.btnSet,
             this.btnLog,
+            this.btnHelp,
             this.btnQuit});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -114,6 +117,7 @@
             this.btnRun.BackColor = System.Drawing.Color.LimeGreen;
             this.btnRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnRun.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
+            this.btnRun.ForeColor = System.Drawing.Color.Honeydew;
             this.btnRun.Image = ((System.Drawing.Image)(resources.GetObject("btnRun.Image")));
             this.btnRun.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRun.Name = "btnRun";
@@ -128,6 +132,7 @@
             this.btnStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnStop.Enabled = false;
             this.btnStop.Font = new System.Drawing.Font("Microsoft YaHei", 14.25F);
+            this.btnStop.ForeColor = System.Drawing.Color.White;
             this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
             this.btnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnStop.Name = "btnStop";
@@ -145,7 +150,7 @@
             this.btnReset.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(160, 64);
-            this.btnReset.Text = "复位";
+            this.btnReset.Text = "传送复位";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // btnSet
@@ -177,7 +182,7 @@
             // btnQuit
             // 
             this.btnQuit.AutoSize = false;
-            this.btnQuit.BackColor = System.Drawing.Color.Gold;
+            this.btnQuit.BackColor = System.Drawing.Color.Orange;
             this.btnQuit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnQuit.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
             this.btnQuit.Image = ((System.Drawing.Image)(resources.GetObject("btnQuit.Image")));
@@ -186,20 +191,6 @@
             this.btnQuit.Size = new System.Drawing.Size(160, 64);
             this.btnQuit.Text = "退出(&Q)";
             this.btnQuit.Click += new System.EventHandler(this.btnQuit_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(983, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(5);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(301, 67);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 50;
-            this.pictureBox1.TabStop = false;
             // 
             // grbHandwork
             // 
@@ -354,6 +345,7 @@
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 213);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
@@ -367,7 +359,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.panel3);
             this.splitContainer1.Size = new System.Drawing.Size(1284, 410);
-            this.splitContainer1.SplitterDistance = 712;
+            this.splitContainer1.SplitterDistance = 370;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 52;
             // 
@@ -397,64 +389,8 @@
             this.dgvData.RowTemplate.Height = 23;
             this.dgvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvData.ShowEditingIcon = false;
-            this.dgvData.Size = new System.Drawing.Size(712, 378);
+            this.dgvData.Size = new System.Drawing.Size(370, 378);
             this.dgvData.TabIndex = 1;
-            // 
-            // Code
-            // 
-            this.Code.DataPropertyName = "Code";
-            this.Code.HeaderText = "标签";
-            this.Code.Name = "Code";
-            this.Code.ReadOnly = true;
-            // 
-            // Floor
-            // 
-            this.Floor.DataPropertyName = "Floor";
-            this.Floor.HeaderText = "层";
-            this.Floor.Name = "Floor";
-            this.Floor.ReadOnly = true;
-            // 
-            // FloorIndex
-            // 
-            this.FloorIndex.DataPropertyName = "FloorIndex";
-            this.FloorIndex.HeaderText = "层中序号";
-            this.FloorIndex.Name = "FloorIndex";
-            this.FloorIndex.ReadOnly = true;
-            // 
-            // Diameter
-            // 
-            this.Diameter.DataPropertyName = "Diameter";
-            this.Diameter.HeaderText = "直径mm";
-            this.Diameter.Name = "Diameter";
-            this.Diameter.ReadOnly = true;
-            // 
-            // Coordinates
-            // 
-            this.Coordinates.DataPropertyName = "Coordinates";
-            this.Coordinates.HeaderText = "坐标";
-            this.Coordinates.Name = "Coordinates";
-            this.Coordinates.ReadOnly = true;
-            // 
-            // ToLocation
-            // 
-            this.ToLocation.DataPropertyName = "ToLocation";
-            this.ToLocation.HeaderText = "交地";
-            this.ToLocation.Name = "ToLocation";
-            this.ToLocation.ReadOnly = true;
-            // 
-            // PanelNo
-            // 
-            this.PanelNo.DataPropertyName = "PanelNo";
-            this.PanelNo.HeaderText = "板号";
-            this.PanelNo.Name = "PanelNo";
-            this.PanelNo.ReadOnly = true;
-            // 
-            // Finished
-            // 
-            this.Finished.DataPropertyName = "Finished";
-            this.Finished.HeaderText = "状态";
-            this.Finished.Name = "Finished";
-            this.Finished.ReadOnly = true;
             // 
             // label8
             // 
@@ -463,22 +399,20 @@
             this.label8.Location = new System.Drawing.Point(0, 0);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(712, 32);
+            this.label8.Size = new System.Drawing.Size(370, 32);
             this.label8.TabIndex = 0;
             this.label8.Text = "数据";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label9
+            // panel3
             // 
-            this.label9.BackColor = System.Drawing.Color.SkyBlue;
-            this.label9.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label9.Location = new System.Drawing.Point(0, 0);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(567, 32);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "日志";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panel3.Controls.Add(this.lsvLog);
+            this.panel3.Controls.Add(this.label9);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(909, 410);
+            this.panel3.TabIndex = 2;
             // 
             // lsvLog
             // 
@@ -487,8 +421,20 @@
             this.lsvLog.Location = new System.Drawing.Point(0, 32);
             this.lsvLog.MinimumSize = new System.Drawing.Size(250, 4);
             this.lsvLog.Name = "lsvLog";
-            this.lsvLog.Size = new System.Drawing.Size(567, 378);
+            this.lsvLog.Size = new System.Drawing.Size(909, 378);
             this.lsvLog.TabIndex = 2;
+            // 
+            // label9
+            // 
+            this.label9.BackColor = System.Drawing.Color.SkyBlue;
+            this.label9.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label9.Location = new System.Drawing.Point(0, 0);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(909, 32);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "日志";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // statusStrip1
             // 
@@ -509,29 +455,30 @@
             // 
             // toolStripStatusLabel1
             // 
-            this.toolStripStatusLabel1.BackColor = System.Drawing.Color.SkyBlue;
+            this.toolStripStatusLabel1.BackColor = System.Drawing.SystemColors.Control;
+            this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.Gray;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(190, 21);
-            this.toolStripStatusLabel1.Text = "广州金海狸软件工作室";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(306, 21);
+            this.toolStripStatusLabel1.Text = "guangzhou golden beaver software.";
             // 
             // lblScanner
             // 
-            this.lblScanner.BackColor = System.Drawing.Color.LightGreen;
+            this.lblScanner.BackColor = System.Drawing.Color.LightGray;
             this.lblScanner.Name = "lblScanner";
             this.lblScanner.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.lblScanner.Size = new System.Drawing.Size(20, 21);
             // 
             // lblScanner2
             // 
-            this.lblScanner2.BackColor = System.Drawing.Color.Aquamarine;
+            this.lblScanner2.BackColor = System.Drawing.Color.LightGray;
             this.lblScanner2.Name = "lblScanner2";
             this.lblScanner2.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.lblScanner2.Size = new System.Drawing.Size(20, 21);
             // 
             // lblOpcIp
             // 
-            this.lblOpcIp.BackColor = System.Drawing.Color.LightBlue;
+            this.lblOpcIp.BackColor = System.Drawing.Color.LightGray;
             this.lblOpcIp.Name = "lblOpcIp";
             this.lblOpcIp.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.lblOpcIp.Size = new System.Drawing.Size(20, 21);
@@ -635,15 +582,108 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // panel3
+            // timer_message
             // 
-            this.panel3.Controls.Add(this.lsvLog);
-            this.panel3.Controls.Add(this.label9);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(567, 410);
-            this.panel3.TabIndex = 2;
+            this.timer_message.Interval = 200;
+            this.timer_message.Tick += new System.EventHandler(this.timer_message_Tick);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.Location = new System.Drawing.Point(1130, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(5);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(154, 67);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 50;
+            this.pictureBox1.TabStop = false;
+            // 
+            // btnHelp
+            // 
+            this.btnHelp.AutoSize = false;
+            this.btnHelp.BackColor = System.Drawing.Color.DarkKhaki;
+            this.btnHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnHelp.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
+            this.btnHelp.Image = ((System.Drawing.Image)(resources.GetObject("btnHelp.Image")));
+            this.btnHelp.ImageTransparentColor = System.Drawing.Color.BlueViolet;
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(160, 64);
+            this.btnHelp.Text = "帮助(&H)";
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            // 
+            // Code
+            // 
+            this.Code.DataPropertyName = "Code";
+            this.Code.FillWeight = 66.99477F;
+            this.Code.HeaderText = "标签";
+            this.Code.Name = "Code";
+            this.Code.ReadOnly = true;
+            this.Code.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Floor
+            // 
+            this.Floor.DataPropertyName = "Floor";
+            this.Floor.HeaderText = "层";
+            this.Floor.Name = "Floor";
+            this.Floor.ReadOnly = true;
+            this.Floor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Floor.Visible = false;
+            // 
+            // FloorIndex
+            // 
+            this.FloorIndex.DataPropertyName = "FloorIndex";
+            this.FloorIndex.HeaderText = "层中序号";
+            this.FloorIndex.Name = "FloorIndex";
+            this.FloorIndex.ReadOnly = true;
+            this.FloorIndex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.FloorIndex.Visible = false;
+            // 
+            // Diameter
+            // 
+            this.Diameter.DataPropertyName = "Diameter";
+            this.Diameter.FillWeight = 32.65995F;
+            this.Diameter.HeaderText = "直径mm";
+            this.Diameter.Name = "Diameter";
+            this.Diameter.ReadOnly = true;
+            this.Diameter.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Coordinates
+            // 
+            this.Coordinates.DataPropertyName = "Coordinates";
+            this.Coordinates.HeaderText = "坐标";
+            this.Coordinates.Name = "Coordinates";
+            this.Coordinates.ReadOnly = true;
+            this.Coordinates.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Coordinates.Visible = false;
+            // 
+            // ToLocation
+            // 
+            this.ToLocation.DataPropertyName = "ToLocation";
+            this.ToLocation.FillWeight = 32.65995F;
+            this.ToLocation.HeaderText = "交地";
+            this.ToLocation.Name = "ToLocation";
+            this.ToLocation.ReadOnly = true;
+            this.ToLocation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // PanelNo
+            // 
+            this.PanelNo.DataPropertyName = "PanelNo";
+            this.PanelNo.HeaderText = "板号";
+            this.PanelNo.Name = "PanelNo";
+            this.PanelNo.ReadOnly = true;
+            this.PanelNo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.PanelNo.Visible = false;
+            // 
+            // Finished
+            // 
+            this.Finished.DataPropertyName = "Finished";
+            this.Finished.FillWeight = 32.65995F;
+            this.Finished.HeaderText = "状态";
+            this.Finished.Name = "Finished";
+            this.Finished.ReadOnly = true;
+            this.Finished.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // FrmMain
             // 
@@ -668,7 +708,6 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmMain_KeyDown);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.grbHandwork.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -679,10 +718,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvData)).EndInit();
+            this.panel3.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -694,7 +734,6 @@
         private System.Windows.Forms.ToolStripButton btnRun;
         private System.Windows.Forms.ToolStripButton btnStop;
         private System.Windows.Forms.ToolStripButton btnQuit;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.GroupBox grbHandwork;
         private System.Windows.Forms.Button btnToWeigh;
         private System.Windows.Forms.Panel panel1;
@@ -716,14 +755,6 @@
         private System.Windows.Forms.ComboBox cmbShiftNo;
         private System.Windows.Forms.DateTimePicker dtpDate;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Code;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Floor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FloorIndex;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Diameter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Coordinates;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ToLocation;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PanelNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Finished;
         private System.Windows.Forms.ToolStripButton btnLog;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripStatusLabel lblOpcIp;
@@ -738,6 +769,17 @@
         private System.Windows.Forms.Label lblCount;
         private System.Windows.Forms.ToolStripButton btnReset;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Timer timer_message;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ToolStripButton btnHelp;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Code;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Floor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FloorIndex;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Diameter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Coordinates;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ToLocation;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PanelNo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Finished;
     }
 }
 

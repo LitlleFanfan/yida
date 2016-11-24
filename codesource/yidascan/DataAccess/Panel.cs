@@ -15,5 +15,6 @@ namespace yidascan.DataAccess {
         public int Status { get; set; }
         public string PanelNo { get; set; }
         public int SequenceNo { get; set; }
+        public int MaxFloor { get; set; }
     }
 }

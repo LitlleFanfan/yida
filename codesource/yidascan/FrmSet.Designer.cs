@@ -97,6 +97,11 @@
             this.label8 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.txtRobotIP = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -120,6 +125,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTallFirst)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudShelfWidth)).BeginInit();
             this.tabPage3.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -128,6 +134,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(0, 2);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
@@ -913,6 +920,59 @@
             this.btnSave.Text = "保存";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.textBox2);
+            this.tabPage2.Controls.Add(this.label6);
+            this.tabPage2.Controls.Add(this.txtRobotIP);
+            this.tabPage2.Controls.Add(this.label4);
+            this.tabPage2.Location = new System.Drawing.Point(4, 26);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(588, 354);
+            this.tabPage2.TabIndex = 4;
+            this.tabPage2.Text = "机器人设置";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // txtRobotIP
+            // 
+            this.txtRobotIP.Location = new System.Drawing.Point(145, 34);
+            this.txtRobotIP.Margin = new System.Windows.Forms.Padding(4);
+            this.txtRobotIP.Name = "txtRobotIP";
+            this.txtRobotIP.Size = new System.Drawing.Size(425, 26);
+            this.txtRobotIP.TabIndex = 14;
+            this.txtRobotIP.Text = "192.168.0.30";
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(15, 34);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(107, 27);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "机器人IP";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(145, 84);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(425, 26);
+            this.textBox2.TabIndex = 16;
+            this.textBox2.Text = "11000";
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(15, 84);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(107, 27);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "机器人端口";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // FrmSet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -921,7 +981,7 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabControl1);
-            this.Font = new System.Drawing.Font("宋体", 12F);
+            this.Font = new System.Drawing.Font("SimSun", 12F);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FrmSet";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -953,6 +1013,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudShelfWidth)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1028,5 +1090,10 @@
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.TextBox txtOPCIP;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtRobotIP;
+        private System.Windows.Forms.Label label4;
     }
 }

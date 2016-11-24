@@ -143,9 +143,10 @@ namespace yidascan
 
         private string NewPanelNo(DateTime dtime, int shiftNo)
         {
-            string panelNo = LableCode.GetLastPanelNo(string.Format("{0}{1}", dtime.ToString("yyyyMMdd"), shiftNo.ToString()));
-            panelNo = string.IsNullOrEmpty(panelNo) ?
-                string.Format("{0}{1}{2}", dtime.ToString("yyyyMMdd"), shiftNo, "0001") : (decimal.Parse(panelNo) + 1).ToString();
+            string panelNo = LableCode.GetLastPanelNo(string.Format("{0}", dtime.ToString(clsSetting.LABEL_CODE_DATE_FORMAT)));
+            panelNo = string.IsNullOrEmpty(panelNo) 
+                ? string.Format("{0}{1}", dtime.ToString(clsSetting.LABEL_CODE_DATE_FORMAT), "0001") 
+                : (decimal.Parse(panelNo) + 1).ToString();
             return panelNo;
         }
     }
