@@ -1,5 +1,4 @@
-﻿using ProduceComm.OPC;
-using RobotControl;
+﻿using RobotControl;
 
 using System;
 using System.Collections.Generic;
@@ -16,6 +15,33 @@ namespace yidascan.scanner {
         HalfFull,
         Full
     }
+
+    public class RobotJobQueue {
+        public Queue<RollPosition> Rolls { get; set; }
+
+        public void AddRoll(RollPosition roll) {
+            lock (Rolls) {
+                Rolls.Enqueue(roll);
+            }
+        }
+
+        public RollPosition GetRoll() {
+            lock (Rolls) {
+                return Rolls.Count == 0 ?
+                    null : Rolls.Dequeue();
+            }
+        }
+
+        public void ResetRolls() {
+            lock (Rolls) {
+                while (Rolls.Count > 0) {
+                    Rolls.Dequeue();
+                }
+            }
+        }
+
+    }
+
     public class RollPosition {
         public RollPosition(string side, string locationNo, PanelState pnlState, decimal x, decimal y, decimal z, decimal rz) {
             X = x;
@@ -80,9 +106,6 @@ namespace yidascan.scanner {
 
         public const int DELAY = 5;
 
-        OPCClient client = null;
-        OPCParam param = null;
-
         public RobotHelper(string ip, string jobName) {
             rCtrl = new RobotControl.RobotControl(ip);
             rCtrl.Connect();
@@ -123,59 +146,28 @@ namespace yidascan.scanner {
             return b1["b1"] == "1";
         }
 
-        private void NotifyOpcSafePlace(string side) {
-            client.Write(side == "A" ? param.RobotCarryA.Signal : param.RobotCarryB.Signal, false);
-        }
-
-        private void NotifyOpcJobFinished(PanelState pState, string tolocation) {
-            switch (pState) {
-                case PanelState.HalfFull:
-                    client.Write(param.BAreaFloorFinish[tolocation], true);
-                    break;
-                case PanelState.Full:
-                    client.Write(param.BAreaPanelFinish[tolocation], true);
-                    break;
-                case PanelState.LessHalf:
-                default:
-                    break;
-            }
-        }
-
         public void JobLoop(ref bool isrun) {
             while (isrun) {
                 if (robotJobs.Rolls.Count > 0) {
                     while (isrun && IsBusy()) {
-                        Thread.Sleep(OPCClient.DELAY);
+                        Thread.Sleep(5);
                     }
 
                     var roll = robotJobs.GetRoll();
                     // 启动机器人动作。
                     WritePosition(roll);
+                    
+                    RunJob(JOB_NAME);
 
-                    lock (client) {
-                        // 等待板可放料
-                        while (isrun) {
-                            var v = client.ReadInt(param.BAreaPanelState[roll.ToLocation]);
-                            if (v == 2) { break; }
-                            Thread.Sleep(DELAY * 40); // 200 ms.
-                        }
+                    // 等待安全位置信号
+                    while (!IsSafePlace()) { Thread.Sleep(RobotHelper.DELAY * 10); }
+                    
 
-                        RunJob(JOB_NAME);
-
-                        // 等待安全位置信号
-                        while (!IsSafePlace()) { Thread.Sleep(RobotHelper.DELAY * 10); }
-
-                        // 告知OPC
-                        NotifyOpcSafePlace(roll.Side);
-
-                        // 等待完成信号
-                        while (IsBusy()) { Thread.Sleep(RobotHelper.DELAY * 10); }
-
-                        // 告知OPC
-                        NotifyOpcJobFinished(roll.PnlState, roll.ToLocation);
-                    }
-                    Thread.Sleep(RobotHelper.DELAY * 1000);
+                    // 等待完成信号
+                    while (IsBusy()) { Thread.Sleep(RobotHelper.DELAY * 10); }
+                    
                 }
+                Thread.Sleep(RobotHelper.DELAY * 1000);
             }
         }
 

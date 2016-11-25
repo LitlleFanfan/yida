@@ -104,15 +104,17 @@ namespace yidascan {
         private void StartRobotJobATask() {
             Task.Factory.StartNew(() => {
                 while (isrun) {
-                    // 等待布卷
-                    var r = (bool)opcClient.Read(opcParam.RobotCarryA.Signal);
-                    if (r) {
-                        // 加入机器人布卷队列。
-                        var code1 = opcClient.Read(opcParam.RobotCarryA.LCode1).ToString();
-                        var code2 = opcClient.Read(opcParam.RobotCarryA.LCode2).ToString();
-                        var fullcode = code1.PadLeft(6, '0') + code2.PadLeft(6, '0');
+                    lock (opcClient) {
+                        // 等待布卷
+                        var r = (bool)opcClient.Read(opcParam.RobotCarryA.Signal);
+                        if (r) {
+                            // 加入机器人布卷队列。
+                            var code1 = opcClient.Read(opcParam.RobotCarryA.LCode1).ToString();
+                            var code2 = opcClient.Read(opcParam.RobotCarryA.LCode2).ToString();
+                            var fullcode = code1.PadLeft(6, '0') + code2.PadLeft(6, '0');
 
-                        PushInQueue(fullcode, "A");
+                            PushInQueue(fullcode, "A");
+                        }
                     }
 
                     Thread.Sleep(100);
@@ -126,15 +128,17 @@ namespace yidascan {
         private void StartRobotJobBTask() {
             Task.Factory.StartNew(() => {
                 while (isrun) {
-                    // 等待布卷
-                    var r = (bool)opcClient.Read(opcParam.RobotCarryB.Signal);
-                    if (r) {
-                        // 加入机器人布卷队列。
-                        var code1 = opcClient.Read(opcParam.RobotCarryB.LCode1).ToString();
-                        var code2 = opcClient.Read(opcParam.RobotCarryB.LCode2).ToString();
-                        var fullcode = code1.PadLeft(6, '0') + code2.PadLeft(6, '0');
+                    lock (opcClient) {
+                        // 等待布卷
+                        var r = (bool)opcClient.Read(opcParam.RobotCarryB.Signal);
+                        if (r) {
+                            // 加入机器人布卷队列。
+                            var code1 = opcClient.Read(opcParam.RobotCarryB.LCode1).ToString();
+                            var code2 = opcClient.Read(opcParam.RobotCarryB.LCode2).ToString();
+                            var fullcode = code1.PadLeft(6, '0') + code2.PadLeft(6, '0');
 
-                        PushInQueue(fullcode, "B");
+                            PushInQueue(fullcode, "B");
+                        }
                     }
 
                     Thread.Sleep(100);
@@ -233,6 +237,7 @@ namespace yidascan {
             if (OpenPort(ref nscan1, CAMERA_1, FrmSet.pcfgScan1)) {
                 nscan1.logger = Logger;
                 nscan1.OnDataArrived += new NormalScan.DataArrivedEventHandler(nscan1_OnDataArrived);
+                // 启动相机读取线程。
                 nscan1._StartJob();
                 lblScanner.BackColor = Color.LightGreen;
                 logOpt.ViewInfo(nscan1.name + "ok.");
@@ -270,10 +275,10 @@ namespace yidascan {
                 ACAreaFinishTask();
                 BeforCacheTask();
 
-                StartRobotTask();
-                StartRobotJobATask();
-                StartRobotJobBTask();
-                StartAreaBPnlStateTask();
+                //StartRobotTask();
+                //StartRobotJobATask();
+                //StartRobotJobBTask();
+                //StartAreaBPnlStateTask();
             } else {
                 var msg = "启动设备失败！";
                 ShowWarning(msg);
@@ -624,7 +629,9 @@ namespace yidascan {
 
             var clothsize = new ClothRollSize();
             t = TimeCount.TimeIt(() => {
-                clothsize.getFromOPC(opcClient, opcParam);
+                lock (opcClient) {
+                    clothsize.getFromOPC(opcClient, opcParam);
+                }
             });
             const string ROLLSIZE_FMT = "布卷直径:{0};布卷长:{1};耗时:{2}ms;";
             var msg = string.Format(ROLLSIZE_FMT, clothsize.diameter, clothsize.length, t);
@@ -966,9 +973,9 @@ namespace yidascan {
 
         private void timer_message_Tick(object sender, EventArgs e) {
             var msgs = logOpt.msgCenter.GetAll();
-            if (msgs.Count > 0) {
-                lsvLog.Items.AddRange(msgs.ToArray());
-                lsvLog.SelectedIndex = lsvLog.Items.Count - 1;
+            msgs.Reverse();
+            foreach (var msg in msgs) {
+                lsvLog.Items.Insert(0, msg);
             }
         }
 

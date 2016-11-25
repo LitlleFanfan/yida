@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RobotControl
-{
-    public class Commands
-    {
+namespace RobotControl {
+    public class Commands {
         //Testing commands
         public const int CMD_SerialTest = -8;
         public const int CMD_FileTest = -7;
@@ -69,15 +67,13 @@ namespace RobotControl
 
     }
 
-    public enum PosVarType
-    {
+    public enum PosVarType {
         Robot = 5,
         Base = 6,
         Station = 7
     }
 
-    public enum PosType
-    {
+    public enum PosType {
         Pulse = 0,
         Base = 16,
         Robot = 17,
@@ -86,8 +82,7 @@ namespace RobotControl
         MasterTool = 20
     }
 
-    public enum VariableType
-    {
+    public enum VariableType {
         B = 1,
         I = 2,
         D = 3,
@@ -97,124 +92,102 @@ namespace RobotControl
         P_Station = 7
     }
 
-    public class PostionVar
-    {
+    public class PostionVar {
         decimal _sOrX;
 
-        public decimal sOrX
-        {
+        public decimal sOrX {
             get { return _sOrX; }
         }
 
-        public decimal SOrX
-        {
+        public decimal SOrX {
             get { return _sOrX / 1000; }
         }
         decimal _lOrY;
 
-        public decimal lOrY
-        {
+        public decimal lOrY {
             get { return _lOrY; }
         }
 
-        public decimal LOrY
-        {
+        public decimal LOrY {
             get { return _lOrY / 1000; }
         }
         decimal _uOrZ;
 
-        public decimal uOrZ
-        {
+        public decimal uOrZ {
             get { return _uOrZ; }
         }
 
-        public decimal UOrZ
-        {
+        public decimal UOrZ {
             get { return _uOrZ / 1000; }
         }
         decimal _bOrRx;
 
-        public decimal bOrRx
-        {
+        public decimal bOrRx {
             get { return _bOrRx; }
         }
 
-        public decimal BOrRx
-        {
+        public decimal BOrRx {
             get { return _bOrRx / 10000; }
         }
         decimal _rOrRy;
 
-        public decimal rOrRy
-        {
+        public decimal rOrRy {
             get { return _rOrRy; }
         }
 
-        public decimal ROrRy
-        {
+        public decimal ROrRy {
             get { return _rOrRy / 10000; }
         }
         decimal _tOrRz;
 
-        public decimal tOrRz
-        {
+        public decimal tOrRz {
             get { return _tOrRz; }
         }
 
-        public decimal TOrRz
-        {
+        public decimal TOrRz {
             get { return _tOrRz / 10000; }
         }
         decimal _axis7;
 
-        public decimal axis7
-        {
+        public decimal axis7 {
             get { return _axis7; }
         }
 
-        public decimal Axis7
-        {
+        public decimal Axis7 {
             get { return _axis7 / 1000; }
         }
         decimal _axis8;
 
-        public decimal axis8
-        {
+        public decimal axis8 {
             get { return _axis8; }
         }
 
-        public decimal Axis8
-        {
+        public decimal Axis8 {
             get { return _axis8; }
         }
         bool noFlip;
 
-        public bool NoFlip
-        {
+        public bool NoFlip {
             get { return noFlip; }
         }
         bool lowArm;
 
-        public bool LowArm
-        {
+        public bool LowArm {
             get { return lowArm; }
         }
         bool back;
 
-        public bool Back
-        {
+        public bool Back {
             get { return back; }
         }
         bool rGt180;
 
-        public bool RGt180
-        {
+        public bool RGt180 {
             get { return rGt180; }
         }
         bool tGt180;
 
-        public bool TGt180
-        {
+        public bool TGt180 {
             get { return tGt180; }
         }
 
@@ -227,8 +200,7 @@ namespace RobotControl
         /// <param name="rx">x角度</param>
         /// <param name="ry">y角度</param>
         /// <param name="rz">z角度</param>
-        public PostionVar(decimal x, decimal y, decimal z, decimal rx, decimal ry, decimal rz)
-        {
+        public PostionVar(decimal x, decimal y, decimal z, decimal rx, decimal ry, decimal rz) {
             _sOrX = x * 1000;
             _lOrY = y * 1000;
             _uOrZ = z * 1000;
@@ -246,19 +218,18 @@ namespace RobotControl
         /// <param name="rx">x角度</param>
         /// <param name="ry">y角度</param>
         /// <param name="rz">z角度</param>
-        public PostionVar(decimal x, decimal y, decimal z, decimal rz, decimal axi7)
-        {
-            _sOrX = x;
-            _lOrY = y;
-            _uOrZ = z;
+        public PostionVar(decimal x, decimal y, decimal z, decimal rz, decimal axi7) {
+            _sOrX = x * 1000;
+            _lOrY = y * 1000;
+            _uOrZ = z * 1000;
             _bOrRx = 1800000;
             _rOrRy = 0;
-            _tOrRz = rz;
-            _axis7 = axi7;
+            _tOrRz = rz * 10000;
+            _axis7 = axi7 * 1000;
         }
 
         /// <summary>
-        /// 坐标初始化（毫米）
+        /// 坐标初始化（微米）
         /// </summary>
         /// <param name="x">坐标x轴位置</param>
         /// <param name="y">坐标y轴位置</param>
@@ -274,8 +245,7 @@ namespace RobotControl
         /// <param name="rgt"></param>
         /// <param name="tgt"></param>
         public PostionVar(decimal x, decimal y, decimal z, decimal rx, decimal ry, decimal rz, decimal axi7, decimal axi8,
-            bool nf, bool la, bool b, bool rgt, bool tgt)
-        {
+            bool nf, bool la, bool b, bool rgt, bool tgt) {
             _sOrX = x;
             _lOrY = y;
             _uOrZ = z;
@@ -292,7 +262,7 @@ namespace RobotControl
         }
 
         /// <summary>
-        /// 坐标初始化（毫米）
+        /// 坐标初始化（毫米或微米）
         /// </summary>
         /// <param name="x">坐标x轴位置</param>
         /// <param name="y">坐标y轴位置</param>
@@ -301,10 +271,8 @@ namespace RobotControl
         /// <param name="ry">y角度</param>
         /// <param name="rz">z角度</param>
         /// <param name="isUser">单位（true:毫米;）</param>
-        internal PostionVar(decimal x, decimal y, decimal z, decimal rx, decimal ry, decimal rz, decimal axi7, bool isUser)
-        {
-            if (isUser)
-            {
+        internal PostionVar(decimal x, decimal y, decimal z, decimal rx, decimal ry, decimal rz, decimal axi7, bool isUser) {
+            if (isUser) {
                 _sOrX = x * 1000;
                 _lOrY = y * 1000;
                 _uOrZ = z * 1000;
@@ -312,9 +280,7 @@ namespace RobotControl
                 _rOrRy = ry * 10000;
                 _tOrRz = rz * 10000;
                 _axis7 = axi7 * 1000;
-            }
-            else
-            {
+            } else {
                 _sOrX = x;
                 _lOrY = y;
                 _uOrZ = z;

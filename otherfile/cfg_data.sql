@@ -143,3 +143,55 @@ INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B09','MicroWin.S7-1
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B10','MicroWin.S7-1200.NewItem64','BAreaPanelState','°å×´Ì¬£ÂÇø°åºÅ10');
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B11','MicroWin.S7-1200.NewItem65','BAreaPanelState','°å×´Ì¬£ÂÇø°åºÅ11');
 
+
+
+TRUNCATE  TABLE  robotparam
+
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('3','0','-156.732','179.9994','0.0000','163.8794',convert(datetime,'2016-09-12 15:20:43.883',121),convert(datetime,'2016-09-12 15:20:43.883',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('3','1','-208.638','-179.9994','0.0000','-16.0407',convert(datetime,'2016-09-12 15:23:14.297',121),convert(datetime,'2016-09-12 15:23:14.297',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('3','2','-208.638','18.0000','0.0000','74.1717',convert(datetime,'2016-09-12 15:24:08.067',121),convert(datetime,'2016-09-12 15:24:08.067',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('3','3','-208.638','18.0000','0.0000','-105.8441',convert(datetime,'2016-09-12 15:24:36.817',121),convert(datetime,'2016-09-12 15:24:36.817',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('4','0','2.779','179.9996','0.0000','163.2916',convert(datetime,'2016-09-12 15:25:38.033',121),convert(datetime,'2016-09-12 15:25:38.033',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('4','1','-45.117','-179.9996','0.0000','-16.8641',convert(datetime,'2016-09-12 15:27:50.117',121),convert(datetime,'2016-09-12 15:27:50.117',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('4','2','-45.117','18.0000','0.0000','73.2780',convert(datetime,'2016-09-12 15:28:53.187',121),convert(datetime,'2016-09-12 15:28:53.187',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('4','3','-45.117','18.0000','0.0000','-106.6648',convert(datetime,'2016-09-12 15:29:16.810',121),convert(datetime,'2016-09-12 15:29:16.810',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('5','0','169.716','179.9998','0.0000','164.8277',convert(datetime,'2016-09-12 15:32:56.643',121),convert(datetime,'2016-09-12 15:32:56.643',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('5','1','118.049','-179.9998','0.0000','15.3170',convert(datetime,'2016-09-12 15:33:55.913',121),convert(datetime,'2016-09-12 15:33:55.913',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('5','2','118.049','18.0000','0.0000','73.4954',convert(datetime,'2016-09-12 15:34:34.300',121),convert(datetime,'2016-09-12 15:34:34.300',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('5','3','118.049','18.0000','0.0000','-106.5944',convert(datetime,'2016-09-12 15:35:02.233',121),convert(datetime,'2016-09-12 15:35:02.233',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('6','0','326.793','179.9993','0.0000','163.6130',convert(datetime,'2016-09-12 15:35:41.067',121),convert(datetime,'2016-09-12 15:35:41.067',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('6','1','282.884','-179.9993','0.0000','-16.3370',convert(datetime,'2016-09-12 15:35:46.553',121),convert(datetime,'2016-09-12 15:35:46.553',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('6','2','282.884','-179.9998','0.0000','73.3893',convert(datetime,'2016-09-12 15:35:50.203',121),convert(datetime,'2016-09-12 15:35:50.203',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('6','3','282.884','179.9998','0.0000','-106.3889',convert(datetime,'2016-09-12 15:35:57.177',121),convert(datetime,'2016-09-12 15:35:57.177',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('7','0','496.040','179.9995','0.0000','163.6440',convert(datetime,'2016-09-12 15:36:02.307',121),convert(datetime,'2016-09-12 15:36:02.307',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('7','1','282.884','-179.9995','0.0000','-16.3379',convert(datetime,'2016-09-12 15:36:04.970',121),convert(datetime,'2016-09-12 15:36:04.970',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('7','2','282.884','18.0000','0.0000','74.1212',convert(datetime,'2016-09-12 15:36:08.643',121),convert(datetime,'2016-09-12 15:36:08.643',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('7','3','282.884','18.0000','0.0000','-105.8155',convert(datetime,'2016-09-12 15:36:12.107',121),convert(datetime,'2016-09-12 15:36:12.107',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('8','0','0.000','0.0000','0.0000','0.0000',convert(datetime,'2016-09-12 15:36:15.540',121),convert(datetime,'2016-09-12 15:36:15.540',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('8','1','0.000','0.0000','0.0000','0.0000',convert(datetime,'2016-09-12 15:36:19.423',121),convert(datetime,'2016-09-12 15:36:19.423',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('8','2','0.000','0.0000','0.0000','0.0000',convert(datetime,'2016-09-12 15:36:23.987',121),convert(datetime,'2016-09-12 15:36:23.987',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('8','3','0.000','0.0000','0.0000','0.0000',convert(datetime,'2016-09-12 15:36:30.593',121),convert(datetime,'2016-09-12 15:36:30.593',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('9','0','494.255','179.9997','0.0000','-15.6398',convert(datetime,'2016-09-12 15:36:38.770',121),convert(datetime,'2016-09-12 15:36:38.770',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('9','1','537.344','-179.9997','0.0000','163.5000',convert(datetime,'2016-09-12 15:36:42.060',121),convert(datetime,'2016-09-12 15:36:42.060',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('9','2','537.344','179.9999','0.0000','74.5791',convert(datetime,'2016-09-12 15:36:44.943',121),convert(datetime,'2016-09-12 15:36:44.943',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('9','3','537.344','-179.9999','0.0000','-106.0511',convert(datetime,'2016-09-12 15:36:49.270',121),convert(datetime,'2016-09-12 15:36:49.270',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('10','0','327.804','-178.3657','0.0000','-16.4587',convert(datetime,'2016-09-12 15:36:56.187',121),convert(datetime,'2016-09-12 15:36:56.187',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('10','1','378.066','178.3654','0.0000','163.6117',convert(datetime,'2016-09-12 15:37:00.200',121),convert(datetime,'2016-09-12 15:37:00.200',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('10','2','378.066','179.7402','0.0000','73.2842',convert(datetime,'2016-09-12 15:37:05.233',121),convert(datetime,'2016-09-12 15:37:05.233',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('10','3','378.066','179.7500','0.0000','-106.3738',convert(datetime,'2016-09-12 15:37:08.593',121),convert(datetime,'2016-09-12 15:37:08.593',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('11','0','365.760','179.9999','0.0000','-16.0870',convert(datetime,'2016-09-12 15:37:13.087',121),convert(datetime,'2016-09-12 15:37:13.087',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('11','1','300.107','-179.9999','0.0000','163.9318',convert(datetime,'2016-09-12 15:37:16.280',121),convert(datetime,'2016-09-12 15:37:16.280',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('11','2','300.107','179.9999','0.0000','74.1490',convert(datetime,'2016-09-12 15:37:18.870',121),convert(datetime,'2016-09-12 15:37:18.870',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('11','3','300.107','-179.9999','0.0000','-106.0154',convert(datetime,'2016-09-12 15:37:21.457',121),convert(datetime,'2016-09-12 15:37:21.457',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('1','0','0.000','0.0000','0.0000','0.0000',convert(datetime,'2016-09-12 15:37:32.843',121),convert(datetime,'2016-09-12 15:37:32.843',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('1','1','0.000','0.0000','0.0000','0.0000',convert(datetime,'2016-09-12 15:37:35.600',121),convert(datetime,'2016-09-12 15:37:35.600',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('1','2','0.000','0.0000','0.0000','0.0000',convert(datetime,'2016-09-12 15:37:37.800',121),convert(datetime,'2016-09-12 15:37:37.800',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('1','3','0.000','0.0000','0.0000','0.0000',convert(datetime,'2016-09-12 15:37:40.030',121),convert(datetime,'2016-09-12 15:37:40.030',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('2','0','0.000','0.0000','0.0000','0.0000',convert(datetime,'2016-09-12 15:37:43.570',121),convert(datetime,'2016-09-12 15:37:43.570',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('2','1','0.000','0.0000','0.0000','0.0000',convert(datetime,'2016-09-12 15:37:46.010',121),convert(datetime,'2016-09-12 15:37:46.010',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('2','2','0.000','0.0000','0.0000','0.0000',convert(datetime,'2016-09-12 15:37:48.147',121),convert(datetime,'2016-09-12 15:37:48.147',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('2','3','0.000','0.0000','0.0000','0.0000',convert(datetime,'2016-09-12 15:37:51.290',121),convert(datetime,'2016-09-12 15:37:51.290',121),NULL)
+
+
+
+

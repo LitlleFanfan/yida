@@ -35,15 +35,4 @@ public class ClothRollSize
         diameter = decimal.Parse(d.ToString());
         length = decimal.Parse(l.ToString());
     }
-
-    /// <summary>
-    /// 和void getFromOPC函数等价。
-    /// </summary>
-    /// <returns></returns>
-    public static ClothRollSize fromOPC(OPCClient client, OPCParam param)
-    {
-        var size = new ClothRollSize();
-        size.getFromOPC(client, param);
-        return size;
-    }
 }

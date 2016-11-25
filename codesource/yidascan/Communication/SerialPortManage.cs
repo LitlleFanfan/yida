@@ -153,5 +153,9 @@ namespace ProduceComm
         {
             return BaudRate;
         }
+
+        public string ReadLine(int? timeout = default(int?)) {
+            return string.Empty;
+        }
     }
 }
