@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 using yidascan.DataAccess;
 
-namespace yidascan.scanner {
+namespace yidascan {
     public enum PanelState {
         LessHalf,
         HalfFull,
@@ -17,7 +17,7 @@ namespace yidascan.scanner {
     }
 
     public class RobotJobQueue {
-        public Queue<RollPosition> Rolls { get; set; }
+        public Queue<RollPosition> Rolls = new Queue<RollPosition>();
 
         public void AddRoll(RollPosition roll) {
             lock (Rolls) {
@@ -100,17 +100,18 @@ namespace yidascan.scanner {
 
     public class RobotHelper : IDisposable {
         private string JOB_NAME = "";
-
-        RobotControl.RobotControl rCtrl;
+        MessageCenter msg = null;
+        public RobotControl.RobotControl rCtrl;
         public static RobotJobQueue robotJobs = new RobotJobQueue();
 
         public const int DELAY = 5;
 
-        public RobotHelper(string ip, string jobName) {
+        public RobotHelper(string ip, string jobName, MessageCenter _msg) {
             rCtrl = new RobotControl.RobotControl(ip);
             rCtrl.Connect();
             rCtrl.ServoPower(true);
             JOB_NAME = jobName;
+            msg = _msg;
         }
 
         public void WritePosition(RollPosition rollPos) {
@@ -148,25 +149,31 @@ namespace yidascan.scanner {
 
         public void JobLoop(ref bool isrun) {
             while (isrun) {
+                msg.Push("JobLoop Head");
                 if (robotJobs.Rolls.Count > 0) {
+                    msg.Push(string.Format("Jobs list count:{0}", robotJobs.Rolls.Count));
+                    RollPosition roll;
+                    lock (robotJobs) {
+                        roll = robotJobs.GetRoll();
+                    }
                     while (isrun && IsBusy()) {
                         Thread.Sleep(5);
                     }
 
-                    var roll = robotJobs.GetRoll();
                     // 启动机器人动作。
                     WritePosition(roll);
-                    
+
                     RunJob(JOB_NAME);
 
                     // 等待安全位置信号
                     while (!IsSafePlace()) { Thread.Sleep(RobotHelper.DELAY * 10); }
-                    
+
 
                     // 等待完成信号
                     while (IsBusy()) { Thread.Sleep(RobotHelper.DELAY * 10); }
-                    
+
                 }
+                msg.Push("JobLoop End");
                 Thread.Sleep(RobotHelper.DELAY * 1000);
             }
         }

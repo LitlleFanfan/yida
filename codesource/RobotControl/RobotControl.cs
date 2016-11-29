@@ -374,7 +374,7 @@ namespace RobotControl
                         if (str.Contains("Start") || str.Contains("Hold"))
                         {
                             string[] stmp = str.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                            ret.Add(stmp[0], stmp[1] == "ON");
+                            ret.Add(stmp[0], stmp[1] == "True");
                         }
                     }
                 }
@@ -418,6 +418,14 @@ namespace RobotControl
         public void ClearError()
         {
             Send(string.Format("cmd={0};a1=0;a2=0;a3=0;a4=0;a5=0;", Commands.CMD_MpCancelError));
+        }
+
+        /// <summary>
+        /// 暂停
+        /// </summary>
+        /// <param name="on">开：true；关：false；</param>
+        public void Hold(bool on) {
+            Send(string.Format("cmd={0};a1={1};a2=0;a3=0;a4=0;a5=0;", Commands.CMD_MpHold, on ? 0 : 1));
         }
 
         /// <summary>

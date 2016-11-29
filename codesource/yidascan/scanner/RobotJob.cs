@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace yidascan.scanner {
+namespace yidascan {
     public class RobotJobQueue {
-        public Queue<RollPosition> Rolls { get; set; }
+        public Queue<RollPosition> Rolls = new Queue<RollPosition>();
 
         public void AddRoll(RollPosition roll) {
             lock (Rolls) {

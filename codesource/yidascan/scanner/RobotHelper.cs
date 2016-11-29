@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 using yidascan.DataAccess;
 
-namespace yidascan.scanner {
+namespace yidascan {
     public enum PanelState {
         LessHalf,
         HalfFull,

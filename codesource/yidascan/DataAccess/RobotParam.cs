@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿using System.Data;
 
-using yidascan.scanner;
-
-namespace yidascan.DataAccess
-{
+namespace yidascan.DataAccess {
     public class RobotParam
     {
         public int PanelIndexNo;

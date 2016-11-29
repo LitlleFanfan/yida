@@ -12,8 +12,6 @@ using System.Threading;
 using System.Linq;
 using System.Drawing;
 
-using yidascan.scanner;
-
 namespace yidascan {
     public partial class FrmMain : Form {
         private DataTable dtview = new DataTable();
@@ -973,7 +971,7 @@ namespace yidascan {
 
         private void timer_message_Tick(object sender, EventArgs e) {
             var msgs = logOpt.msgCenter.GetAll();
-            msgs.Reverse();
+            //msgs.Reverse();
             foreach (var msg in msgs) {
                 lsvLog.Items.Insert(0, msg);
             }
