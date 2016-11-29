@@ -51,6 +51,8 @@ namespace yidascan {
             ChangeAngle = x + y > 0;
 
             ToLocation = locationNo;
+            LocationNo = int.Parse(locationNo.Substring(1, 2));
+
             Side = side;
             PnlState = pnlState;
 
@@ -139,6 +141,7 @@ namespace yidascan {
 
         public bool IsBusy() {
             Dictionary<string, bool> status = rCtrl.GetPlayStatus();
+            msg.Push(string.Format("{0}", Newtonsoft.Json.JsonConvert.SerializeObject(status)));
             return (status["Start"] || status["Hold"]);
         }
 
@@ -156,8 +159,11 @@ namespace yidascan {
                     lock (robotJobs) {
                         roll = robotJobs.GetRoll();
                     }
+
+                    msg.Push(string.Format("Jobs list count:{0} x:{1};y:{2};z:{3};rz:{4};base:{5};", robotJobs.Rolls.Count, roll.X, roll.Y, roll.Z, roll.Rz, roll.Target.Axis7));
+
                     while (isrun && IsBusy()) {
-                        Thread.Sleep(5);
+                        Thread.Sleep(RobotHelper.DELAY);
                     }
 
                     // 启动机器人动作。
@@ -166,11 +172,15 @@ namespace yidascan {
                     RunJob(JOB_NAME);
 
                     // 等待安全位置信号
-                    while (!IsSafePlace()) { Thread.Sleep(RobotHelper.DELAY * 10); }
+                    //while (!IsSafePlace()) { Thread.Sleep(RobotHelper.DELAY * 10); }
 
+                    Thread.Sleep(RobotHelper.DELAY * 1000);
 
                     // 等待完成信号
-                    while (IsBusy()) { Thread.Sleep(RobotHelper.DELAY * 10); }
+                    while (IsBusy()) {
+                        msg.Push("Working");
+                        Thread.Sleep(RobotHelper.DELAY * 100);
+                    }
 
                 }
                 msg.Push("JobLoop End");

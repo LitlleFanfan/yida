@@ -21,3 +21,4 @@ E:\ljework\yida\codesource\RobotTest\obj\Release\RobotTest.Properties.Resources.
 E:\ljework\yida\codesource\RobotTest\obj\Release\RobotTest.csproj.GenerateResource.Cache
 E:\ljework\yida\codesource\RobotTest\obj\Release\RobotTest.exe
 E:\ljework\yida\codesource\RobotTest\obj\Release\RobotTest.pdb
+E:\ljework\yida\codesource\RobotTest\bin\Release\Newtonsoft.Json.dll

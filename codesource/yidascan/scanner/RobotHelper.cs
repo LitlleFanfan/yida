@@ -25,6 +25,8 @@ namespace yidascan {
             ChangeAngle = x + y > 0;
 
             ToLocation = locationNo;
+            LocationNo = int.Parse(locationNo.Substring(1, 2));
+
             Side = side;
             PnlState = pnlState;
 
