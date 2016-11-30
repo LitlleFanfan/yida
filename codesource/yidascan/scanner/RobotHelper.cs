@@ -34,11 +34,12 @@ namespace yidascan {
             RobotParam origin = RobotParam.GetOrigin(tmp);
             Origin = new PostionVar(0, 0, 0, origin.Rx, origin.Ry, origin.Rz + rz);
 
-            int baseindex = CalculateBaseIndex(x, y, rz);
-            //x = baseindex == 0 ? 0 : ((decimal)(dtOrigin.Rows[0]["Base"]) - (decimal)(dtPoint.Rows[0]["Base"]));
-            // 基座
-            RobotParam point = RobotParam.GetPoint(tmp, baseindex);
-            Target = new PostionVar(x, y, z, point.Rz + rz, point.Base);
+            //int baseindex = CalculateBaseIndex(x, y, rz);
+            ////x = baseindex == 0 ? 0 : ((decimal)(dtOrigin.Rows[0]["Base"]) - (decimal)(dtPoint.Rows[0]["Base"]));
+            //// 基座
+            //RobotParam point = RobotParam.GetPoint(tmp, baseindex);
+            //Target = new PostionVar(x, y, z, point.Rz + rz, point.Base);
+            Target = new PostionVar(x, y, z, origin.Rx, origin.Ry, origin.Rz + rz);
         }
 
         private int CalculateBaseIndex(decimal x, decimal y, decimal rz) {
@@ -98,8 +99,7 @@ namespace yidascan {
 
             // 原点高位旋转
             rCtrl.SetPostion(RobotControl.PosVarType.Robot,
-                rollPos.Origin,
-                0, RobotControl.PosType.User, 0, rollPos.LocationNo);
+                rollPos.Origin, 30, RobotControl.PosType.User, 0, rollPos.LocationNo);
 
             //基座
             rCtrl.SetPostion(RobotControl.PosVarType.Base,
@@ -108,7 +108,7 @@ namespace yidascan {
 
             // 目标位置
             rCtrl.SetPostion(RobotControl.PosVarType.Robot,
-               rollPos.Target, 0, RobotControl.PosType.User, 0, rollPos.LocationNo);
+               rollPos.Target, 31, RobotControl.PosType.User, 0, rollPos.LocationNo);
         }
 
         public void RunJob(string jobName) {
@@ -117,12 +117,16 @@ namespace yidascan {
 
         public bool IsBusy() {
             Dictionary<string, bool> status = rCtrl.GetPlayStatus();
-            return (status["Start"] || status["Hold"]);
+            if (status.Count == 0) { return true; } else {
+                return (status["Start"] || status["Hold"]);
+            }
         }
 
         private bool IsSafePlace() {
             Dictionary<string, string> b1 = rCtrl.GetVariables(VariableType.B, 1, 1);
-            return b1["b1"] == "1";
+            if (b1.Count == 0) { return false; } else {
+                return b1["b1"] == "1";
+            }
         }
 
         private void NotifyOpcSafePlace(string side) {
@@ -179,6 +183,16 @@ namespace yidascan {
                     Thread.Sleep(RobotHelper.DELAY * 1000);
                 }
             }
+        }
+
+        public Dictionary<string, string> AlarmTask() {
+            Dictionary<string, bool> s = rCtrl.GetAlarmStatus();
+            if (s.Count != 0) {
+                if (s["Error"] || s["Alarm"]) {
+                    return rCtrl.GetAlarmCode();
+                }
+            }
+            return new Dictionary<string, string>();
         }
 
         public void Dispose() {

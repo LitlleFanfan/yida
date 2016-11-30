@@ -39,3 +39,4 @@ E:\ljework\yida\codesource\yidascan\bin\Release\RobotControl.dll
 E:\ljework\yida\codesource\yidascan\bin\Release\RobotControl.pdb
 E:\ljework\yida\codesource\yidascan\obj\x86\Release\yidascan.csprojResolveAssemblyReference.cache
 E:\ljework\yida\codesource\yidascan\bin\Release\help\index.html
+E:\ljework\yida\codesource\yidascan\obj\x86\Release\yidascan.WinDeleteLabel.resources

@@ -170,6 +170,16 @@ namespace yidascan.DataAccess
 
         public string RobotRunState;
 
+        /// <summary>
+        /// OPC报警地址
+        /// </summary>
+        public string ALarmSlot;
+
+        /// <summary>
+        /// 机器人报警地址。
+        /// </summary>
+        public string RobotAlarmSlot;
+
         public Dictionary<string, LCodeSignal> ACAreaPanelFinish;
 
         public Dictionary<string, string> BAreaPanelFinish;

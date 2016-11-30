@@ -21,9 +21,11 @@ namespace yidascan {
         bool isrun = false;
         OPCParam opcParam = new OPCParam();
         DataTable dtopc = new DataTable();
-        LogOpreate logOpt;
+        public LogOpreate logOpt;
 
         private DateTime StartTime;
+
+        private decimal zStart = -1600;
 
         // mutex to ensure securely calling opc.
         Mutex OPC_IDLE = new Mutex();
@@ -160,14 +162,19 @@ namespace yidascan {
             var ar = (from item in ar_s select decimal.Parse(item)).ToList();
             decimal x = 0; decimal y = 0;
 
-            if (ar[1] > 0) {
-                x = x + ar[2] * 1000;
+            if (ar[1] == 0) {
+                x = ar[2];
+                y = 0;
             } else {
-                y = ar[2] * 1000;
+                x = 0;
+                y = ar[2];
             }
 
-            var z = ar[0];
+            var z = ar[0] + zStart;
             var rz = ar[1];
+            if (ar[2] > 0) {
+                rz = rz * -1;
+            }
             var roll = new RollPosition(side, label.ToLocation, state, x, y, z, rz);
             RobotHelper.robotJobs.AddRoll(roll);
         }
@@ -206,7 +213,7 @@ namespace yidascan {
 
         private void BindDgv() {
             dgvData.DataSource = dtview.DefaultView;
-            lblCount.Text = dtview.DefaultView.Count.ToString();
+            RefreshCounter();
 
             dtopc.DefaultView.RowFilter = string.Format("IndexNo<15");
         }
@@ -264,6 +271,8 @@ namespace yidascan {
 
             SetButtonState(true);
             logOpt.ViewInfo(string.Format("运行"));
+
+            PanelGen.Init(dtpDate.Value);
 
             StartScanner();
             isrun = true;
@@ -529,6 +538,11 @@ namespace yidascan {
             NotifyWeigh();
         }
 
+        /// <summary>
+        /// 手工称重函数。界面按钮调用此函数。
+        /// </summary>
+        /// <param name="handwork"></param>
+        /// <returns></returns>
         private bool NotifyWeigh(bool handwork = true) {
             var re = CallWebApi.Post(clsSetting.ToWeight,
                 new Dictionary<string, string>());
@@ -609,6 +623,8 @@ namespace yidascan {
                     txtLableCode1.Enabled = true;
                     txtLableCode1.Focus();
                 }
+            } else if (txtLableCode1.Text.Length > 12) {
+                txtLableCode1.Text = txtLableCode1.Text.Substring(0, 12);
             }
         }
 
@@ -657,8 +673,14 @@ namespace yidascan {
                 t = TimeCount.TimeIt(() => {
                     opcClient.Write(opcParam.ScanParam.ToLocationArea, clsSetting.AreaNo[lc.ToLocation.Substring(0, 1)]);
                     opcClient.Write(opcParam.ScanParam.ToLocationNo, lc.ToLocation.Substring(1, 2));
-                    opcClient.Write(opcParam.ScanParam.ScanLable1, lc.LCode.Substring(0, 6));
-                    opcClient.Write(opcParam.ScanParam.ScanLable2, lc.LCode.Substring(6, 6));
+
+                    // write label back to opc.
+                    var lcode1 = lc.LCode.Substring(0, 6);
+                    var lcode2 = lc.LCode.Substring(6, 6);
+                    opcClient.Write(opcParam.ScanParam.ScanLable1, lcode1);
+                    opcClient.Write(opcParam.ScanParam.ScanLable2, lcode2);
+                    logOpt.ViewInfo(String.Format("标签写回OPC，{0} {1}", lcode1, lcode2));
+
                     opcClient.Write(opcParam.ScanParam.CameraNo, scanNo);
                     opcClient.Write(opcParam.ScanParam.ScanState, true);
                 });
@@ -666,6 +688,7 @@ namespace yidascan {
 
                 if (LableCode.Add(lc)) {
                     ViewAddLable(lc);
+                    RefreshCounter();
                 } else {
                     ShowWarning("程序异常");
                 }
@@ -676,7 +699,7 @@ namespace yidascan {
             LableCode lc = LableCode.QueryByLCode(lCode);
             if (lc == null) { return false; }
 
-            lcb.GetPanelNo(lc, dtpDate.Value, cmbShiftNo.SelectedIndex);
+            lcb.GetPanelNo(lc);
 
             LableCode.Update(lc);
 
@@ -706,7 +729,7 @@ namespace yidascan {
 
                 if (lcs == null || lcs.Count == 0) {
                     // 产生新板号赋予当前标签。
-                    lcb.GetPanelNo(lc, dtpDate.Value, cmbShiftNo.SelectedIndex);
+                    lcb.GetPanelNo(lc);
                     LableCode.Update(lc);
                     cState = CacheState.Cache;
 
@@ -785,9 +808,15 @@ namespace yidascan {
                 dtview.Rows.InsertAt(dr, 0);
 
                 dgvData.FirstDisplayedScrollingRowIndex = 0;
-                lblCount.Text = dtview.DefaultView.Count.ToString();
             }
             txtLableCode1.Text = string.Empty;
+        }
+
+        /// <summary>
+        /// 根据dtview的行数，来刷新计数器的值。
+        /// </summary>
+        public void RefreshCounter() {
+            lblCount.Text = dtview.DefaultView.Count.ToString();
         }
 
         private string GetLocation(string code, bool handwork) {
@@ -881,31 +910,11 @@ namespace yidascan {
             System.Diagnostics.Process.Start(path);
         }
 
-        private void txtDelLCode_Enter(object sender, EventArgs e) {
-            if (txtDelLCode.Text == "请输入要删除的标签号")
-                txtDelLCode.Text = "";
-        }
-
-        private void txtDelLCode_Leave(object sender, EventArgs e) {
-            if (string.IsNullOrEmpty(txtDelLCode.Text.Trim()))
-                txtDelLCode.Text = "请输入要删除的标签号";
-        }
-
-        private void txtDelLCode_KeyPress(object sender, KeyPressEventArgs e) {
-            if (e.KeyChar == '\r') {
-                string code = txtDelLCode.Text.Trim();
-                if (code.Length < 12) {
-                    return;
-                }
-                btnDelete_Click(null, null);
-            }
-        }
-
         /// <summary>
         /// 从窗口的dtview控件中，删除含有code的那一行。
         /// </summary>
         /// <param name="code"></param>
-        private void RemoveRowFromView(string code) {
+        public void RemoveRowFromView(string code) {
             dtview.DefaultView.RowFilter = string.Format("Code='{0}'", code);
             for (int i = 0; i < dtview.DefaultView.Count; i++) {
                 DataRow r = dtview.DefaultView[i].Row;
@@ -937,31 +946,6 @@ namespace yidascan {
             return r == DialogResult.Yes;
         }
 
-        private void btnDelete_Click(object sender, EventArgs e) {
-            if (txtDelLCode.Text.Trim().Length < 12) {
-                ShowWarning("删除号码长度不正确");
-                return;
-            }
-
-            string code = txtDelLCode.Text.Trim().Substring(0, 12);
-
-            //提示用户确认。
-            var question = string.Format("您确定要删除标签[{0}]吗？", code);
-            if (!confirm(question)) { return; }
-
-            // 删除号码。
-            if (LableCode.Delete(code)) {
-                RemoveRowFromView(code);
-                lblCount.Text = dtview.DefaultView.Count.ToString();
-                WriteLabelCodeToOpc(code);
-                logOpt.ViewInfo(string.Format("删除标签{0}成功", code));
-            } else {
-                logOpt.ViewInfo(string.Format("删除标签{0}失败", code));
-            }
-
-            txtDelLCode.Text = string.Empty;
-
-        }
         private void btnReset_Click(object sender, EventArgs e) {
             lock (opcClient) {
                 opcClient.Write(opcParam.ScanParam.ScanState, true);
@@ -971,15 +955,43 @@ namespace yidascan {
 
         private void timer_message_Tick(object sender, EventArgs e) {
             var msgs = logOpt.msgCenter.GetAll();
-            //msgs.Reverse();
+
             foreach (var msg in msgs) {
                 lsvLog.Items.Insert(0, msg);
+
+                // 显示的总条数超过1000条。
+                var len = lsvLog.Items.Count;
+                if (len > 1000) {
+                    lsvLog.Items.RemoveAt(len - 1);
+                }
             }
         }
 
         private void btnHelp_Click(object sender, EventArgs e) {
             var path = System.IO.Path.Combine(Application.StartupPath, @"help\index.html");
             System.Diagnostics.Process.Start(path);
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e) {
+            var w = new WinDeleteLabel();
+            w.mainwin = this;
+            w.ShowDialog();
+        }
+
+        /// <summary>
+        /// 发送报警信号到OPC。
+        /// </summary>
+        /// <param name="value">报警信号的值。</param>
+        private void AlarmToOPC(object value) {
+            opcClient.Write(opcParam.ALarmSlot, value);
+        }
+
+        /// <summary>
+        /// 发送机器人报警信号给OPC。
+        /// </summary>
+        /// <param name="value">报警信号的值。</param>
+        private void RobotAlarmToOpc(object value) {
+            opcClient.Write(opcParam.RobotAlarmSlot, value);
         }
     }
 }

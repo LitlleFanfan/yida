@@ -60,11 +60,7 @@ namespace yidascan {
             RobotParam origin = RobotParam.GetOrigin(tmp);
             Origin = new PostionVar(0, 0, 0, origin.Rx, origin.Ry, origin.Rz + rz);
 
-            int baseindex = CalculateBaseIndex(x, y, rz);
-            //x = baseindex == 0 ? 0 : ((decimal)(dtOrigin.Rows[0]["Base"]) - (decimal)(dtPoint.Rows[0]["Base"]));
-            // 基座
-            RobotParam point = RobotParam.GetPoint(tmp, baseindex);
-            Target = new PostionVar(x, y, z, point.Rz + rz, point.Base);
+            Target = new PostionVar(x, y, z, origin.Rx, origin.Ry, origin.Rz + rz);
         }
 
         private int CalculateBaseIndex(decimal x, decimal y, decimal rz) {
@@ -120,19 +116,21 @@ namespace yidascan {
             rCtrl.SetVariables(RobotControl.VariableType.B, 10, 1, rollPos.ChangeAngle ? "1" : "0");
             rCtrl.SetVariables(RobotControl.VariableType.B, 0, 1, rollPos.LocationNo.ToString());
 
+            msg.Push(string.Format("Origin: {0}", Newtonsoft.Json.JsonConvert.SerializeObject(rollPos.Origin)));
+            msg.Push(string.Format("Target: {0}", Newtonsoft.Json.JsonConvert.SerializeObject(rollPos.Target)));
+
             // 原点高位旋转
             rCtrl.SetPostion(RobotControl.PosVarType.Robot,
-                rollPos.Origin,
-                0, RobotControl.PosType.User, 0, rollPos.LocationNo);
+                rollPos.Origin, 30, RobotControl.PosType.User, 0, rollPos.LocationNo);
 
-            //基座
+            ////基座
             rCtrl.SetPostion(RobotControl.PosVarType.Base,
                 new RobotControl.PostionVar(rollPos.Target.axis7, 0, 0, 0, 0),
                 0, RobotControl.PosType.Robot, 0, 0);
 
             // 目标位置
             rCtrl.SetPostion(RobotControl.PosVarType.Robot,
-               rollPos.Target, 0, RobotControl.PosType.User, 0, rollPos.LocationNo);
+               rollPos.Target, 31, RobotControl.PosType.User, 0, rollPos.LocationNo);
         }
 
         public void RunJob(string jobName) {
@@ -142,16 +140,20 @@ namespace yidascan {
         public bool IsBusy() {
             Dictionary<string, bool> status = rCtrl.GetPlayStatus();
             msg.Push(string.Format("{0}", Newtonsoft.Json.JsonConvert.SerializeObject(status)));
-            return (status["Start"] || status["Hold"]);
+            if (status.Count == 0) { return true; } else {
+                return (status["Start"] || status["Hold"]);
+            }
         }
 
         private bool IsSafePlace() {
             Dictionary<string, string> b1 = rCtrl.GetVariables(VariableType.B, 1, 1);
-            return b1["b1"] == "1";
+            if (b1.Count == 0) { return false; } else {
+                return b1["b1"] == "1";
+            }
         }
 
-        public void JobLoop(ref bool isrun) {
-            while (isrun) {
+        public void JobLoop(ref bool isrun, ref bool hold) {
+            while (isrun && !hold) {
                 msg.Push("JobLoop Head");
                 if (robotJobs.Rolls.Count > 0) {
                     msg.Push(string.Format("Jobs list count:{0}", robotJobs.Rolls.Count));
@@ -162,7 +164,7 @@ namespace yidascan {
 
                     msg.Push(string.Format("Jobs list count:{0} x:{1};y:{2};z:{3};rz:{4};base:{5};", robotJobs.Rolls.Count, roll.X, roll.Y, roll.Z, roll.Rz, roll.Target.Axis7));
 
-                    while (isrun && IsBusy()) {
+                    while (isrun && !hold && IsBusy()) {
                         Thread.Sleep(RobotHelper.DELAY);
                     }
 
@@ -172,18 +174,30 @@ namespace yidascan {
                     RunJob(JOB_NAME);
 
                     // 等待安全位置信号
-                    //while (!IsSafePlace()) { Thread.Sleep(RobotHelper.DELAY * 10); }
+                    //while (!IsSafePlace() && !hold) { Thread.Sleep(RobotHelper.DELAY * 10); }
 
                     Thread.Sleep(RobotHelper.DELAY * 1000);
 
                     // 等待完成信号
-                    while (IsBusy()) {
+                    while (IsBusy() && !hold) {
                         msg.Push("Working");
                         Thread.Sleep(RobotHelper.DELAY * 100);
                     }
 
                 }
                 msg.Push("JobLoop End");
+                Thread.Sleep(RobotHelper.DELAY * 1000);
+            }
+        }
+
+        public void AlarmTask(ref bool isrun, ref bool hold) {
+            while (isrun && !hold) {
+                Dictionary<string, bool> s = rCtrl.GetAlarmStatus();
+                if (s.Count != 0) {
+                    if (s["Error"] || s["Alarm"]) {
+                        msg.Push(string.Format("{0}", Newtonsoft.Json.JsonConvert.SerializeObject(rCtrl.GetAlarmCode())));
+                    }
+                }
                 Thread.Sleep(RobotHelper.DELAY * 1000);
             }
         }

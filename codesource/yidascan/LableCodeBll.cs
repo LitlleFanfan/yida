@@ -132,22 +132,23 @@ namespace yidascan
             return result;
         }
 
-        public void GetPanelNo(LableCode lc, DateTime dtime, int shiftNo)
+        public void GetPanelNo(LableCode lc)
         {
-            string panelNo = NewPanelNo(dtime, shiftNo);
+            // string panelNo = NewPanelNo(dtime, shiftNo);
+            string panelNo = PanelGen.NewPanelNo();
             lc.PanelNo = panelNo;
             lc.FloorIndex = 0;
             lc.Floor = 1;
             lc.Coordinates = "";
         }
 
-        private string NewPanelNo(DateTime dtime, int shiftNo)
-        {
-            string panelNo = LableCode.GetLastPanelNo(string.Format("{0}", dtime.ToString(clsSetting.LABEL_CODE_DATE_FORMAT)));
-            panelNo = string.IsNullOrEmpty(panelNo) 
-                ? string.Format("{0}{1}", dtime.ToString(clsSetting.LABEL_CODE_DATE_FORMAT), "0001") 
-                : (decimal.Parse(panelNo) + 1).ToString();
-            return panelNo;
-        }
+        //private string NewPanelNo(DateTime dtime, int shiftNo)
+        //{
+        //    string panelNo = LableCode.GetLastPanelNo(string.Format("{0}", dtime.ToString(clsSetting.LABEL_CODE_DATE_FORMAT)));
+        //    panelNo = string.IsNullOrEmpty(panelNo) 
+        //        ? string.Format("{0}{1}", dtime.ToString(clsSetting.LABEL_CODE_DATE_FORMAT), "0001") 
+        //        : (decimal.Parse(panelNo) + 1).ToString();
+        //    return panelNo;
+        //}
     }
 }

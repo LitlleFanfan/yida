@@ -319,6 +319,46 @@ namespace RobotControl {
         }
 
         /// <summary>
+        /// 获得机器人报警状态
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, bool> GetAlarmStatus() {
+            Send(string.Format("cmd={0};a1=0;a2=0;a3=0;a4=0;a5=0;", Commands.CMD_MpGetAlarmStatus));
+            List<string> re = GetRobotResult();
+            Dictionary<string, bool> ret = new Dictionary<string, bool>();
+            if (re.Count > 0) {
+                foreach (string reitem in re) {
+                    string[] tmp = reitem.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string str in tmp) {
+                        string[] stmp = str.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                        ret.Add(stmp[1], stmp[0].ToLower() != "on");
+                    }
+                }
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// 获得机器人报警信息
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, string> GetAlarmCode() {
+            Send(string.Format("cmd={0};a1=0;a2=0;a3=0;a4=0;a5=0;", Commands.CMD_MpGetAlarmCode));
+            List<string> re = GetRobotResult();
+            Dictionary<string, string> ret = new Dictionary<string, string>();
+            if (re.Count > 0) {
+                foreach (string reitem in re) {
+                    string[] tmp = reitem.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string str in tmp) {
+                        string[] stmp = str.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+                        ret.Add(stmp[0], stmp[1]);
+                    }
+                }
+            }
+            return ret;
+        }
+
+        /// <summary>
         /// 启动程序
         /// </summary>
         /// <param name="jobName">程序名称</param>
