@@ -134,6 +134,12 @@ namespace yidascan.DataAccess {
         }
 
         public static bool Add(LableCode c) {
+            //开始临时用
+            if (c.ToLocation.Contains("B")) {
+                c.Remark = string.Format("{0} {1}", c.Remark,c.ToLocation);
+                c.ToLocation = "B10";
+            }
+            //结束临时用
             List<CommandParameter> cps = CreateLableCodeInsert(c);
             return DataAccess.CreateDataAccess.sa.NonQueryTran(cps);
         }

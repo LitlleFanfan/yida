@@ -16,7 +16,7 @@ namespace RobotTest {
 
         RobotHelper robot;
 
-        string jobname = "LJE2"; // 存于机器人本身的程序名。MAN
+        string jobname = "NUMBER9"; // 存于机器人本身的程序名。MAN
 
         decimal zStart = -1600;
 

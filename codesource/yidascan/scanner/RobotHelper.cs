@@ -99,7 +99,7 @@ namespace yidascan {
 
             // 原点高位旋转
             rCtrl.SetPostion(RobotControl.PosVarType.Robot,
-                rollPos.Origin, 30, RobotControl.PosType.User, 0, rollPos.LocationNo);
+                rollPos.Origin, 100, RobotControl.PosType.User, 0, rollPos.LocationNo);
 
             //基座
             rCtrl.SetPostion(RobotControl.PosVarType.Base,
@@ -108,7 +108,7 @@ namespace yidascan {
 
             // 目标位置
             rCtrl.SetPostion(RobotControl.PosVarType.Robot,
-               rollPos.Target, 31, RobotControl.PosType.User, 0, rollPos.LocationNo);
+               rollPos.Target, 101, RobotControl.PosType.User, 0, rollPos.LocationNo);
         }
 
         public void RunJob(string jobName) {
@@ -130,16 +130,22 @@ namespace yidascan {
         }
 
         private void NotifyOpcSafePlace(string side) {
-            client.Write(side == "A" ? param.RobotCarryA.Signal : param.RobotCarryB.Signal, false);
+            lock (client) {
+                client.Write(side == "A" ? param.RobotCarryA.Signal : param.RobotCarryB.Signal, false);
+            }
         }
 
         private void NotifyOpcJobFinished(PanelState pState, string tolocation) {
             switch (pState) {
                 case PanelState.HalfFull:
-                    client.Write(param.BAreaFloorFinish[tolocation], true);
+                    lock (client) {
+                        client.Write(param.BAreaFloorFinish[tolocation], true);
+                    }
                     break;
                 case PanelState.Full:
-                    client.Write(param.BAreaPanelFinish[tolocation], true);
+                    lock (client) {
+                        client.Write(param.BAreaPanelFinish[tolocation], true);
+                    }
                     break;
                 case PanelState.LessHalf:
                 default:
@@ -155,33 +161,44 @@ namespace yidascan {
                     }
 
                     var roll = robotJobs.GetRoll();
+
+                    while (isrun && !PanelAvailable(roll.ToLocation)) {
+                        Thread.Sleep(OPCClient.DELAY * 200);
+                    }
+
                     // 启动机器人动作。
                     WritePosition(roll);
 
                     lock (client) {
                         // 等待板可放料
                         while (isrun) {
-                            var v = client.ReadInt(param.BAreaPanelState[roll.ToLocation]);
-                            if (v == 2) { break; }
+                            lock (client) {
+                                var v = client.ReadInt(param.BAreaPanelState[roll.ToLocation]);
+                                if (v == 2) { break; }
+                            }
                             Thread.Sleep(DELAY * 40); // 200 ms.
                         }
 
                         RunJob(JOB_NAME);
 
                         // 等待安全位置信号
-                        while (!IsSafePlace()) { Thread.Sleep(RobotHelper.DELAY * 10); }
-
+                        //while (!IsSafePlace()) { Thread.Sleep(RobotHelper.DELAY * 10); }
                         // 告知OPC
-                        NotifyOpcSafePlace(roll.Side);
+                        //NotifyOpcSafePlace(roll.Side);
 
                         // 等待完成信号
                         while (IsBusy()) { Thread.Sleep(RobotHelper.DELAY * 10); }
-
                         // 告知OPC
                         NotifyOpcJobFinished(roll.PnlState, roll.ToLocation);
                     }
-                    Thread.Sleep(RobotHelper.DELAY * 1000);
+                    Thread.Sleep(RobotHelper.DELAY * 400);
                 }
+            }
+        }
+
+        private bool PanelAvailable(string tolocation) {
+            lock (client) {
+                return client.ReadString(param.BAreaPanelState[tolocation]) == "2";
             }
         }
 

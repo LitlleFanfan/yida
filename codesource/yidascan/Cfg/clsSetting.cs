@@ -50,6 +50,17 @@ namespace ProduceComm {
 
         private const string ROBOT_IP = "RobotIP";
 
+        /// <summary>
+        /// 存于机器人本身的程序名。
+        /// </summary>
+        public static string JobName {
+            get {
+                string s = clsSetting.GetCfgValue("JobName");
+                return string.IsNullOrEmpty(s) ? "LJE2" : s;
+            }
+            set { clsSetting.SetCfgValue("JobName", value); }
+        }
+
         public static string RobotIP {
             get { return clsSetting.GetCfgValue(ROBOT_IP); }
             set { clsSetting.SetCfgValue(ROBOT_IP, value); }

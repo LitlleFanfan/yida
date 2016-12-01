@@ -184,8 +184,7 @@ namespace yidascan {
             return;
 
             Task.Factory.StartNew(() => {
-                var jobname = ""; // 存于机器人本身的程序名。                
-                using (var robot = new RobotHelper(clsSetting.RobotIP, jobname)) {
+                using (var robot = new RobotHelper(clsSetting.RobotIP, clsSetting.JobName)) {
                     robot.JobLoop(ref isrun);
                 }
             });
@@ -278,14 +277,24 @@ namespace yidascan {
             isrun = true;
 
             if (opcClient.Connected) {
+                logOpt.ViewInfo(JsonConvert.SerializeObject(opcParam));
                 WeighTask();
                 ACAreaFinishTask();
                 BeforCacheTask();
 
-                //StartRobotTask();
-                //StartRobotJobATask();
-                //StartRobotJobBTask();
-                //StartAreaBPnlStateTask();
+
+                logOpt.ViewInfo("StartRobotTask1。");
+                StartRobotTask();
+                logOpt.ViewInfo("StartRobotTask2。");
+                logOpt.ViewInfo("StartRobotJobATask1。");
+                StartRobotJobATask();
+                logOpt.ViewInfo("StartRobotJobATask2。");
+                logOpt.ViewInfo("StartRobotJobBTask1。");
+                StartRobotJobBTask();
+                logOpt.ViewInfo("StartRobotJobBTask2。");
+                logOpt.ViewInfo("StartAreaBPnlStateTask1。");
+                StartAreaBPnlStateTask();
+                logOpt.ViewInfo("StartAreaBPnlStateTask2。");
             } else {
                 var msg = "启动设备失败！";
                 ShowWarning(msg);
@@ -685,13 +694,13 @@ namespace yidascan {
                     opcClient.Write(opcParam.ScanParam.ScanState, true);
                 });
                 logOpt.ViewInfo(string.Format("写OPC耗时:{0}ms", t));
+            }
 
-                if (LableCode.Add(lc)) {
-                    ViewAddLable(lc);
-                    RefreshCounter();
-                } else {
-                    ShowWarning("程序异常");
-                }
+            if (LableCode.Add(lc)) {
+                ViewAddLable(lc);
+                RefreshCounter();
+            } else {
+                ShowWarning("程序异常");
             }
         }
 
@@ -935,10 +944,11 @@ namespace yidascan {
             //    signal = OPCRead(opcParam.DeleteLCode.Signal).ToString();
             //    Thread.Sleep(OPCClient.DELAY);
             //}
-
-            opcClient.Write(opcParam.DeleteLCode.LCode1, fullLabelCode.Substring(0, 6));
-            opcClient.Write(opcParam.DeleteLCode.LCode2, fullLabelCode.Substring(6, 6));
-            opcClient.Write(opcParam.DeleteLCode.Signal, true);
+            lock (opcClient) {
+                opcClient.Write(opcParam.DeleteLCode.LCode1, fullLabelCode.Substring(0, 6));
+                opcClient.Write(opcParam.DeleteLCode.LCode2, fullLabelCode.Substring(6, 6));
+                opcClient.Write(opcParam.DeleteLCode.Signal, true);
+            }
         }
 
         public bool confirm(string question) {
@@ -983,7 +993,9 @@ namespace yidascan {
         /// </summary>
         /// <param name="value">报警信号的值。</param>
         private void AlarmToOPC(object value) {
-            opcClient.Write(opcParam.ALarmSlot, value);
+            lock (opcClient) {
+                opcClient.Write(opcParam.ALarmSlot, value);
+            }
         }
 
         /// <summary>
@@ -991,7 +1003,9 @@ namespace yidascan {
         /// </summary>
         /// <param name="value">报警信号的值。</param>
         private void RobotAlarmToOpc(object value) {
-            opcClient.Write(opcParam.RobotAlarmSlot, value);
+            lock (opcClient) {
+                opcClient.Write(opcParam.RobotAlarmSlot, value);
+            }
         }
     }
 }

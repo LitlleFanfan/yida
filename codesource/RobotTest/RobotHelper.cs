@@ -51,7 +51,10 @@ namespace yidascan {
             ChangeAngle = x + y > 0;
 
             ToLocation = locationNo;
+            int baseindex = CalculateBaseIndex(x, y, rz);
             LocationNo = int.Parse(locationNo.Substring(1, 2));
+            BaseIndex= 4 * (LocationNo - 1) + baseindex;
+
 
             Side = side;
             PnlState = pnlState;
@@ -80,6 +83,7 @@ namespace yidascan {
         }
 
         public int LocationNo;
+        public int BaseIndex;
         public bool ChangeAngle;
 
         public PostionVar Target;
@@ -114,14 +118,14 @@ namespace yidascan {
 
         public void WritePosition(RollPosition rollPos) {
             rCtrl.SetVariables(RobotControl.VariableType.B, 10, 1, rollPos.ChangeAngle ? "1" : "0");
-            rCtrl.SetVariables(RobotControl.VariableType.B, 0, 1, rollPos.LocationNo.ToString());
+            rCtrl.SetVariables(RobotControl.VariableType.B, 0, 1, rollPos.BaseIndex.ToString());
 
             msg.Push(string.Format("Origin: {0}", Newtonsoft.Json.JsonConvert.SerializeObject(rollPos.Origin)));
             msg.Push(string.Format("Target: {0}", Newtonsoft.Json.JsonConvert.SerializeObject(rollPos.Target)));
 
             // 原点高位旋转
             rCtrl.SetPostion(RobotControl.PosVarType.Robot,
-                rollPos.Origin, 30, RobotControl.PosType.User, 0, rollPos.LocationNo);
+                rollPos.Origin, 100, RobotControl.PosType.User, 0, rollPos.LocationNo);
 
             ////基座
             rCtrl.SetPostion(RobotControl.PosVarType.Base,
@@ -130,7 +134,7 @@ namespace yidascan {
 
             // 目标位置
             rCtrl.SetPostion(RobotControl.PosVarType.Robot,
-               rollPos.Target, 31, RobotControl.PosType.User, 0, rollPos.LocationNo);
+               rollPos.Target, 101, RobotControl.PosType.User, 0, rollPos.LocationNo);
         }
 
         public void RunJob(string jobName) {
