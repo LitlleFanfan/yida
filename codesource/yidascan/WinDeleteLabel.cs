@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using commonhelper;
 using yidascan.DataAccess;
 
 namespace yidascan {
@@ -35,7 +36,7 @@ namespace yidascan {
 
             //提示用户确认。
             var question = string.Format("您确定要删除标签[{0}]吗？", code);
-            if (!confirm(question)) { return; }
+            if (!CommonHelper.Confirm(question)) { return; }
 
             // 删除号码。
             if (LableCode.Delete(code)) {
@@ -43,17 +44,12 @@ namespace yidascan {
                 mainwin.RemoveRowFromView(code);
                 mainwin.RefreshCounter();               
                 mainwin.WriteLabelCodeToOpc(code);
-                mainwin.logOpt.ViewInfo(string.Format("删除标签{0}成功", code));
+                FrmMain.logOpt.ViewInfo(string.Format("删除标签{0}成功", code));
             } else {
-                mainwin.logOpt.ViewInfo(string.Format("删除标签{0}失败", code));
+                FrmMain.logOpt.ViewInfo(string.Format("删除标签{0}失败", code));
             }
 
             txtDelLCode.Text = string.Empty;
-        }
-
-        public bool confirm(string question) {
-            var r = MessageBox.Show(question, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            return r == DialogResult.Yes;
         }
 
         private void btnCancel_Click(object sender, EventArgs e) {

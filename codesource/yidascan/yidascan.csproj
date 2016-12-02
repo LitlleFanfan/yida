@@ -52,6 +52,9 @@
     <Prefer32Bit>false</Prefer32Bit>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>android.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\..\..\publicdll\Newtonsoft.Json.dll</HintPath>
@@ -89,6 +92,7 @@
     <Compile Include="Cfg\clsSetting.cs" />
     <Compile Include="Cfg\FileIo.cs" />
     <Compile Include="ClothRollSise.cs" />
+    <Compile Include="CommonHelper.cs" />
     <Compile Include="Communication\CallWebApi.cs" />
     <Compile Include="Communication\ICommunication.cs" />
     <Compile Include="Communication\SerialPortManage.cs" />
@@ -217,6 +221,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="android.ico" />
     <Content Include="help\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

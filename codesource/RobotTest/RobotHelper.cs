@@ -48,14 +48,13 @@ namespace yidascan {
             Y = y;
             Z = z;
             Rz = rz;
-            ChangeAngle = x + y > 0;
+            ChangeAngle = x > 0 || y < 0;
 
             ToLocation = locationNo;
-            int baseindex = CalculateBaseIndex(x, y, rz);
+            int baseindex = CalculateBaseIndex(x, rz);
             LocationNo = int.Parse(locationNo.Substring(1, 2));
-            BaseIndex= 4 * (LocationNo - 1) + baseindex;
-
-
+            BaseIndex = 4 * (LocationNo - 1) + baseindex + 1;
+            
             Side = side;
             PnlState = pnlState;
 
@@ -66,15 +65,15 @@ namespace yidascan {
             Target = new PostionVar(x, y, z, origin.Rx, origin.Ry, origin.Rz + rz);
         }
 
-        private int CalculateBaseIndex(decimal x, decimal y, decimal rz) {
+        private int CalculateBaseIndex(decimal x, decimal rz) {
             int baseindex = 0;
-            if (rz > 0) {
-                if (y < 0) {
+            if (x != 0) {
+                baseindex = 2;
+                if (rz < 0) {
                     baseindex += 1;
                 }
             } else {
-                baseindex = 2;
-                if (x < 0) {
+                if (rz < 0) {
                     baseindex += 1;
                 }
             }
@@ -108,6 +107,10 @@ namespace yidascan {
 
         public const int DELAY = 5;
 
+        public bool IsConnected() {
+            return rCtrl.Connected;
+        }
+
         public RobotHelper(string ip, string jobName, MessageCenter _msg) {
             rCtrl = new RobotControl.RobotControl(ip);
             rCtrl.Connect();
@@ -120,8 +123,8 @@ namespace yidascan {
             rCtrl.SetVariables(RobotControl.VariableType.B, 10, 1, rollPos.ChangeAngle ? "1" : "0");
             rCtrl.SetVariables(RobotControl.VariableType.B, 0, 1, rollPos.BaseIndex.ToString());
 
-            msg.Push(string.Format("Origin: {0}", Newtonsoft.Json.JsonConvert.SerializeObject(rollPos.Origin)));
-            msg.Push(string.Format("Target: {0}", Newtonsoft.Json.JsonConvert.SerializeObject(rollPos.Target)));
+            //msg.Push(string.Format("Origin: {0}", Newtonsoft.Json.JsonConvert.SerializeObject(rollPos.Origin)));
+            //msg.Push(string.Format("Target: {0}", Newtonsoft.Json.JsonConvert.SerializeObject(rollPos.Target)));
 
             // 原点高位旋转
             rCtrl.SetPostion(RobotControl.PosVarType.Robot,
@@ -160,11 +163,11 @@ namespace yidascan {
             while (isrun && !hold) {
                 msg.Push("JobLoop Head");
                 if (robotJobs.Rolls.Count > 0) {
-                    msg.Push(string.Format("Jobs list count:{0}", robotJobs.Rolls.Count));
                     RollPosition roll;
                     lock (robotJobs) {
                         roll = robotJobs.GetRoll();
                     }
+                    msg.Push(string.Format("roll:{0}", Newtonsoft.Json.JsonConvert.SerializeObject(roll)));
 
                     msg.Push(string.Format("Jobs list count:{0} x:{1};y:{2};z:{3};rz:{4};base:{5};", robotJobs.Rolls.Count, roll.X, roll.Y, roll.Z, roll.Rz, roll.Target.Axis7));
 

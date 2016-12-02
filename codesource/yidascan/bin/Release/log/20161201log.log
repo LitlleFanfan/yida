@@ -114,3 +114,144 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 System.NullReferenceException: Object reference not set to an instance of an object.
    at yidascan.FrmMain.BindDgv() in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 217
    at yidascan.FrmMain.FrmMain_Load(Object sender, EventArgs e) in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 67
+[2016-12-01 10:56:25.9022] [normal] 广州恒微数据采集软件单机版 V1.0.8.25 启动。
+[2016-12-01 10:56:40.4973] System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server) ---> System.ComponentModel.Win32Exception (0x80004005): 系统找不到指定的文件。
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at yidascan.DataAccess.DataAccess.Query(String sql, SqlParameter[] p) in E:\ljework\yida\codesource\yidascan\DataAccess\DataAccess.cs:line 56
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:2,State:0,Class:20, select IndexNo,Name,Code,Class,Remark from OPCParam  order by IndexNo DESC
+[2016-12-01 10:56:40.9185] [normal] 启动opc失败.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at yidascan.FrmMain.StartOpc() in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 90
+   at yidascan.FrmMain..ctor() in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 50
+[2016-12-01 10:56:41.3553] [normal] 初始化失败。
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at yidascan.FrmMain.BindDgv() in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 217
+   at yidascan.FrmMain.FrmMain_Load(Object sender, EventArgs e) in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 67
+[2016-12-01 10:56:46.7685] 关闭连接失败！
+[2016-12-01 10:56:46.8309] [normal] 关闭OPC异常。
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ProduceComm.OPC.OPCClient.Close() in E:\ljework\yida\codesource\yidascan\scanner\OPCClient.cs:line 135
+   at yidascan.FrmMain.FrmMain_FormClosing(Object sender, FormClosingEventArgs e) in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 902
+[2016-12-01 16:44:43.1853] [normal] 广州恒微数据采集软件单机版 V1.0.8.26 启动。
+[2016-12-01 16:44:57.9261] System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server) ---> System.ComponentModel.Win32Exception (0x80004005): 系统找不到指定的文件。
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at yidascan.DataAccess.DataAccess.Query(String sql, SqlParameter[] p) in E:\ljework\yida\codesource\yidascan\DataAccess\DataAccess.cs:line 56
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:2,State:0,Class:20, select IndexNo,Name,Code,Class,Remark from OPCParam  order by IndexNo DESC
+[2016-12-01 16:44:58.3312] [normal] 启动opc失败.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at yidascan.FrmMain.StartOpc() in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 92
+   at yidascan.FrmMain..ctor() in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 52
+[2016-12-01 16:44:58.7362] [normal] 初始化失败。
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at yidascan.FrmMain.BindDgv() in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 226
+   at yidascan.FrmMain.FrmMain_Load(Object sender, EventArgs e) in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 69
+[2016-12-01 16:45:36.0669] [normal] 广州恒微数据采集软件单机版 V1.0.8.26 启动。
+[2016-12-01 16:45:50.6241] System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server) ---> System.ComponentModel.Win32Exception (0x80004005): 系统找不到指定的文件。
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at yidascan.DataAccess.DataAccess.Query(String sql, SqlParameter[] p) in E:\ljework\yida\codesource\yidascan\DataAccess\DataAccess.cs:line 56
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:2,State:0,Class:20, select IndexNo,Name,Code,Class,Remark from OPCParam  order by IndexNo DESC
+[2016-12-01 16:45:51.0453] [normal] 启动opc失败.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at yidascan.FrmMain.StartOpc() in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 92
+   at yidascan.FrmMain..ctor() in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 52
+[2016-12-01 16:45:51.4509] [normal] 初始化失败。
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at yidascan.FrmMain.BindDgv() in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 226
+   at yidascan.FrmMain.FrmMain_Load(Object sender, EventArgs e) in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 69
+[2016-12-01 16:46:35.9578] [normal] 广州恒微数据采集软件单机版 V1.0.8.26 启动。
+[2016-12-01 16:46:50.7030] System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server) ---> System.ComponentModel.Win32Exception (0x80004005): 系统找不到指定的文件。
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, DbConnectionPool pool, String accessToken, Boolean applyTransientFaultHandling)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpenInner(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at yidascan.DataAccess.DataAccess.Query(String sql, SqlParameter[] p) in E:\ljework\yida\codesource\yidascan\DataAccess\DataAccess.cs:line 56
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:2,State:0,Class:20, select IndexNo,Name,Code,Class,Remark from OPCParam  order by IndexNo DESC
+[2016-12-01 16:46:51.1398] [normal] 启动opc失败.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at yidascan.FrmMain.StartOpc() in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 92
+   at yidascan.FrmMain..ctor() in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 52
+[2016-12-01 16:46:51.5230] [normal] 初始化失败。
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at yidascan.FrmMain.BindDgv() in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 226
+   at yidascan.FrmMain.FrmMain_Load(Object sender, EventArgs e) in E:\ljework\yida\codesource\yidascan\FrmMain.cs:line 69
+[2016-12-01 16:46:53.3341] [normal] 机器人任务启动。1111192.168.0.30
+[2016-12-01 16:46:53.3461] [normal] 11
+[2016-12-01 16:46:53.3461] [normal] 22
+[2016-12-01 16:46:56.9849] [normal] 机器人任务启动。1111192.168.0.30
+[2016-12-01 16:46:56.9849] [normal] 11
+[2016-12-01 16:46:56.9849] [normal] 22
+[2016-12-01 16:47:14.4413] System.Net.Sockets.SocketException (0x80004005): 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 192.168.0.30:11000
+   at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Connect(EndPoint remoteEP)
+   at RobotControl.RobotControl.Connect() in E:\ljework\yida\codesource\RobotControl\RobotControl.cs:line 58
+   at yidascan.RobotHelper..ctor(String ip, String jobName) in E:\ljework\yida\codesource\yidascan\scanner\RobotHelper.cs:line 95
+[2016-12-01 16:47:14.4569] [normal] 机器人任务启动。222
+[2016-12-01 16:47:14.4569] [normal] 机器人任务启动。
+[2016-12-01 16:47:18.0293] System.Net.Sockets.SocketException (0x80004005): 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。 192.168.0.30:11000
+   at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Connect(EndPoint remoteEP)
+   at RobotControl.RobotControl.Connect() in E:\ljework\yida\codesource\RobotControl\RobotControl.cs:line 58
+   at yidascan.RobotHelper..ctor(String ip, String jobName) in E:\ljework\yida\codesource\yidascan\scanner\RobotHelper.cs:line 95
+[2016-12-01 16:47:18.0293] [normal] 机器人任务启动。222
+[2016-12-01 16:47:18.0293] [normal] 机器人任务启动。

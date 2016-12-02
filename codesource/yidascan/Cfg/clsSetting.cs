@@ -42,7 +42,7 @@ namespace ProduceComm {
 
     public class clsSetting {
         public static Dictionary<string, int> AreaNo = new Dictionary<string, int> { { "A", 10 }, { "B", 11 }, { "C", 12 } };
-        private const string filename = "config.ini";
+        public const string filename = @"config.ini";
         // 常用常数
         public const string DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
         public const string LABEL_CODE_DATE_FORMAT = "yyMMdd";
@@ -56,7 +56,7 @@ namespace ProduceComm {
         public static string JobName {
             get {
                 string s = clsSetting.GetCfgValue("JobName");
-                return string.IsNullOrEmpty(s) ? "LJE2" : s;
+                return string.IsNullOrEmpty(s) ? "NUMBER9" : s;
             }
             set { clsSetting.SetCfgValue("JobName", value); }
         }

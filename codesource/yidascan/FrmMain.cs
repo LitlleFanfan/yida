@@ -12,6 +12,8 @@ using System.Threading;
 using System.Linq;
 using System.Drawing;
 
+using commonhelper;
+
 namespace yidascan {
     public partial class FrmMain : Form {
         private DataTable dtview = new DataTable();
@@ -21,7 +23,9 @@ namespace yidascan {
         bool isrun = false;
         OPCParam opcParam = new OPCParam();
         DataTable dtopc = new DataTable();
-        public LogOpreate logOpt;
+
+        RobotHelper robot;
+        public static LogOpreate logOpt;
 
         private DateTime StartTime;
 
@@ -67,7 +71,7 @@ namespace yidascan {
                 BindDgv();
                 SetButtonState(false);
                 InitCfgView();
-                LableCode.DeleteAllFinished();
+                LableCode.DeleteAllFinished();                
             } catch (Exception ex) {
                 logOpt.ViewInfo(string.Format("初始化失败。\n{0}", ex));
             }
@@ -108,12 +112,15 @@ namespace yidascan {
                         // 等待布卷
                         var r = (bool)opcClient.Read(opcParam.RobotCarryA.Signal);
                         if (r) {
+                            logOpt.ViewInfo("收到OPC信号，机器人A处抓料信号：" + r.ToString());
+
                             // 加入机器人布卷队列。
                             var code1 = opcClient.Read(opcParam.RobotCarryA.LCode1).ToString();
                             var code2 = opcClient.Read(opcParam.RobotCarryA.LCode2).ToString();
                             var fullcode = code1.PadLeft(6, '0') + code2.PadLeft(6, '0');
 
                             PushInQueue(fullcode, "A");
+                            logOpt.ViewInfo("加入机器人队列：" + fullcode);
                         }
                     }
 
@@ -132,12 +139,15 @@ namespace yidascan {
                         // 等待布卷
                         var r = (bool)opcClient.Read(opcParam.RobotCarryB.Signal);
                         if (r) {
+                            logOpt.ViewInfo("收到OPC信号，机器人B处抓料信号：" + r.ToString());
+
                             // 加入机器人布卷队列。
                             var code1 = opcClient.Read(opcParam.RobotCarryB.LCode1).ToString();
                             var code2 = opcClient.Read(opcParam.RobotCarryB.LCode2).ToString();
                             var fullcode = code1.PadLeft(6, '0') + code2.PadLeft(6, '0');
 
                             PushInQueue(fullcode, "B");
+                            logOpt.ViewInfo("加入机器人队列：" + fullcode);
                         }
                     }
 
@@ -173,40 +183,41 @@ namespace yidascan {
             var z = ar[0] + zStart;
             var rz = ar[1];
             if (ar[2] > 0) {
-                rz = rz * -1;
+                rz = rz == 0 ? 180 : (rz * -1);
             }
             var roll = new RollPosition(side, label.ToLocation, state, x, y, z, rz);
             RobotHelper.robotJobs.AddRoll(roll);
         }
 
         private void StartRobotTask() {
-            ShowWarning("机器人没有启动。");
-            return;
-
             Task.Factory.StartNew(() => {
-                using (var robot = new RobotHelper(clsSetting.RobotIP, clsSetting.JobName)) {
-                    robot.JobLoop(ref isrun);
-                }
+                logOpt.ViewInfo("机器人正在启动...");
+                robot = new RobotHelper(clsSetting.RobotIP, clsSetting.JobName);
+                logOpt.ViewInfo("机器人已经连接。");
+                // robot = new RobotHelper(clsSetting.RobotIP, "NUMBER9");                
+                robot.JobLoop(ref isrun);
+                logOpt.ViewInfo("机器人任务结束。");
             });
-            logOpt.ViewInfo("机器人任务启动。");
         }
 
         private void StartAreaBPnlStateTask() {
+            const int FINISHED_BY_MAN = 3;
             foreach (KeyValuePair<string, string> kv in opcParam.BAreaPanelState) {
                 Task.Factory.StartNew(() => {
                     while (isrun) {
                         lock (opcClient) {
                             int signal = int.Parse(OPCRead(kv.Value).ToString());
 
-                            if (signal == 3) {
-                                if (LableCode.SetMaxFloor(kv.Key)) {
-                                    opcClient.Write(kv.Value, 2);
-                                }
+                            if (signal == FINISHED_BY_MAN && LableCode.SetMaxFloor(kv.Key)) {
+                                logOpt.ViewInfo("收到B区OPC板位信号：" + signal.ToString());
+                                opcClient.Write(kv.Value, 2);
                             }
                         }
                         Thread.Sleep(OPCClient.DELAY * 200);
                     }
                 });
+
+                logOpt.ViewInfo("B区板位信号任务启动。");
             }
         }
 
@@ -277,24 +288,17 @@ namespace yidascan {
             isrun = true;
 
             if (opcClient.Connected) {
-                logOpt.ViewInfo(JsonConvert.SerializeObject(opcParam));
+                //logOpt.ViewInfo(JsonConvert.SerializeObject(opcParam));
                 WeighTask();
                 ACAreaFinishTask();
                 BeforCacheTask();
 
-
-                logOpt.ViewInfo("StartRobotTask1。");
                 StartRobotTask();
-                logOpt.ViewInfo("StartRobotTask2。");
-                logOpt.ViewInfo("StartRobotJobATask1。");
                 StartRobotJobATask();
-                logOpt.ViewInfo("StartRobotJobATask2。");
-                logOpt.ViewInfo("StartRobotJobBTask1。");
                 StartRobotJobBTask();
-                logOpt.ViewInfo("StartRobotJobBTask2。");
-                logOpt.ViewInfo("StartAreaBPnlStateTask1。");
                 StartAreaBPnlStateTask();
-                logOpt.ViewInfo("StartAreaBPnlStateTask2。");
+
+                StartThrobTask();
             } else {
                 var msg = "启动设备失败！";
                 ShowWarning(msg);
@@ -479,6 +483,7 @@ namespace yidascan {
                 scanner._StopJob();
                 Thread.Sleep(500);
                 scanner.Close();
+                logOpt.ViewInfo("关闭相机：" + scanner.name);
             } catch (Exception ex) {
                 var msg = string.Format("{0}关闭失败。\n{1}", scanner.name, ex);
                 logOpt.ViewInfo(msg);
@@ -493,10 +498,16 @@ namespace yidascan {
             SetButtonState(false);
             logOpt.ViewInfo("停止操作完成。");
             ShowWarning("空闲", false);
+            try {
+                robot.Dispose();
+            } catch (Exception ex) {
+                FrmMain.logOpt.ViewInfo(ex.ToString());
+
+            }
         }
 
         private void btnStop_Click(object sender, EventArgs e) {
-            if (!confirm("确定停止吗?")) { return; }
+            if (!CommonHelper.Confirm("确定停止吗?")) { return; }
             StopAllJobs();
         }
 
@@ -951,11 +962,6 @@ namespace yidascan {
             }
         }
 
-        public bool confirm(string question) {
-            var r = MessageBox.Show(question, "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            return r == DialogResult.Yes;
-        }
-
         private void btnReset_Click(object sender, EventArgs e) {
             lock (opcClient) {
                 opcClient.Write(opcParam.ScanParam.ScanState, true);
@@ -1006,6 +1012,16 @@ namespace yidascan {
             lock (opcClient) {
                 opcClient.Write(opcParam.RobotAlarmSlot, value);
             }
+        }
+
+        private void StartThrobTask() {
+            Task.Factory.StartNew(() => {
+                while (isrun) {
+                    logOpt.ViewInfo("throb: " + DateTime.Now.ToString(), "throb", LogViewType.OnlyForm);
+                    Application.DoEvents();
+                    Thread.Sleep(1000);
+                }
+            });
         }
     }
 }

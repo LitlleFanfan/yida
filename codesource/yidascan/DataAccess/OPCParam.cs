@@ -235,6 +235,7 @@ namespace yidascan.DataAccess
 
         private bool InitBAreaPanelFinish()
         {
+            BAreaPanelFinish = new Dictionary<string, string>();
             DataTable dt = Query(string.Format("where Class='BAreaPanelFinish'"));
             if (dt == null || dt.Rows.Count < 1)
             {
@@ -248,6 +249,7 @@ namespace yidascan.DataAccess
         }
         private bool InitBAreaFloorFinish()
         {
+            BAreaFloorFinish = new Dictionary<string, string>();
             DataTable dt = Query(string.Format("where Class='BAreaFloorFinish'"));
             if (dt == null || dt.Rows.Count < 1)
             {
@@ -261,6 +263,7 @@ namespace yidascan.DataAccess
         }
         private bool InitBAreaPanelState()
         {
+            BAreaPanelState = new Dictionary<string, string>();
             DataTable dt = Query(string.Format("where Class='BAreaPanelState'"));
             if (dt == null || dt.Rows.Count < 1)
             {

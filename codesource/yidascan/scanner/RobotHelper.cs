@@ -1,4 +1,5 @@
-﻿using ProduceComm.OPC;
+﻿using ProduceComm;
+using ProduceComm.OPC;
 using RobotControl;
 
 using System;
@@ -22,10 +23,12 @@ namespace yidascan {
             Y = y;
             Z = z;
             Rz = rz;
-            ChangeAngle = x + y > 0;
+            ChangeAngle = x > 0 || y < 0;
 
             ToLocation = locationNo;
+            int baseindex = CalculateBaseIndex(x, rz);
             LocationNo = int.Parse(locationNo.Substring(1, 2));
+            BaseIndex = 4 * (LocationNo - 1) + baseindex + 1;
 
             Side = side;
             PnlState = pnlState;
@@ -34,23 +37,19 @@ namespace yidascan {
             RobotParam origin = RobotParam.GetOrigin(tmp);
             Origin = new PostionVar(0, 0, 0, origin.Rx, origin.Ry, origin.Rz + rz);
 
-            //int baseindex = CalculateBaseIndex(x, y, rz);
-            ////x = baseindex == 0 ? 0 : ((decimal)(dtOrigin.Rows[0]["Base"]) - (decimal)(dtPoint.Rows[0]["Base"]));
-            //// 基座
-            //RobotParam point = RobotParam.GetPoint(tmp, baseindex);
-            //Target = new PostionVar(x, y, z, point.Rz + rz, point.Base);
             Target = new PostionVar(x, y, z, origin.Rx, origin.Ry, origin.Rz + rz);
         }
 
-        private int CalculateBaseIndex(decimal x, decimal y, decimal rz) {
+
+        private int CalculateBaseIndex(decimal x, decimal rz) {
             int baseindex = 0;
-            if (rz > 0) {
-                if (y < 0) {
+            if (x != 0) {
+                baseindex = 2;
+                if (rz < 0) {
                     baseindex += 1;
                 }
             } else {
-                baseindex = 2;
-                if (x < 0) {
+                if (rz < 0) {
                     baseindex += 1;
                 }
             }
@@ -59,6 +58,7 @@ namespace yidascan {
         }
 
         public int LocationNo;
+        public int BaseIndex;
         public bool ChangeAngle;
 
         public PostionVar Target;
@@ -85,12 +85,24 @@ namespace yidascan {
 
         OPCClient client = null;
         OPCParam param = null;
+        MessageCenter msg;
 
         public RobotHelper(string ip, string jobName) {
-            rCtrl = new RobotControl.RobotControl(ip);
-            rCtrl.Connect();
-            rCtrl.ServoPower(true);
-            JOB_NAME = jobName;
+            try {
+                // FrmMain.logOpt.ViewInfo("11");
+                rCtrl = new RobotControl.RobotControl(ip);
+                // FrmMain.logOpt.ViewInfo("22");
+                rCtrl.Connect();
+                // FrmMain.logOpt.ViewInfo("33");
+                rCtrl.ServoPower(true);
+                JOB_NAME = jobName;
+            } catch (Exception ex) {
+                clsSetting.loger.Error(ex);
+            }
+        }
+
+        public bool IsConnected() {
+            return rCtrl.Connected;
         }
 
         public void WritePosition(RollPosition rollPos) {
