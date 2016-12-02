@@ -6,4 +6,3 @@ E:\ljework\yida\codesource\RobotControl\bin\Release\RobotControl.dll
 E:\ljework\yida\codesource\RobotControl\bin\Release\RobotControl.pdb
 E:\ljework\yida\codesource\RobotControl\obj\Release\RobotControl.dll
 E:\ljework\yida\codesource\RobotControl\obj\Release\RobotControl.pdb
-E:\ljework\yida\codesource\RobotControl\obj\Release\RobotControl.csprojResolveAssemblyReference.cache

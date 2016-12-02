@@ -51,29 +51,39 @@ namespace yidascan {
             ChangeAngle = x > 0 || y < 0;
 
             ToLocation = locationNo;
-            int baseindex = CalculateBaseIndex(x, rz);
+            Index = CalculateBaseIndex(x, y);
+
             LocationNo = int.Parse(locationNo.Substring(1, 2));
-            BaseIndex = 4 * (LocationNo - 1) + baseindex + 1;
-            
+            BaseIndex = 4 * (LocationNo - 1) + Index + 1;
+
             Side = side;
             PnlState = pnlState;
 
             int tmp = int.Parse(locationNo.Substring(1, 2));
             RobotParam origin = RobotParam.GetOrigin(tmp);
-            Origin = new PostionVar(0, 0, 0, origin.Rx, origin.Ry, origin.Rz + rz);
+            RobotParam point = RobotParam.GetPoint(tmp, Index);
 
-            Target = new PostionVar(x, y, z, origin.Rx, origin.Ry, origin.Rz + rz);
+            Base1 = origin.Base;
+            Base2 = point.Base;
+            XOffSet = GetXOffSet(origin.Base, point.Base);
+            X = X + XOffSet;
+            Origin = new PostionVar(XOffSet, 0, 1750, origin.Rx, origin.Ry, origin.Rz + rz);
+            Target = new PostionVar(X, Y, Z, origin.Rx, origin.Ry, origin.Rz + rz);
         }
 
-        private int CalculateBaseIndex(decimal x, decimal rz) {
+        private decimal GetXOffSet(decimal originBase, decimal targetBase) {
+            return ((targetBase - originBase) * 2 * -1);
+        }
+
+        private int CalculateBaseIndex(decimal x, decimal y) {
             int baseindex = 0;
             if (x != 0) {
                 baseindex = 2;
-                if (rz < 0) {
+                if (x > 0) {
                     baseindex += 1;
                 }
             } else {
-                if (rz < 0) {
+                if (y < 0) {
                     baseindex += 1;
                 }
             }
@@ -82,6 +92,7 @@ namespace yidascan {
         }
 
         public int LocationNo;
+        public int Index;
         public int BaseIndex;
         public bool ChangeAngle;
 
@@ -92,6 +103,9 @@ namespace yidascan {
         public decimal Y;
         public decimal Z;
         public decimal Rz;
+        public decimal XOffSet;
+        public decimal Base1;
+        public decimal Base2;
 
         public string ToLocation { get; set; }
         // A侧或B侧
@@ -169,7 +183,10 @@ namespace yidascan {
                     }
                     msg.Push(string.Format("roll:{0}", Newtonsoft.Json.JsonConvert.SerializeObject(roll)));
 
-                    msg.Push(string.Format("Jobs list count:{0} x:{1};y:{2};z:{3};rz:{4};base:{5};", robotJobs.Rolls.Count, roll.X, roll.Y, roll.Z, roll.Rz, roll.Target.Axis7));
+                    msg.Push(string.Format(@"Jobs list count:{0} x:{1};y:{2};z:{3};rz:{4};index:{5};BaseIndex:{9};
+                        xoffset:{6};base1:{7};base2:{8};",
+                        robotJobs.Rolls.Count, roll.X, roll.Y, roll.Z, roll.Rz, roll.Index,
+                        roll.XOffSet, roll.Base1, roll.Base2, roll.BaseIndex));
 
                     while (isrun && !hold && IsBusy()) {
                         Thread.Sleep(RobotHelper.DELAY);

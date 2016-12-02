@@ -297,8 +297,6 @@ namespace yidascan {
                 StartRobotJobATask();
                 StartRobotJobBTask();
                 StartAreaBPnlStateTask();
-
-                StartThrobTask();
             } else {
                 var msg = "启动设备失败！";
                 ShowWarning(msg);
@@ -1012,16 +1010,6 @@ namespace yidascan {
             lock (opcClient) {
                 opcClient.Write(opcParam.RobotAlarmSlot, value);
             }
-        }
-
-        private void StartThrobTask() {
-            Task.Factory.StartNew(() => {
-                while (isrun) {
-                    logOpt.ViewInfo("throb: " + DateTime.Now.ToString(), "throb", LogViewType.OnlyForm);
-                    Application.DoEvents();
-                    Thread.Sleep(1000);
-                }
-            });
         }
     }
 }

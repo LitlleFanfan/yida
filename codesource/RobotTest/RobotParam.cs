@@ -18,12 +18,9 @@ namespace yidascan.DataAccess {
         }
 
         public static RobotParam GetOrigin(int panelPoint) {
-            var p1 = new System.Data.SqlClient.SqlParameter("@BaseIndex", 0);
-            p1.Value = 0;
-
-            const string SQL_1 = "select * from RobotParam where PanelIndexNo=@PanelIndexNo and BaseIndex=@BaseIndex";
+            const string SQL_1 = "select * from RobotParam where PanelIndexNo=@PanelIndexNo and Remark='Base'";
             var dtOrigin = new DataAccess().Query(SQL_1,
-                new System.Data.SqlClient.SqlParameter("@PanelIndexNo", panelPoint), p1);
+                new System.Data.SqlClient.SqlParameter("@PanelIndexNo", panelPoint));
 
             if (dtOrigin != null && dtOrigin.Rows.Count > 0) {
                 var foo = new RobotParam();

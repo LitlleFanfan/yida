@@ -180,29 +180,28 @@ namespace yidascan {
 
                     // 启动机器人动作。
                     WritePosition(roll);
-
-                    lock (client) {
-                        // 等待板可放料
-                        while (isrun) {
-                            lock (client) {
-                                var v = client.ReadInt(param.BAreaPanelState[roll.ToLocation]);
-                                if (v == 2) { break; }
-                            }
-                            Thread.Sleep(DELAY * 40); // 200 ms.
+                    
+                    // 等待板可放料
+                    while (isrun) {
+                        lock (client) { // double lock.
+                            var v = client.ReadInt(param.BAreaPanelState[roll.ToLocation]);
+                            if (v == 2) { break; }
                         }
-
-                        RunJob(JOB_NAME);
-
-                        // 等待安全位置信号
-                        //while (!IsSafePlace()) { Thread.Sleep(RobotHelper.DELAY * 10); }
-                        // 告知OPC
-                        //NotifyOpcSafePlace(roll.Side);
-
-                        // 等待完成信号
-                        while (IsBusy()) { Thread.Sleep(RobotHelper.DELAY * 10); }
-                        // 告知OPC
-                        NotifyOpcJobFinished(roll.PnlState, roll.ToLocation);
+                        Thread.Sleep(DELAY * 40); // 200 ms.
                     }
+
+                    RunJob(JOB_NAME);
+
+                    // 等待安全位置信号
+                    //while (!IsSafePlace()) { Thread.Sleep(RobotHelper.DELAY * 10); }
+                    // 告知OPC
+                    //NotifyOpcSafePlace(roll.Side);
+
+                    // 等待完成信号
+                    while (IsBusy()) { Thread.Sleep(RobotHelper.DELAY * 10); }
+                    // 告知OPC
+                    NotifyOpcJobFinished(roll.PnlState, roll.ToLocation);
+                    
                     Thread.Sleep(RobotHelper.DELAY * 400);
                 }
             }
