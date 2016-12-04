@@ -29,7 +29,7 @@ namespace yidascan {
 
         private DateTime StartTime;
 
-        private decimal zStart = -1600;
+        private decimal zStart = 0;
 
         // mutex to ensure securely calling opc.
         Mutex OPC_IDLE = new Mutex();
@@ -52,10 +52,16 @@ namespace yidascan {
 
                 SetupDview();
                 StartOpc();
+
                 lblOpcIp.BackColor = Color.LightGreen;
             } catch (Exception ex) {
                 logOpt.ViewInfo(string.Format("启动opc失败.\n{0}", ex));
             }
+        }
+
+        private void ShowTaskState(bool running) {
+            lbTaskState.BackColor = running ? Color.LightGreen : Color.Orange;
+            lbTaskState.Text = running ? "任务启动" : "任务停止";            
         }
 
         private void ShowTitle() {
@@ -67,11 +73,12 @@ namespace yidascan {
         private void FrmMain_Load(object sender, EventArgs e) {
             try {
                 ShowTitle();
+                ShowTaskState(false);
                 cmbShiftNo.SelectedIndex = 0;
                 BindDgv();
                 SetButtonState(false);
                 InitCfgView();
-                LableCode.DeleteAllFinished();                
+                LableCode.DeleteAllFinished();
             } catch (Exception ex) {
                 logOpt.ViewInfo(string.Format("初始化失败。\n{0}", ex));
             }
@@ -118,6 +125,7 @@ namespace yidascan {
                             var code1 = opcClient.Read(opcParam.RobotCarryA.LCode1).ToString();
                             var code2 = opcClient.Read(opcParam.RobotCarryA.LCode2).ToString();
                             var fullcode = code1.PadLeft(6, '0') + code2.PadLeft(6, '0');
+                            opcClient.Write(opcParam.RobotCarryA.Signal, false);
 
                             PushInQueue(fullcode, "A");
                             logOpt.ViewInfo("加入机器人队列：" + fullcode);
@@ -172,18 +180,26 @@ namespace yidascan {
             var ar = (from item in ar_s select decimal.Parse(item)).ToList();
             decimal x = 0; decimal y = 0;
 
+            ar[2] = RollPosition.GetToolOffSet(ar[2]);
+
             if (ar[1] == 0) {
-                x = ar[2];
-                y = 0;
-            } else {
                 x = 0;
                 y = ar[2];
+            } else {
+                x = ar[2];
+                y = 0;
             }
 
             var z = ar[0] + zStart;
             var rz = ar[1];
             if (ar[2] > 0) {
-                rz = rz == 0 ? 180 : (rz * -1);
+                if (rz == 0) {
+                    rz = -180;
+                }
+            } else {
+                if (rz != 0) {
+                    rz = rz * -1;
+                }
             }
             var roll = new RollPosition(side, label.ToLocation, state, x, y, z, rz);
             RobotHelper.robotJobs.AddRoll(roll);
@@ -193,8 +209,11 @@ namespace yidascan {
             Task.Factory.StartNew(() => {
                 logOpt.ViewInfo("机器人正在启动...");
                 robot = new RobotHelper(clsSetting.RobotIP, clsSetting.JobName);
-                logOpt.ViewInfo("机器人已经连接。");
-                // robot = new RobotHelper(clsSetting.RobotIP, "NUMBER9");                
+                if (robot.IsConnected()) {
+                    lblRobot.BackColor = Color.LightGreen;
+                }
+                logOpt.ViewInfo("机器人启动完成...");
+                //logOpt.ViewInfo("机器人连接状态：" + robot.IsConnected().ToString());  
                 robot.JobLoop(ref isrun);
                 logOpt.ViewInfo("机器人任务结束。");
             });
@@ -293,10 +312,20 @@ namespace yidascan {
                 ACAreaFinishTask();
                 BeforCacheTask();
 
-                StartRobotTask();
-                StartRobotJobATask();
-                StartRobotJobBTask();
-                StartAreaBPnlStateTask();
+                if (chkUseRobot.Checked) {
+                    StartRobotTask();
+                    StartRobotJobATask();
+                    StartRobotJobBTask();
+                    StartAreaBPnlStateTask();
+                } else {
+                    logOpt.ViewInfo("未使用机器人。", "system");
+                }
+
+                // 焦点设在手工输入框。
+                txtLableCode1.Focus();
+
+                chkUseRobot.Enabled = false;
+                ShowTaskState(isrun);
             } else {
                 var msg = "启动设备失败！";
                 ShowWarning(msg);
@@ -403,15 +432,22 @@ namespace yidascan {
 
                             if (!string.IsNullOrEmpty(fullLable)) {
                                 LableCode lc = LableCode.QueryByLCode(fullLable);
+
                                 if (lc == null) {
                                     logOpt.ViewInfo(string.Format("{0}标签找不到", fullLable), "CaChe");
                                 } else {
-                                    string outCacheLable;
-                                    CacheState cState = AreaBCalculate(lc, out outCacheLable); //计算位置
+                                    // 检查重复计算。
+                                    if (string.IsNullOrEmpty(lc.PanelNo)) {
+                                        // 板号以前没算过。
+                                        string outCacheLable;
+                                        CacheState cState = AreaBCalculate(lc, out outCacheLable); //计算位置
 
-                                    opcClient.Write(opcParam.CacheParam.IsCache, cState);
-                                    opcClient.Write(opcParam.CacheParam.GetOutLable1, string.IsNullOrEmpty(outCacheLable) ? "0" : outCacheLable.Substring(0, 6));
-                                    opcClient.Write(opcParam.CacheParam.GetOutLable2, string.IsNullOrEmpty(outCacheLable) ? "0" : outCacheLable.Substring(6, 6));
+                                        opcClient.Write(opcParam.CacheParam.IsCache, cState);
+                                        opcClient.Write(opcParam.CacheParam.GetOutLable1, string.IsNullOrEmpty(outCacheLable) ? "0" : outCacheLable.Substring(0, 6));
+                                        opcClient.Write(opcParam.CacheParam.GetOutLable2, string.IsNullOrEmpty(outCacheLable) ? "0" : outCacheLable.Substring(6, 6));
+                                    } else {
+                                        logOpt.ViewInfo(string.Format("{0}标签重复。", fullLable), "CaChe");
+                                    }
                                 }
 
                                 opcClient.Write(opcParam.CacheParam.BeforCacheStatus, false);
@@ -494,10 +530,13 @@ namespace yidascan {
             StopScanner(nscan2);
 
             SetButtonState(false);
-            logOpt.ViewInfo("停止操作完成。");
-            ShowWarning("空闲", false);
+            logOpt.ViewInfo("停止操作完成。");            
+            ShowTaskState(isrun);
+
             try {
-                robot.Dispose();
+                if (chkUseRobot.Checked) {
+                    robot.Dispose();
+                }
             } catch (Exception ex) {
                 FrmMain.logOpt.ViewInfo(ex.ToString());
 
@@ -506,7 +545,9 @@ namespace yidascan {
 
         private void btnStop_Click(object sender, EventArgs e) {
             if (!CommonHelper.Confirm("确定停止吗?")) { return; }
+            chkUseRobot.Enabled = true;
             StopAllJobs();
+            ShowTaskState(isrun);
         }
 
         private void btnSet_Click(object sender, EventArgs e) {
@@ -545,6 +586,7 @@ namespace yidascan {
             }
 
             lblOpcIp.Text = string.Format("OPC server ip:{0}", clsSetting.OPCServerIP);
+            lblRobot.Text = string.Format("Robot:{0}/{1}", clsSetting.RobotIP, clsSetting.JobName);
         }
 
         private void btnQuit_Click(object sender, EventArgs e) {
@@ -873,11 +915,11 @@ namespace yidascan {
         }
 
         private void ShowWarning(string msg, bool isError = true) {
-            lblMsgInfo.Text = msg;
-            lblMsgInfo.BackColor = isError
+            lbTaskState.Text = msg;
+            lbTaskState.BackColor = isError
                 ? Color.Red
                 : Color.Green;
-            lblMsgInfo.ForeColor = Color.White;
+            lbTaskState.ForeColor = Color.White;
         }
 
         private void txtLableCode1_Enter(object sender, EventArgs e) {
@@ -969,6 +1011,8 @@ namespace yidascan {
 
         private void timer_message_Tick(object sender, EventArgs e) {
             var msgs = logOpt.msgCenter.GetAll();
+
+            if (msgs == null) { return; }
 
             foreach (var msg in msgs) {
                 lsvLog.Items.Insert(0, msg);

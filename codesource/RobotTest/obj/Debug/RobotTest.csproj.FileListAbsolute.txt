@@ -32,3 +32,5 @@ E:\ljework\yida\codesource\RobotTest\bin\Debug\RobotControl.pdb
 E:\ljework\yida\codesource\RobotTest\obj\Debug\RobotTest.Form1.resources
 E:\ljework\yida\codesource\RobotTest\obj\Debug\RobotTest.Properties.Resources.resources
 E:\ljework\yida\codesource\RobotTest\obj\Debug\RobotTest.csproj.GenerateResource.Cache
+E:\ljework\yida\codesource\RobotTest\bin\Debug\Newtonsoft.Json.dll
+E:\ljework\yida\codesource\RobotTest\obj\Debug\RobotTest.csprojResolveAssemblyReference.cache

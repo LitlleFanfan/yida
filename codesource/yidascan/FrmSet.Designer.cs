@@ -86,6 +86,11 @@
             this.label12 = new System.Windows.Forms.Label();
             this.nudShelfWidth = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtRobotIP = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.txtOPCIP = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -97,11 +102,8 @@
             this.label8 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.txtRobotIP = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtJobName = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -124,8 +126,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTallSecond)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTallFirst)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudShelfWidth)).BeginInit();
-            this.tabPage3.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -809,6 +811,61 @@
             this.label11.Text = "宽:";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.txtJobName);
+            this.tabPage2.Controls.Add(this.label7);
+            this.tabPage2.Controls.Add(this.textBox2);
+            this.tabPage2.Controls.Add(this.label6);
+            this.tabPage2.Controls.Add(this.txtRobotIP);
+            this.tabPage2.Controls.Add(this.label4);
+            this.tabPage2.Location = new System.Drawing.Point(4, 26);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(588, 354);
+            this.tabPage2.TabIndex = 4;
+            this.tabPage2.Text = "机器人设置";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(145, 84);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(425, 26);
+            this.textBox2.TabIndex = 16;
+            this.textBox2.Text = "11000";
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(15, 84);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(107, 27);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "机器人端口";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // txtRobotIP
+            // 
+            this.txtRobotIP.Location = new System.Drawing.Point(145, 34);
+            this.txtRobotIP.Margin = new System.Windows.Forms.Padding(4);
+            this.txtRobotIP.Name = "txtRobotIP";
+            this.txtRobotIP.Size = new System.Drawing.Size(425, 26);
+            this.txtRobotIP.TabIndex = 14;
+            this.txtRobotIP.Text = "192.168.0.30";
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(15, 34);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(107, 27);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "机器人IP";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.txtOPCIP);
@@ -920,58 +977,24 @@
             this.btnSave.Text = "保存";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // tabPage2
+            // label7
             // 
-            this.tabPage2.Controls.Add(this.textBox2);
-            this.tabPage2.Controls.Add(this.label6);
-            this.tabPage2.Controls.Add(this.txtRobotIP);
-            this.tabPage2.Controls.Add(this.label4);
-            this.tabPage2.Location = new System.Drawing.Point(4, 26);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(588, 354);
-            this.tabPage2.TabIndex = 4;
-            this.tabPage2.Text = "机器人设置";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.label7.Location = new System.Drawing.Point(15, 139);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(107, 27);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "机器人程序";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // txtRobotIP
+            // txtJobName
             // 
-            this.txtRobotIP.Location = new System.Drawing.Point(145, 34);
-            this.txtRobotIP.Margin = new System.Windows.Forms.Padding(4);
-            this.txtRobotIP.Name = "txtRobotIP";
-            this.txtRobotIP.Size = new System.Drawing.Size(425, 26);
-            this.txtRobotIP.TabIndex = 14;
-            this.txtRobotIP.Text = "192.168.0.30";
-            // 
-            // label4
-            // 
-            this.label4.Location = new System.Drawing.Point(15, 34);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(107, 27);
-            this.label4.TabIndex = 15;
-            this.label4.Text = "机器人IP";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(145, 84);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(425, 26);
-            this.textBox2.TabIndex = 16;
-            this.textBox2.Text = "11000";
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(15, 84);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(107, 27);
-            this.label6.TabIndex = 17;
-            this.label6.Text = "机器人端口";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.txtJobName.Location = new System.Drawing.Point(145, 141);
+            this.txtJobName.Margin = new System.Windows.Forms.Padding(4);
+            this.txtJobName.Name = "txtJobName";
+            this.txtJobName.Size = new System.Drawing.Size(425, 26);
+            this.txtJobName.TabIndex = 19;
+            this.txtJobName.Text = "NUMBER9";
             // 
             // FrmSet
             // 
@@ -1011,10 +1034,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudTallSecond)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTallFirst)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudShelfWidth)).EndInit();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1095,5 +1118,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtRobotIP;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtJobName;
+        private System.Windows.Forms.Label label7;
     }
 }

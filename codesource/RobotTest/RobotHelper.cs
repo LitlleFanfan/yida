@@ -205,7 +205,7 @@ namespace yidascan {
                     // 等待完成信号
                     while (IsBusy() && !hold) {
                         msg.Push("Working");
-                        Thread.Sleep(RobotHelper.DELAY * 100);
+                        Thread.Sleep(RobotHelper.DELAY * 200);
                     }
 
                 }
@@ -214,8 +214,8 @@ namespace yidascan {
             }
         }
 
-        public void AlarmTask(ref bool isrun, ref bool hold) {
-            while (isrun && !hold) {
+        public void AlarmTask(ref bool isrun) {
+            while (isrun) {
                 Dictionary<string, bool> s = rCtrl.GetAlarmStatus();
                 if (s.Count != 0) {
                     if (s["Error"] || s["Alarm"]) {

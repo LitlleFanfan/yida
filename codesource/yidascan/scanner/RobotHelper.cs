@@ -26,30 +26,48 @@ namespace yidascan {
             ChangeAngle = x > 0 || y < 0;
 
             ToLocation = locationNo;
-            int baseindex = CalculateBaseIndex(x, rz);
+            Index = CalculateBaseIndex(x, y);
+
             LocationNo = int.Parse(locationNo.Substring(1, 2));
-            BaseIndex = 4 * (LocationNo - 1) + baseindex + 1;
+            BaseIndex = 4 * (LocationNo - 1) + Index + 1;
 
             Side = side;
             PnlState = pnlState;
 
             int tmp = int.Parse(locationNo.Substring(1, 2));
             RobotParam origin = RobotParam.GetOrigin(tmp);
-            Origin = new PostionVar(0, 0, 0, origin.Rx, origin.Ry, origin.Rz + rz);
+            RobotParam point = RobotParam.GetPoint(tmp, Index);
 
-            Target = new PostionVar(x, y, z, origin.Rx, origin.Ry, origin.Rz + rz);
+            Base1 = origin.Base;
+            Base2 = point.Base;
+            XOffSet = GetXOffSet(origin.Base, point.Base);
+            X = X + XOffSet;
+            Origin = new PostionVar(XOffSet, 0, 1750, origin.Rx, origin.Ry, origin.Rz + rz);
+            Target = new PostionVar(X, Y, Z, origin.Rx, origin.Ry, origin.Rz + rz);
         }
 
+        private decimal GetXOffSet(decimal originBase, decimal targetBase) {
+            return ((targetBase - originBase) * 2 * -1);
+        }
 
-        private int CalculateBaseIndex(decimal x, decimal rz) {
+        public static decimal GetToolOffSet(decimal xory) {
+            decimal toolLen = 250;
+            if (xory > 0) {
+                return xory + toolLen;
+            } else {
+                return xory - toolLen;
+            }
+        }
+
+        private int CalculateBaseIndex(decimal x, decimal y) {
             int baseindex = 0;
             if (x != 0) {
                 baseindex = 2;
-                if (rz < 0) {
+                if (x > 0) {
                     baseindex += 1;
                 }
             } else {
-                if (rz < 0) {
+                if (y < 0) {
                     baseindex += 1;
                 }
             }
@@ -58,6 +76,7 @@ namespace yidascan {
         }
 
         public int LocationNo;
+        public int Index;
         public int BaseIndex;
         public bool ChangeAngle;
 
@@ -68,6 +87,9 @@ namespace yidascan {
         public decimal Y;
         public decimal Z;
         public decimal Rz;
+        public decimal XOffSet;
+        public decimal Base1;
+        public decimal Base2;
 
         public string ToLocation { get; set; }
         // A侧或B侧
@@ -85,15 +107,11 @@ namespace yidascan {
 
         OPCClient client = null;
         OPCParam param = null;
-        MessageCenter msg;
 
         public RobotHelper(string ip, string jobName) {
             try {
-                // FrmMain.logOpt.ViewInfo("11");
                 rCtrl = new RobotControl.RobotControl(ip);
-                // FrmMain.logOpt.ViewInfo("22");
                 rCtrl.Connect();
-                // FrmMain.logOpt.ViewInfo("33");
                 rCtrl.ServoPower(true);
                 JOB_NAME = jobName;
             } catch (Exception ex) {
@@ -102,12 +120,12 @@ namespace yidascan {
         }
 
         public bool IsConnected() {
-            return rCtrl.Connected;
+            return rCtrl.IsConnected();
         }
 
         public void WritePosition(RollPosition rollPos) {
             rCtrl.SetVariables(RobotControl.VariableType.B, 10, 1, rollPos.ChangeAngle ? "1" : "0");
-            rCtrl.SetVariables(RobotControl.VariableType.B, 0, 1, rollPos.LocationNo.ToString());
+            rCtrl.SetVariables(RobotControl.VariableType.B, 0, 1, rollPos.BaseIndex.ToString());
 
             // 原点高位旋转
             rCtrl.SetPostion(RobotControl.PosVarType.Robot,
@@ -129,6 +147,7 @@ namespace yidascan {
 
         public bool IsBusy() {
             Dictionary<string, bool> status = rCtrl.GetPlayStatus();
+            //FrmMain.logOpt.ViewInfo(string.Format("{0}", Newtonsoft.Json.JsonConvert.SerializeObject(status)));
             if (status.Count == 0) { return true; } else {
                 return (status["Start"] || status["Hold"]);
             }
@@ -167,6 +186,7 @@ namespace yidascan {
 
         public void JobLoop(ref bool isrun) {
             while (isrun) {
+                FrmMain.logOpt.ViewInfo("JobLoop Head");
                 if (robotJobs.Rolls.Count > 0) {
                     while (isrun && IsBusy()) {
                         Thread.Sleep(OPCClient.DELAY);
@@ -174,42 +194,45 @@ namespace yidascan {
 
                     var roll = robotJobs.GetRoll();
 
-                    while (isrun && !PanelAvailable(roll.ToLocation)) {
-                        Thread.Sleep(OPCClient.DELAY * 200);
-                    }
+                    FrmMain.logOpt.ViewInfo(string.Format("roll:{0}", Newtonsoft.Json.JsonConvert.SerializeObject(roll)));
+                    // 等待板可放料
+                    //while (isrun && !PanelAvailable(roll.ToLocation)) {
+                    //    FrmMain.logOpt.ViewInfo("1111。");
+                    //    Thread.Sleep(OPCClient.DELAY * 400);
+                    //}
 
+                    FrmMain.logOpt.ViewInfo("启动机器人动作。");
                     // 启动机器人动作。
                     WritePosition(roll);
-                    
-                    // 等待板可放料
-                    while (isrun) {
-                        lock (client) { // double lock.
-                            var v = client.ReadInt(param.BAreaPanelState[roll.ToLocation]);
-                            if (v == 2) { break; }
-                        }
-                        Thread.Sleep(DELAY * 40); // 200 ms.
-                    }
 
                     RunJob(JOB_NAME);
 
+                    Thread.Sleep(RobotHelper.DELAY * 1000);
+
                     // 等待安全位置信号
                     //while (!IsSafePlace()) { Thread.Sleep(RobotHelper.DELAY * 10); }
+
                     // 告知OPC
                     //NotifyOpcSafePlace(roll.Side);
 
                     // 等待完成信号
-                    while (IsBusy()) { Thread.Sleep(RobotHelper.DELAY * 10); }
+                    while (isrun && IsBusy()) {
+                        FrmMain.logOpt.ViewInfo("Working");
+                        Thread.Sleep(RobotHelper.DELAY * 200);
+                    }
                     // 告知OPC
                     NotifyOpcJobFinished(roll.PnlState, roll.ToLocation);
-                    
-                    Thread.Sleep(RobotHelper.DELAY * 400);
                 }
+                FrmMain.logOpt.ViewInfo("JobLoop End");
+                Thread.Sleep(RobotHelper.DELAY * 400);
             }
         }
 
         private bool PanelAvailable(string tolocation) {
             lock (client) {
-                return client.ReadString(param.BAreaPanelState[tolocation]) == "2";
+                string s = client.ReadString(param.BAreaPanelState[tolocation]);
+                FrmMain.logOpt.ViewInfo(string.Format("{0}:{1}", param.BAreaPanelState[tolocation], s));
+                return s == "2";
             }
         }
 
@@ -225,6 +248,7 @@ namespace yidascan {
 
         public void Dispose() {
             rCtrl.ServoPower(false);
+            Thread.Sleep(1000);
             rCtrl.Close();
         }
     }

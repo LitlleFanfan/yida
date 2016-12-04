@@ -51,7 +51,7 @@ namespace yidascan
             decimal sumlen = 0;
             lc.FloorIndex = CalculateFloorIndex(lcs, lc);
             var len = (from s in lcs where s.FloorIndex != 0 && s.FloorIndex % 2 == lc.FloorIndex % 2 select s.Diameter).Sum();
-            decimal z = lc.Floor == 1 ? 30 : LableCode.GetFloorMaxDiameter(lc.PanelNo, lc.Floor);
+            decimal z = lc.Floor == 1 ? 0 : LableCode.GetFloorMaxDiameter(lc.PanelNo, lc.Floor);
             decimal r = clsSetting.OddTurn && lc.Floor % 2 == 1 ? 0 : 90;
             decimal xory =
                 lc.FloorIndex % 2 == 0 ?

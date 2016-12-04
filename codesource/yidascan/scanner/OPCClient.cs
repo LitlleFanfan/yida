@@ -81,7 +81,7 @@ namespace ProduceComm.OPC {
                 groups[code].Write(new Opc.Da.ItemValue[] { iv });
                 return true;
             } catch (Exception ex) {
-                clsSetting.loger.Error(string.Format("{0}写入失败！", code), ex);
+                yidascan.FrmMain.logOpt.ViewInfo(string.Format("{0}写入失败！{1}", code, ex));
                 //OnError(new Exception("写入失败！", ex));
                 return false;
             }
@@ -101,7 +101,7 @@ namespace ProduceComm.OPC {
                 }
                 return null;
             } catch (Exception ex) {
-                clsSetting.loger.Error(string.Format("{0}读取失败！", code), ex);
+                yidascan.FrmMain.logOpt.ViewInfo(string.Format("{0}读取失败！{1}", code, ex));
                 OnError(new Exception("读取失败！", ex));
                 return null;
             }

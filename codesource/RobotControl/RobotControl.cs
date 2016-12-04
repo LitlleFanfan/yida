@@ -60,6 +60,10 @@ namespace RobotControl {
             connected = true;// s == "Connected to TCP server...\r\n";
         }
 
+        public bool IsConnected() {
+            return sck != null && sck.Connected;
+        }
+
         /// <summary>
         /// 断开连接
         /// </summary>

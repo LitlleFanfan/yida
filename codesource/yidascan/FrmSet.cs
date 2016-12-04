@@ -8,12 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using ProduceComm;
 
-namespace yidascan
-{
-    public partial class FrmSet : Form
-    {
-        public FrmSet()
-        {
+namespace yidascan {
+    public partial class FrmSet : Form {
+        public FrmSet() {
             InitializeComponent();
 
             IniCombobox(cmbCom);
@@ -24,18 +21,15 @@ namespace yidascan
         public static CommunicationCfg pcfgScan1 = new CommunicationCfg("SCAN1");
         public static CommunicationCfg pcfgScan2 = new CommunicationCfg("SCAN2");
 
-        private void IniCombobox(ComboBox cmb)
-        {
+        private void IniCombobox(ComboBox cmb) {
             cmb.Items.Clear();
             int num2 = System.IO.Ports.SerialPort.GetPortNames().Length - 1;
-            for (int i = 0; i <= num2; i++)
-            {
+            for (int i = 0; i <= num2; i++) {
                 cmb.Items.Add(System.IO.Ports.SerialPort.GetPortNames().GetValue(i));
             }
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
-        {
+        private void btnSave_Click(object sender, EventArgs e) {
             pcfgScan1.ComPort = cmbCom.Text;
             pcfgScan1.BaudRate = cmbBaudRate.Text;
             pcfgScan1.IPAddr = txtIPAddr.Text;
@@ -66,67 +60,54 @@ namespace yidascan
             clsSetting.SplintHeight = nudSplintHeight.Value;
 
             clsSetting.RobotIP = txtRobotIP.Text;
-            
+            clsSetting.JobName = txtJobName.Text;
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
+        private void btnCancel_Click(object sender, EventArgs e) {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
-        private void CommunicationTypeChange(bool i = true)
-        {
-            if (i)
-            {
+        private void CommunicationTypeChange(bool i = true) {
+            if (i) {
                 pnl1.Enabled = rbtType1.Checked;
                 pnl2.Enabled = rbtType2.Checked;
-            }
-            else
-            {
+            } else {
                 pnl12.Enabled = rbtType12.Checked;
                 pnl22.Enabled = rbtType22.Checked;
             }
         }
 
-        private void rbtType1Plc_CheckedChanged(object sender, EventArgs e)
-        {
+        private void rbtType1Plc_CheckedChanged(object sender, EventArgs e) {
             CommunicationTypeChange(false);
         }
 
-        private void rbtType2Plc_CheckedChanged(object sender, EventArgs e)
-        {
+        private void rbtType2Plc_CheckedChanged(object sender, EventArgs e) {
             CommunicationTypeChange(false);
         }
 
-        private void rbtType1_CheckedChanged(object sender, EventArgs e)
-        {
+        private void rbtType1_CheckedChanged(object sender, EventArgs e) {
             CommunicationTypeChange();
         }
 
-        private void rbtType2_CheckedChanged(object sender, EventArgs e)
-        {
+        private void rbtType2_CheckedChanged(object sender, EventArgs e) {
             CommunicationTypeChange();
         }
 
-        private void InitRbt(bool netework, bool i = true)
-        {
-            if (i)
-            {
+        private void InitRbt(bool netework, bool i = true) {
+            if (i) {
                 rbtType1.Checked = !netework;
                 rbtType2.Checked = netework;
-            }
-            else
-            {
+            } else {
                 rbtType12.Checked = !netework;
                 rbtType22.Checked = netework;
             }
         }
 
-        private void FrmSet_Load(object sender, EventArgs e)
-        {
+        private void FrmSet_Load(object sender, EventArgs e) {
             cmbCom.Text = pcfgScan1.ComPort;
             cmbBaudRate.Text = pcfgScan1.BaudRate;
             txtIPAddr.Text = pcfgScan1.IPAddr;
@@ -157,6 +138,7 @@ namespace yidascan
             nudSplintHeight.Value = clsSetting.SplintHeight;
 
             txtRobotIP.Text = clsSetting.RobotIP;
+            txtJobName.Text = clsSetting.JobName;
         }
     }
 }

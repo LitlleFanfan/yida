@@ -62,11 +62,13 @@
             this.lblScanner = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblScanner2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblOpcIp = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblRobot = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblTimer = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblMsgInfo = new System.Windows.Forms.Label();
+            this.chkUseRobot = new System.Windows.Forms.CheckBox();
+            this.lbTaskState = new System.Windows.Forms.Label();
             this.lblCount = new System.Windows.Forms.Label();
             this.cmbShiftNo = new System.Windows.Forms.ComboBox();
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
@@ -221,7 +223,7 @@
             this.grbHandwork.Margin = new System.Windows.Forms.Padding(5);
             this.grbHandwork.Name = "grbHandwork";
             this.grbHandwork.Padding = new System.Windows.Forms.Padding(5);
-            this.grbHandwork.Size = new System.Drawing.Size(982, 136);
+            this.grbHandwork.Size = new System.Drawing.Size(759, 177);
             this.grbHandwork.TabIndex = 51;
             this.grbHandwork.TabStop = false;
             this.grbHandwork.Text = "手动操作";
@@ -237,7 +239,7 @@
             this.panel1.Location = new System.Drawing.Point(16, 25);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(951, 102);
+            this.panel1.Size = new System.Drawing.Size(730, 145);
             this.panel1.TabIndex = 8;
             // 
             // txtLableCode1
@@ -250,7 +252,7 @@
             this.txtLableCode1.Location = new System.Drawing.Point(134, 27);
             this.txtLableCode1.Margin = new System.Windows.Forms.Padding(4);
             this.txtLableCode1.Name = "txtLableCode1";
-            this.txtLableCode1.Size = new System.Drawing.Size(795, 44);
+            this.txtLableCode1.Size = new System.Drawing.Size(574, 44);
             this.txtLableCode1.TabIndex = 1;
             this.txtLableCode1.Text = "请将光标放置到这里扫描";
             this.txtLableCode1.Enter += new System.EventHandler(this.txtLableCode1_Enter);
@@ -275,7 +277,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.IsSplitterFixed = true;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 213);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 256);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -287,8 +289,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.panel3);
-            this.splitContainer1.Size = new System.Drawing.Size(1593, 410);
-            this.splitContainer1.SplitterDistance = 586;
+            this.splitContainer1.Size = new System.Drawing.Size(1370, 367);
+            this.splitContainer1.SplitterDistance = 503;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 52;
             // 
@@ -318,7 +320,7 @@
             this.dgvData.RowTemplate.Height = 23;
             this.dgvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvData.ShowEditingIcon = false;
-            this.dgvData.Size = new System.Drawing.Size(586, 378);
+            this.dgvData.Size = new System.Drawing.Size(503, 335);
             this.dgvData.TabIndex = 1;
             // 
             // Code
@@ -400,7 +402,7 @@
             this.label8.Location = new System.Drawing.Point(0, 0);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(586, 32);
+            this.label8.Size = new System.Drawing.Size(503, 32);
             this.label8.TabIndex = 0;
             this.label8.Text = "数据";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -412,7 +414,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1002, 410);
+            this.panel3.Size = new System.Drawing.Size(862, 367);
             this.panel3.TabIndex = 2;
             // 
             // lsvLog
@@ -422,7 +424,7 @@
             this.lsvLog.Location = new System.Drawing.Point(0, 32);
             this.lsvLog.MinimumSize = new System.Drawing.Size(250, 4);
             this.lsvLog.Name = "lsvLog";
-            this.lsvLog.Size = new System.Drawing.Size(1002, 378);
+            this.lsvLog.Size = new System.Drawing.Size(862, 335);
             this.lsvLog.TabIndex = 2;
             // 
             // label9
@@ -432,7 +434,7 @@
             this.label9.Location = new System.Drawing.Point(0, 0);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(1002, 32);
+            this.label9.Size = new System.Drawing.Size(862, 32);
             this.label9.TabIndex = 1;
             this.label9.Text = "日志";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -445,6 +447,7 @@
             this.lblScanner,
             this.lblScanner2,
             this.lblOpcIp,
+            this.lblRobot,
             this.toolStripStatusLabel2,
             this.lblTimer});
             this.statusStrip1.Location = new System.Drawing.Point(0, 624);
@@ -484,11 +487,18 @@
             this.lblOpcIp.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.lblOpcIp.Size = new System.Drawing.Size(20, 21);
             // 
+            // lblRobot
+            // 
+            this.lblRobot.BackColor = System.Drawing.Color.LightGray;
+            this.lblRobot.Name = "lblRobot";
+            this.lblRobot.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.lblRobot.Size = new System.Drawing.Size(20, 21);
+            // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(965, 21);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(945, 21);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // lblTimer
@@ -506,30 +516,42 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.lblMsgInfo);
+            this.groupBox1.Controls.Add(this.chkUseRobot);
+            this.groupBox1.Controls.Add(this.lbTaskState);
             this.groupBox1.Controls.Add(this.lblCount);
             this.groupBox1.Controls.Add(this.cmbShiftNo);
             this.groupBox1.Controls.Add(this.dtpDate);
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Location = new System.Drawing.Point(4, 70);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(599, 136);
+            this.groupBox1.Size = new System.Drawing.Size(599, 179);
             this.groupBox1.TabIndex = 54;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "班次信息";
             // 
-            // lblMsgInfo
+            // chkUseRobot
             // 
-            this.lblMsgInfo.BackColor = System.Drawing.Color.Green;
-            this.lblMsgInfo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblMsgInfo.Font = new System.Drawing.Font("SimHei", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMsgInfo.ForeColor = System.Drawing.Color.White;
-            this.lblMsgInfo.Location = new System.Drawing.Point(260, 68);
-            this.lblMsgInfo.Name = "lblMsgInfo";
-            this.lblMsgInfo.Size = new System.Drawing.Size(333, 59);
-            this.lblMsgInfo.TabIndex = 16;
-            this.lblMsgInfo.Text = "空闲";
-            this.lblMsgInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkUseRobot.AutoSize = true;
+            this.chkUseRobot.Font = new System.Drawing.Font("SimSun", 24F);
+            this.chkUseRobot.Location = new System.Drawing.Point(3, 133);
+            this.chkUseRobot.Name = "chkUseRobot";
+            this.chkUseRobot.Size = new System.Drawing.Size(194, 37);
+            this.chkUseRobot.TabIndex = 17;
+            this.chkUseRobot.Text = "启动机器人";
+            this.chkUseRobot.UseVisualStyleBackColor = true;
+            // 
+            // lbTaskState
+            // 
+            this.lbTaskState.BackColor = System.Drawing.Color.Green;
+            this.lbTaskState.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbTaskState.Font = new System.Drawing.Font("SimHei", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTaskState.ForeColor = System.Drawing.Color.White;
+            this.lbTaskState.Location = new System.Drawing.Point(260, 68);
+            this.lbTaskState.Name = "lbTaskState";
+            this.lbTaskState.Size = new System.Drawing.Size(333, 59);
+            this.lbTaskState.TabIndex = 16;
+            this.lbTaskState.Text = "空闲";
+            this.lbTaskState.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblCount
             // 
@@ -596,7 +618,7 @@
             this.pictureBox1.Location = new System.Drawing.Point(1292, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(5);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(301, 67);
+            this.pictureBox1.Size = new System.Drawing.Size(78, 67);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 50;
             this.pictureBox1.TabStop = false;
@@ -606,12 +628,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1370, 650);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.grbHandwork);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("SimSun", 14F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -637,6 +659,7 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -673,7 +696,7 @@
         private System.Windows.Forms.ToolStripStatusLabel lblOpcIp;
         private System.Windows.Forms.ListBox lsvLog;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label lblMsgInfo;
+        private System.Windows.Forms.Label lbTaskState;
         private System.Windows.Forms.Label lblCount;
         private System.Windows.Forms.ToolStripButton btnReset;
         private System.Windows.Forms.Panel panel3;
@@ -689,6 +712,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn PanelNo;
         private System.Windows.Forms.DataGridViewTextBoxColumn Finished;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripStatusLabel lblRobot;
+        private System.Windows.Forms.CheckBox chkUseRobot;
     }
 }
 
