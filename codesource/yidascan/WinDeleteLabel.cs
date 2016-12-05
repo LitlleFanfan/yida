@@ -40,13 +40,10 @@ namespace yidascan {
 
             // 删除号码。
             if (LableCode.Delete(code)) {
-                // 更新主界面胡显示。
-                mainwin.RemoveRowFromView(code);
-                mainwin.RefreshCounter();               
                 mainwin.WriteLabelCodeToOpc(code);
-                FrmMain.logOpt.ViewInfo(string.Format("删除标签{0}成功", code));
+                FrmMain.logOpt.ViewInfo(string.Format("删除标签{0}成功", code), LogType.NORMAL);
             } else {
-                FrmMain.logOpt.ViewInfo(string.Format("删除标签{0}失败", code));
+                FrmMain.logOpt.ViewInfo(string.Format("删除标签{0}失败", code), LogType.NORMAL);
             }
 
             txtDelLCode.Text = string.Empty;

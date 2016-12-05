@@ -125,8 +125,8 @@ namespace RobotTest {
             //new LableCode() { LCode = "122362059003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 4, Diameter = 160, Length = 1574, Coordinates = "30,90,-290" },
             //new LableCode() { LCode = "122362058003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 5, Diameter = 155, Length = 1584, Coordinates = "30,90,340" },
             //new LableCode() { LCode = "122355585003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 6, Diameter = 115, Length = 1506, Coordinates = "30,90,-405" },
-            new LableCode() { LCode = "122361083003", ToLocation = "B07", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 7, Diameter = 185, Length = 1570, Coordinates = "30,0,495" },
-            new LableCode() { LCode = "122361082003", ToLocation = "B07", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 8, Diameter = 180, Length = 1553, Coordinates = "30,0,-585" },
+            new LableCode() { LCode = "122361083003", ToLocation = "B01", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 7, Diameter = 185, Length = 1570, Coordinates = "30,0,495" },
+            new LableCode() { LCode = "122361082003", ToLocation = "B01", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 8, Diameter = 180, Length = 1553, Coordinates = "30,0,-585" },
             //new LableCode() { LCode = "122356531003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 2, FloorIndex = 1, Diameter = 105, Length = 1529, Coordinates = "185,0,0" },
             //new LableCode() { LCode = "122362055003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 2, FloorIndex = 2, Diameter = 175, Length = 1521, Coordinates = "185,0,-175" },
             //new LableCode() { LCode = "122362054003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 2, FloorIndex = 3, Diameter = 190, Length = 1525, Coordinates = "185,0,105" },
@@ -135,8 +135,8 @@ namespace RobotTest {
             //new LableCode() { LCode = "122362317003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 2, FloorIndex = 6, Diameter = 165, Length = 1517, Coordinates = "185,0,-525" },
 
 
-            new LableCode() { LCode = "122361079003", ToLocation = "B07", PanelNo = "1611240008", Status = 0, Floor = 2, FloorIndex = 7, Diameter = 190, Length = 1518, Coordinates = "185,90,410" },
-            new LableCode() { LCode = "122362056003", ToLocation = "B07", PanelNo = "1611240008", Status = 0, Floor = 2, FloorIndex = 8, Diameter = 190, Length = 115, Coordinates = "185,90,-715" },
+            new LableCode() { LCode = "122361079003", ToLocation = "B02", PanelNo = "1611240008", Status = 0, Floor = 2, FloorIndex = 7, Diameter = 190, Length = 1518, Coordinates = "185,90,410" },
+            new LableCode() { LCode = "122362056003", ToLocation = "B02", PanelNo = "1611240008", Status = 0, Floor = 2, FloorIndex = 8, Diameter = 190, Length = 115, Coordinates = "185,90,-715" },
             
             //new LableCode() { LCode = "122362323003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 3, FloorIndex = 1, Diameter = 110, Length = 1507, Coordinates = "375,90,0" },
             //new LableCode() { LCode = "122362314003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 3, FloorIndex = 2, Diameter = 100, Length = 1511, Coordinates = "375,90,-100" },

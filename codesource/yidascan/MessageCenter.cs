@@ -5,14 +5,33 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace yidascan {
-    public class MessageCenter {
-        private readonly Queue<string> que;
-
+    public class MessageItem {
         private const string FMT_MESSAGE = "[{0}] [{1}] {2}";
         private const string FMT_DATE = "yyyy-MM-dd HH:mm:ss";
 
+        public DateTime Timestamp { get; set; }
+        public string Text { get; set; }
+        public string Group { get; set; }
+
+        public MessageItem(string message, string group) {
+            this.Timestamp = DateTime.Now;
+            this.Text = message;
+            this.Group = group;
+        }
+
+        public override string ToString() {
+            return string.Format(FMT_MESSAGE,
+                                  Timestamp.ToString(FMT_DATE),
+                                  Group,
+                                  Text);
+        }
+    }
+
+    public class MessageCenter {
+        private readonly Queue<MessageItem> que;
+
         public MessageCenter() {
-            que = new Queue<string>();
+            que = new Queue<MessageItem>();
         }
 
         /// <summary>
@@ -23,12 +42,8 @@ namespace yidascan {
         public void Push(string message, string group = "normal") {
             if (string.IsNullOrWhiteSpace(message)) { return; }
 
-            var s = string.Format(FMT_MESSAGE,
-                                  DateTime.Now.ToString(FMT_DATE),
-                                  group,
-                                  message);
             lock (que) {
-                que.Enqueue(s);
+                que.Enqueue(new MessageItem(message, group));
             }
         }
 
@@ -36,8 +51,8 @@ namespace yidascan {
         /// 从消息中心取所有消息。
         /// </summary>
         /// <returns>返回List对象，如果没有消息，List的长度为0，</returns>
-        public List<string> GetAll() {
-            List<string> lst;
+        public List<MessageItem> GetAll() {
+            List<MessageItem> lst;
             lock (que) {
                 lst = que.ToList();
                 que.Clear();

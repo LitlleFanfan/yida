@@ -8,9 +8,14 @@ namespace yidascan {
     public class RobotJobQueue {
         public Queue<RollPosition> Rolls = new Queue<RollPosition>();
 
-        public void AddRoll(RollPosition roll) {
+        public bool AddRoll(RollPosition roll) {
             lock (Rolls) {
-                Rolls.Enqueue(roll);
+                if (!IsInRoll(roll)) {
+                    Rolls.Enqueue(roll);
+                    return true;
+                }  else {
+                    return false;
+                }
             }
         }
 
@@ -29,5 +34,15 @@ namespace yidascan {
             }
         }
 
+        /// <summary>
+        /// 判断队列中是否已经有该布卷。
+        /// </summary>
+        /// <param name="roll"></param>
+        /// <returns></returns>
+        public bool IsInRoll(RollPosition roll) {
+            return Rolls.Any(item => {
+                return item.IsSameLabel(roll);
+            });
+        }
     }
 }

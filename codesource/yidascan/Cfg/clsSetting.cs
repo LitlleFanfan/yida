@@ -38,6 +38,10 @@ namespace ProduceComm {
                     break;
             }
         }
+
+        internal void ViewInfo(string v, LogViewType onlyFile) {
+            throw new NotImplementedException();
+        }
     }
 
     public class clsSetting {

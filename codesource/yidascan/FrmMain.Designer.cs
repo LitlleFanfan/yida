@@ -36,27 +36,30 @@
             this.btnReset = new System.Windows.Forms.ToolStripButton();
             this.btnSet = new System.Windows.Forms.ToolStripButton();
             this.btnLog = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.btnHelp = new System.Windows.Forms.ToolStripButton();
+            this.btnOther = new System.Windows.Forms.ToolStripDropDownButton();
+            this.btnStartRobot = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnStopRobot = new System.Windows.Forms.ToolStripMenuItem();
             this.btnQuit = new System.Windows.Forms.ToolStripButton();
             this.grbHandwork = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtLableCode1 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.dgvData = new System.Windows.Forms.DataGridView();
-            this.Code = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Floor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FloorIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Diameter = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Coordinates = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ToLocation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PanelNo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Finished = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lbxLabelCode = new System.Windows.Forms.ListBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.lsvRobotRollLog = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.panel3 = new System.Windows.Forms.Panel();
             this.lsvLog = new System.Windows.Forms.ListBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.lsvBufferLog = new System.Windows.Forms.ListBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lsvRobotStackLog = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblScanner = new System.Windows.Forms.ToolStripStatusLabel();
@@ -67,6 +70,7 @@
             this.lblTimer = new System.Windows.Forms.ToolStripStatusLabel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lbRobotState = new System.Windows.Forms.Label();
             this.chkUseRobot = new System.Windows.Forms.CheckBox();
             this.lbTaskState = new System.Windows.Forms.Label();
             this.lblCount = new System.Windows.Forms.Label();
@@ -76,6 +80,10 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer_message = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1.SuspendLayout();
             this.grbHandwork.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -83,8 +91,20 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -98,12 +118,11 @@
             this.btnReset,
             this.btnSet,
             this.btnLog,
-            this.toolStripButton1,
-            this.btnHelp,
+            this.btnOther,
             this.btnQuit});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1370, 67);
+            this.toolStrip1.Size = new System.Drawing.Size(1660, 67);
             this.toolStrip1.TabIndex = 48;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -139,7 +158,7 @@
             // btnReset
             // 
             this.btnReset.AutoSize = false;
-            this.btnReset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.btnReset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnReset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnReset.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
             this.btnReset.Image = ((System.Drawing.Image)(resources.GetObject("btnReset.Image")));
@@ -165,7 +184,7 @@
             // btnLog
             // 
             this.btnLog.AutoSize = false;
-            this.btnLog.BackColor = System.Drawing.Color.LightPink;
+            this.btnLog.BackColor = System.Drawing.Color.CornflowerBlue;
             this.btnLog.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnLog.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
             this.btnLog.Image = ((System.Drawing.Image)(resources.GetObject("btnLog.Image")));
@@ -175,31 +194,38 @@
             this.btnLog.Text = "日志(&L)";
             this.btnLog.Click += new System.EventHandler(this.btnLog_Click);
             // 
-            // toolStripButton1
+            // btnOther
             // 
-            this.toolStripButton1.AutoSize = false;
-            this.toolStripButton1.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton1.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(160, 64);
-            this.toolStripButton1.Text = "删除标签(&D)";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.btnOther.AutoSize = false;
+            this.btnOther.BackColor = System.Drawing.Color.LightYellow;
+            this.btnOther.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnOther.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnStartRobot,
+            this.btnStopRobot,
+            this.toolStripMenuItem2,
+            this.btnDelete,
+            this.toolStripMenuItem1,
+            this.btnHelp});
+            this.btnOther.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
+            this.btnOther.Image = ((System.Drawing.Image)(resources.GetObject("btnOther.Image")));
+            this.btnOther.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOther.Name = "btnOther";
+            this.btnOther.Size = new System.Drawing.Size(160, 64);
+            this.btnOther.Text = "其他";
             // 
-            // btnHelp
+            // btnStartRobot
             // 
-            this.btnHelp.AutoSize = false;
-            this.btnHelp.BackColor = System.Drawing.Color.DarkKhaki;
-            this.btnHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnHelp.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
-            this.btnHelp.Image = ((System.Drawing.Image)(resources.GetObject("btnHelp.Image")));
-            this.btnHelp.ImageTransparentColor = System.Drawing.Color.BlueViolet;
-            this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(160, 64);
-            this.btnHelp.Text = "帮助(&H)";
-            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            this.btnStartRobot.Name = "btnStartRobot";
+            this.btnStartRobot.Size = new System.Drawing.Size(217, 30);
+            this.btnStartRobot.Text = "启动机器人任务";
+            this.btnStartRobot.Click += new System.EventHandler(this.btnStartRobot_Click);
+            // 
+            // btnStopRobot
+            // 
+            this.btnStopRobot.Name = "btnStopRobot";
+            this.btnStopRobot.Size = new System.Drawing.Size(217, 30);
+            this.btnStopRobot.Text = "停止机器人任务";
+            this.btnStopRobot.Click += new System.EventHandler(this.btnStopRobot_Click);
             // 
             // btnQuit
             // 
@@ -223,7 +249,7 @@
             this.grbHandwork.Margin = new System.Windows.Forms.Padding(5);
             this.grbHandwork.Name = "grbHandwork";
             this.grbHandwork.Padding = new System.Windows.Forms.Padding(5);
-            this.grbHandwork.Size = new System.Drawing.Size(759, 177);
+            this.grbHandwork.Size = new System.Drawing.Size(1049, 129);
             this.grbHandwork.TabIndex = 51;
             this.grbHandwork.TabStop = false;
             this.grbHandwork.Text = "手动操作";
@@ -239,7 +265,7 @@
             this.panel1.Location = new System.Drawing.Point(16, 25);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(730, 145);
+            this.panel1.Size = new System.Drawing.Size(1020, 95);
             this.panel1.TabIndex = 8;
             // 
             // txtLableCode1
@@ -252,7 +278,7 @@
             this.txtLableCode1.Location = new System.Drawing.Point(134, 27);
             this.txtLableCode1.Margin = new System.Windows.Forms.Padding(4);
             this.txtLableCode1.Name = "txtLableCode1";
-            this.txtLableCode1.Size = new System.Drawing.Size(574, 44);
+            this.txtLableCode1.Size = new System.Drawing.Size(864, 44);
             this.txtLableCode1.TabIndex = 1;
             this.txtLableCode1.Text = "请将光标放置到这里扫描";
             this.txtLableCode1.Enter += new System.EventHandler(this.txtLableCode1_Enter);
@@ -276,124 +302,60 @@
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.IsSplitterFixed = true;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 256);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 208);
             this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.dgvData);
-            this.splitContainer1.Panel1.Controls.Add(this.label8);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.panel3);
-            this.splitContainer1.Size = new System.Drawing.Size(1370, 367);
-            this.splitContainer1.SplitterDistance = 503;
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
+            this.splitContainer1.Size = new System.Drawing.Size(1660, 529);
+            this.splitContainer1.SplitterDistance = 480;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 52;
             // 
-            // dgvData
+            // splitContainer2
             // 
-            this.dgvData.AllowUserToAddRows = false;
-            this.dgvData.AllowUserToDeleteRows = false;
-            this.dgvData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvData.BackgroundColor = System.Drawing.Color.White;
-            this.dgvData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Code,
-            this.Floor,
-            this.FloorIndex,
-            this.Diameter,
-            this.Coordinates,
-            this.ToLocation,
-            this.PanelNo,
-            this.Finished});
-            this.dgvData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvData.Location = new System.Drawing.Point(0, 32);
-            this.dgvData.Margin = new System.Windows.Forms.Padding(4);
-            this.dgvData.MultiSelect = false;
-            this.dgvData.Name = "dgvData";
-            this.dgvData.ReadOnly = true;
-            this.dgvData.RowHeadersVisible = false;
-            this.dgvData.RowTemplate.Height = 23;
-            this.dgvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvData.ShowEditingIcon = false;
-            this.dgvData.Size = new System.Drawing.Size(503, 335);
-            this.dgvData.TabIndex = 1;
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // Code
+            // splitContainer2.Panel1
             // 
-            this.Code.DataPropertyName = "Code";
-            this.Code.FillWeight = 66.99477F;
-            this.Code.HeaderText = "标签";
-            this.Code.Name = "Code";
-            this.Code.ReadOnly = true;
-            this.Code.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.splitContainer2.Panel1.Controls.Add(this.panel2);
+            this.splitContainer2.Panel1.Controls.Add(this.label8);
             // 
-            // Floor
+            // splitContainer2.Panel2
             // 
-            this.Floor.DataPropertyName = "Floor";
-            this.Floor.HeaderText = "层";
-            this.Floor.Name = "Floor";
-            this.Floor.ReadOnly = true;
-            this.Floor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Floor.Visible = false;
+            this.splitContainer2.Panel2.Controls.Add(this.lsvRobotRollLog);
+            this.splitContainer2.Panel2.Controls.Add(this.label1);
+            this.splitContainer2.Size = new System.Drawing.Size(480, 529);
+            this.splitContainer2.SplitterDistance = 264;
+            this.splitContainer2.TabIndex = 2;
             // 
-            // FloorIndex
+            // panel2
             // 
-            this.FloorIndex.DataPropertyName = "FloorIndex";
-            this.FloorIndex.HeaderText = "层中序号";
-            this.FloorIndex.Name = "FloorIndex";
-            this.FloorIndex.ReadOnly = true;
-            this.FloorIndex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.FloorIndex.Visible = false;
+            this.panel2.Controls.Add(this.lbxLabelCode);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 32);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(480, 232);
+            this.panel2.TabIndex = 1;
             // 
-            // Diameter
+            // lbxLabelCode
             // 
-            this.Diameter.DataPropertyName = "Diameter";
-            this.Diameter.FillWeight = 32.65995F;
-            this.Diameter.HeaderText = "直径mm";
-            this.Diameter.Name = "Diameter";
-            this.Diameter.ReadOnly = true;
-            this.Diameter.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Coordinates
-            // 
-            this.Coordinates.DataPropertyName = "Coordinates";
-            this.Coordinates.HeaderText = "坐标";
-            this.Coordinates.Name = "Coordinates";
-            this.Coordinates.ReadOnly = true;
-            this.Coordinates.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Coordinates.Visible = false;
-            // 
-            // ToLocation
-            // 
-            this.ToLocation.DataPropertyName = "ToLocation";
-            this.ToLocation.FillWeight = 32.65995F;
-            this.ToLocation.HeaderText = "交地";
-            this.ToLocation.Name = "ToLocation";
-            this.ToLocation.ReadOnly = true;
-            this.ToLocation.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // PanelNo
-            // 
-            this.PanelNo.DataPropertyName = "PanelNo";
-            this.PanelNo.HeaderText = "板号";
-            this.PanelNo.Name = "PanelNo";
-            this.PanelNo.ReadOnly = true;
-            this.PanelNo.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.PanelNo.Visible = false;
-            // 
-            // Finished
-            // 
-            this.Finished.DataPropertyName = "Finished";
-            this.Finished.FillWeight = 32.65995F;
-            this.Finished.HeaderText = "状态";
-            this.Finished.Name = "Finished";
-            this.Finished.ReadOnly = true;
-            this.Finished.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.lbxLabelCode.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbxLabelCode.FormattingEnabled = true;
+            this.lbxLabelCode.ItemHeight = 19;
+            this.lbxLabelCode.Location = new System.Drawing.Point(0, 0);
+            this.lbxLabelCode.Name = "lbxLabelCode";
+            this.lbxLabelCode.Size = new System.Drawing.Size(480, 232);
+            this.lbxLabelCode.TabIndex = 0;
             // 
             // label8
             // 
@@ -402,10 +364,53 @@
             this.label8.Location = new System.Drawing.Point(0, 0);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(503, 32);
+            this.label8.Size = new System.Drawing.Size(480, 32);
             this.label8.TabIndex = 0;
             this.label8.Text = "数据";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lsvRobotRollLog
+            // 
+            this.lsvRobotRollLog.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.lsvRobotRollLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lsvRobotRollLog.ItemHeight = 19;
+            this.lsvRobotRollLog.Location = new System.Drawing.Point(0, 32);
+            this.lsvRobotRollLog.MinimumSize = new System.Drawing.Size(250, 4);
+            this.lsvRobotRollLog.Name = "lsvRobotRollLog";
+            this.lsvRobotRollLog.Size = new System.Drawing.Size(480, 229);
+            this.lsvRobotRollLog.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.SkyBlue;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(480, 32);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "机器人布卷队列";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.panel3);
+            this.splitContainer3.Panel1MinSize = 200;
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
+            this.splitContainer3.Panel2MinSize = 200;
+            this.splitContainer3.Size = new System.Drawing.Size(1175, 529);
+            this.splitContainer3.SplitterDistance = 200;
+            this.splitContainer3.TabIndex = 0;
             // 
             // panel3
             // 
@@ -414,7 +419,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(862, 367);
+            this.panel3.Size = new System.Drawing.Size(1175, 200);
             this.panel3.TabIndex = 2;
             // 
             // lsvLog
@@ -424,7 +429,7 @@
             this.lsvLog.Location = new System.Drawing.Point(0, 32);
             this.lsvLog.MinimumSize = new System.Drawing.Size(250, 4);
             this.lsvLog.Name = "lsvLog";
-            this.lsvLog.Size = new System.Drawing.Size(862, 335);
+            this.lsvLog.Size = new System.Drawing.Size(1175, 168);
             this.lsvLog.TabIndex = 2;
             // 
             // label9
@@ -434,10 +439,76 @@
             this.label9.Location = new System.Drawing.Point(0, 0);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(862, 32);
+            this.label9.Size = new System.Drawing.Size(1175, 32);
             this.label9.TabIndex = 1;
             this.label9.Text = "日志";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.lsvBufferLog);
+            this.splitContainer4.Panel1.Controls.Add(this.label2);
+            this.splitContainer4.Panel1MinSize = 200;
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.lsvRobotStackLog);
+            this.splitContainer4.Panel2.Controls.Add(this.label3);
+            this.splitContainer4.Panel2MinSize = 100;
+            this.splitContainer4.Size = new System.Drawing.Size(1175, 325);
+            this.splitContainer4.SplitterDistance = 200;
+            this.splitContainer4.TabIndex = 0;
+            // 
+            // lsvBufferLog
+            // 
+            this.lsvBufferLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lsvBufferLog.ItemHeight = 19;
+            this.lsvBufferLog.Location = new System.Drawing.Point(0, 32);
+            this.lsvBufferLog.MinimumSize = new System.Drawing.Size(250, 4);
+            this.lsvBufferLog.Name = "lsvBufferLog";
+            this.lsvBufferLog.Size = new System.Drawing.Size(1175, 168);
+            this.lsvBufferLog.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.SkyBlue;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(1175, 32);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "缓存日志";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lsvRobotStackLog
+            // 
+            this.lsvRobotStackLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lsvRobotStackLog.ItemHeight = 19;
+            this.lsvRobotStackLog.Location = new System.Drawing.Point(0, 32);
+            this.lsvRobotStackLog.MinimumSize = new System.Drawing.Size(250, 4);
+            this.lsvRobotStackLog.Name = "lsvRobotStackLog";
+            this.lsvRobotStackLog.Size = new System.Drawing.Size(1175, 89);
+            this.lsvRobotStackLog.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.Color.SkyBlue;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Location = new System.Drawing.Point(0, 0);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(1175, 32);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "机器人码垛日志";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // statusStrip1
             // 
@@ -450,10 +521,10 @@
             this.lblRobot,
             this.toolStripStatusLabel2,
             this.lblTimer});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 624);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 738);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 18, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1370, 26);
+            this.statusStrip1.Size = new System.Drawing.Size(1660, 26);
             this.statusStrip1.TabIndex = 53;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -498,7 +569,7 @@
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(945, 21);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(1235, 21);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // lblTimer
@@ -516,6 +587,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lbRobotState);
             this.groupBox1.Controls.Add(this.chkUseRobot);
             this.groupBox1.Controls.Add(this.lbTaskState);
             this.groupBox1.Controls.Add(this.lblCount);
@@ -524,21 +596,32 @@
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Location = new System.Drawing.Point(4, 70);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(599, 179);
+            this.groupBox1.Size = new System.Drawing.Size(599, 131);
             this.groupBox1.TabIndex = 54;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "班次信息";
+            this.groupBox1.Text = "信息";
+            // 
+            // lbRobotState
+            // 
+            this.lbRobotState.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.lbRobotState.Font = new System.Drawing.Font("SimHei", 20F);
+            this.lbRobotState.Location = new System.Drawing.Point(260, 89);
+            this.lbRobotState.Name = "lbRobotState";
+            this.lbRobotState.Size = new System.Drawing.Size(333, 37);
+            this.lbRobotState.TabIndex = 18;
+            this.lbRobotState.Text = "机器人状态";
+            this.lbRobotState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // chkUseRobot
             // 
-            this.chkUseRobot.AutoSize = true;
-            this.chkUseRobot.Font = new System.Drawing.Font("SimSun", 24F);
-            this.chkUseRobot.Location = new System.Drawing.Point(3, 133);
+            this.chkUseRobot.BackColor = System.Drawing.Color.White;
+            this.chkUseRobot.Font = new System.Drawing.Font("SimSun", 20F);
+            this.chkUseRobot.Location = new System.Drawing.Point(7, 89);
             this.chkUseRobot.Name = "chkUseRobot";
-            this.chkUseRobot.Size = new System.Drawing.Size(194, 37);
+            this.chkUseRobot.Size = new System.Drawing.Size(253, 37);
             this.chkUseRobot.TabIndex = 17;
             this.chkUseRobot.Text = "启动机器人";
-            this.chkUseRobot.UseVisualStyleBackColor = true;
+            this.chkUseRobot.UseVisualStyleBackColor = false;
             // 
             // lbTaskState
             // 
@@ -546,12 +629,12 @@
             this.lbTaskState.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lbTaskState.Font = new System.Drawing.Font("SimHei", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbTaskState.ForeColor = System.Drawing.Color.White;
-            this.lbTaskState.Location = new System.Drawing.Point(260, 68);
+            this.lbTaskState.Location = new System.Drawing.Point(260, 26);
             this.lbTaskState.Name = "lbTaskState";
             this.lbTaskState.Size = new System.Drawing.Size(333, 59);
             this.lbTaskState.TabIndex = 16;
             this.lbTaskState.Text = "空闲";
-            this.lbTaskState.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lbTaskState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblCount
             // 
@@ -559,7 +642,7 @@
             this.lblCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblCount.Font = new System.Drawing.Font("Microsoft YaHei", 35F, System.Drawing.FontStyle.Bold);
             this.lblCount.ForeColor = System.Drawing.Color.Black;
-            this.lblCount.Location = new System.Drawing.Point(3, 68);
+            this.lblCount.Location = new System.Drawing.Point(3, 26);
             this.lblCount.Name = "lblCount";
             this.lblCount.Size = new System.Drawing.Size(257, 59);
             this.lblCount.TabIndex = 15;
@@ -578,7 +661,7 @@
             this.cmbShiftNo.Size = new System.Drawing.Size(321, 27);
             this.cmbShiftNo.TabIndex = 10;
             this.cmbShiftNo.Text = "白班";
-            this.cmbShiftNo.SelectedIndexChanged += new System.EventHandler(this.cmbShiftNo_SelectedIndexChanged);
+            this.cmbShiftNo.Visible = false;
             // 
             // dtpDate
             // 
@@ -588,7 +671,7 @@
             this.dtpDate.Name = "dtpDate";
             this.dtpDate.Size = new System.Drawing.Size(203, 29);
             this.dtpDate.TabIndex = 9;
-            this.dtpDate.ValueChanged += new System.EventHandler(this.dtpDate_ValueChanged);
+            this.dtpDate.Visible = false;
             // 
             // label10
             // 
@@ -600,6 +683,7 @@
             this.label10.TabIndex = 12;
             this.label10.Text = "班次";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label10.Visible = false;
             // 
             // openFileDialog1
             // 
@@ -615,19 +699,43 @@
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackColor = System.Drawing.Color.White;
-            this.pictureBox1.Location = new System.Drawing.Point(1292, 0);
+            this.pictureBox1.Location = new System.Drawing.Point(1453, 0);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(5);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(78, 67);
+            this.pictureBox1.Size = new System.Drawing.Size(207, 67);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 50;
             this.pictureBox1.TabStop = false;
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(214, 6);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(217, 30);
+            this.btnDelete.Text = "删除标签(&D)";
+            this.btnDelete.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // btnHelp
+            // 
+            this.btnHelp.Name = "btnHelp";
+            this.btnHelp.Size = new System.Drawing.Size(217, 30);
+            this.btnHelp.Text = "帮助(&H)";
+            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(214, 6);
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1370, 650);
+            this.ClientSize = new System.Drawing.Size(1660, 764);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.grbHandwork);
@@ -654,12 +762,23 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvData)).EndInit();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -677,7 +796,6 @@
         private System.Windows.Forms.TextBox txtLableCode1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.DataGridView dgvData;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
@@ -702,18 +820,27 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Timer timer_message;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.ToolStripButton btnHelp;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Code;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Floor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FloorIndex;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Diameter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Coordinates;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ToLocation;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PanelNo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Finished;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripStatusLabel lblRobot;
         private System.Windows.Forms.CheckBox chkUseRobot;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ListBox lsvRobotRollLog;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.SplitContainer splitContainer4;
+        private System.Windows.Forms.ListBox lsvBufferLog;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ListBox lsvRobotStackLog;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripDropDownButton btnOther;
+        private System.Windows.Forms.ToolStripMenuItem btnStartRobot;
+        private System.Windows.Forms.ToolStripMenuItem btnStopRobot;
+        private System.Windows.Forms.ListBox lbxLabelCode;
+        private System.Windows.Forms.Label lbRobotState;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem btnDelete;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem btnHelp;
     }
 }
 

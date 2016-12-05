@@ -18,7 +18,9 @@ namespace yidascan {
         Full
     }
     public class RollPosition {
-        public RollPosition(string side, string locationNo, PanelState pnlState, decimal x, decimal y, decimal z, decimal rz) {
+        public RollPosition(string label, string side, string locationNo, PanelState pnlState, decimal x, decimal y, decimal z, decimal rz) {
+            this.LabelCode = label;
+
             X = x;
             Y = y;
             Z = z;
@@ -74,6 +76,12 @@ namespace yidascan {
 
             return baseindex;
         }
+
+        public bool IsSameLabel(RollPosition roll) {
+            return this.LabelCode == roll.LabelCode;
+        }
+
+        public string LabelCode;
 
         public int LocationNo;
         public int Index;
@@ -147,7 +155,7 @@ namespace yidascan {
 
         public bool IsBusy() {
             Dictionary<string, bool> status = rCtrl.GetPlayStatus();
-            //FrmMain.logOpt.ViewInfo(string.Format("{0}", Newtonsoft.Json.JsonConvert.SerializeObject(status)));
+            FrmMain.logOpt.ViewInfo(string.Format("{0}", Newtonsoft.Json.JsonConvert.SerializeObject(status)), LogType.ROBOT_STACK);
             if (status.Count == 0) { return true; } else {
                 return (status["Start"] || status["Hold"]);
             }
@@ -186,7 +194,7 @@ namespace yidascan {
 
         public void JobLoop(ref bool isrun) {
             while (isrun) {
-                FrmMain.logOpt.ViewInfo("JobLoop Head");
+                FrmMain.logOpt.ViewInfo("job start。", LogType.ROBOT_STACK);
                 if (robotJobs.Rolls.Count > 0) {
                     while (isrun && IsBusy()) {
                         Thread.Sleep(OPCClient.DELAY);
@@ -194,14 +202,14 @@ namespace yidascan {
 
                     var roll = robotJobs.GetRoll();
 
-                    FrmMain.logOpt.ViewInfo(string.Format("roll:{0}", Newtonsoft.Json.JsonConvert.SerializeObject(roll)));
+                    FrmMain.logOpt.ViewInfo(string.Format("roll:{0}", Newtonsoft.Json.JsonConvert.SerializeObject(roll)), LogType.ROBOT_STACK);
                     // 等待板可放料
                     //while (isrun && !PanelAvailable(roll.ToLocation)) {
                     //    FrmMain.logOpt.ViewInfo("1111。");
                     //    Thread.Sleep(OPCClient.DELAY * 400);
                     //}
 
-                    FrmMain.logOpt.ViewInfo("启动机器人动作。");
+                    FrmMain.logOpt.ViewInfo("启动机器人动作。", LogType.ROBOT_STACK);
                     // 启动机器人动作。
                     WritePosition(roll);
 
@@ -217,13 +225,14 @@ namespace yidascan {
 
                     // 等待完成信号
                     while (isrun && IsBusy()) {
-                        FrmMain.logOpt.ViewInfo("Working");
+                        FrmMain.logOpt.ViewInfo("Working", LogType.ROBOT_STACK);
                         Thread.Sleep(RobotHelper.DELAY * 200);
                     }
                     // 告知OPC
                     NotifyOpcJobFinished(roll.PnlState, roll.ToLocation);
+                    FrmMain.logOpt.ViewInfo("Work ok", LogType.ROBOT_STACK);
                 }
-                FrmMain.logOpt.ViewInfo("JobLoop End");
+                FrmMain.logOpt.ViewInfo("job end。", LogType.ROBOT_STACK);
                 Thread.Sleep(RobotHelper.DELAY * 400);
             }
         }

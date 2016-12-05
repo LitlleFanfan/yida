@@ -6,18 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 using yidascan.DataAccess;
 
-namespace yidascan
-{
+namespace yidascan {
 
-    public class LableCodeBll
-    {
-        public LableCode CalculateCache(PanelInfo pinfo, LableCode lc, List<LableCode> lcs)
-        {
+    public class LableCodeBll {
+        public LableCode CalculateCache(PanelInfo pinfo, LableCode lc, List<LableCode> lcs) {
             LableCode lc2 = null;
             int cachecount = (pinfo.OddStatus ? 0 : 1) + (pinfo.EvenStatus ? 0 : 1);
             var tmp = from s in lcs where s.FloorIndex == 0 orderby s.Diameter ascending select s;
-            switch (tmp.Count())
-            {
+            switch (tmp.Count()) {
                 case 0://当前层已没有了缓存。//当前布卷直接缓存起来。
                     break;
                 case 1://当前层只有一卷缓存。
@@ -25,19 +21,14 @@ namespace yidascan
                     if (tmp.Count() == cachecount)//缓存卷数与需要缓存卷数相等
                     {
                         List<LableCode> lcObjs = new List<LableCode>();
-                        foreach (LableCode l in tmp)
-                        {
-                            if (l.Diameter + clsSetting.DiameterDiff < lc.Diameter)
-                            { lcObjs.Add(l); }
+                        foreach (LableCode l in tmp) {
+                            if (l.Diameter + clsSetting.DiameterDiff < lc.Diameter) { lcObjs.Add(l); }
                         }
-                        if (lcObjs.Count > 0)
-                        {
+                        if (lcObjs.Count > 0) {
                             lc2 = lcObjs[0];
                             lc.GetOutLCode = lc2.LCode;//换掉的标签
                             CalculatePosition(lcs, lc2);//当前布卷直接缓存起来。缓存的两卷中小的拿出来并计算位置。
-                        }
-                        else
-                        {
+                        } else {
                             CalculatePosition(lcs, lc);//当前布卷不需要缓存，计算位置。
                         }
                     }
@@ -46,25 +37,25 @@ namespace yidascan
             return lc2;
         }
 
-        public void CalculatePosition(List<LableCode> lcs, LableCode lc)
-        {
+        public void CalculatePosition(List<LableCode> lcs, LableCode lc) {
             decimal sumlen = 0;
             lc.FloorIndex = CalculateFloorIndex(lcs, lc);
             var len = (from s in lcs where s.FloorIndex != 0 && s.FloorIndex % 2 == lc.FloorIndex % 2 select s.Diameter).Sum();
             decimal z = lc.Floor == 1 ? 0 : LableCode.GetFloorMaxDiameter(lc.PanelNo, lc.Floor);
-            decimal r = clsSetting.OddTurn && lc.Floor % 2 == 1 ? 0 : 90;
+            decimal r = clsSetting.OddTurn && lc.Floor % 2 == 1 ? 90 : 0;
+            decimal olen = clsSetting.ShelfObligateLen *
+                ((from s in lcs where s.FloorIndex != 0 && s.FloorIndex % 2 == lc.FloorIndex % 2 select s.Diameter).Count());
             decimal xory =
                 lc.FloorIndex % 2 == 0 ?
-                (sumlen - len - lc.Diameter) : //双数加
-                (sumlen +//单数减
+                (sumlen - len - lc.Diameter - olen) : //双数加
+                (sumlen + olen +//单数减
                 (lc.FloorIndex == 1 ? 0 : len));//第1个不用加
             //z,r,x/y
             lc.Coordinates = string.Format("{0},{1},{2}", z, r, xory);
             //CalculateFinish(lcs, lc);//, ref result, z, r, ref xory return result;
         }
 
-        private int CalculateFloorIndex(List<LableCode> lcs, LableCode lc)
-        {
+        private int CalculateFloorIndex(List<LableCode> lcs, LableCode lc) {
             var odd = from s in lcs where s.FloorIndex != 0 && s.FloorIndex % 2 == 1 select s.FloorIndex;
             var even = from s in lcs where s.FloorIndex != 0 && s.FloorIndex % 2 == 0 select s.FloorIndex;
             return odd.Count() == 0 ? 1 :
@@ -74,11 +65,9 @@ namespace yidascan
                 (odd.Max() + 2));
         }
 
-        public void CalculatePosition(List<LableCode> lcs, LableCode lc, LableCode lc2)
-        {
+        public void CalculatePosition(List<LableCode> lcs, LableCode lc, LableCode lc2) {
             lc.Floor = lc2.Floor;
-            if (lc.Diameter > lc2.Diameter)
-            {
+            if (lc.Diameter > lc2.Diameter) {
                 LableCode tmp = lc2;
                 lc2 = lc;
                 lc = tmp;
@@ -100,26 +89,21 @@ namespace yidascan
         /// <param name="lcs">当前层所有标签</param>
         /// <param name="lc">当前标签</param>
         /// <returns></returns>
-        public LableCode CalculateFinish(List<LableCode> lcs, LableCode lc)
-        {
+        public LableCode CalculateFinish(List<LableCode> lcs, LableCode lc) {
             const decimal MAX_LEN = 800;
 
-            int floorindex = lcs.Count - 1;            
-            
+            int floorindex = lcs.Count - 1;
+
             var cache = from s in lcs where s.FloorIndex == 0 orderby s.Diameter ascending select s;
             var len = (from s in lcs where s.FloorIndex != 0 && s.FloorIndex % 2 == floorindex % 2 select s.Diameter).Sum();
             var width = len + lc.Diameter;
 
             LableCode result = null;
-            foreach (LableCode item in cache)
-            {
+            foreach (LableCode item in cache) {
                 decimal tmp = Math.Abs(MAX_LEN - (item.Diameter + width));
-                if (result == null && tmp < clsSetting.EdgeObligate)
-                {
+                if (result == null && tmp < clsSetting.EdgeObligate) {
                     result = item;
-                }
-                else if (tmp < clsSetting.EdgeObligate)
-                {
+                } else if (tmp < clsSetting.EdgeObligate) {
                     decimal re = Math.Abs(MAX_LEN - (result.Diameter + width));
                     if (tmp < re)
                         result = item;
@@ -132,8 +116,7 @@ namespace yidascan
             return result;
         }
 
-        public void GetPanelNo(LableCode lc)
-        {
+        public void GetPanelNo(LableCode lc) {
             // string panelNo = NewPanelNo(dtime, shiftNo);
             string panelNo = PanelGen.NewPanelNo();
             lc.PanelNo = panelNo;

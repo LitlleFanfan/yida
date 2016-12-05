@@ -8,107 +8,55 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProduceComm.Scanner
-{
-    public class NormalScan
-    {
+namespace ProduceComm.Scanner {
+    public class NormalScan {
         public string name { get; set; }
-        public delegate void DataArrivedEventHandler(string type, string data);
-
+        
         public delegate void ErrEventHandler(Exception ex);
-
         public delegate void HostErrEventHandler(Exception ex);
 
         private bool stoped;
-
-        private long long_0;
-
-        private long long_1;
-
         public List<string> mlsAckData;
 
         private ICommunication icom;
-
-        public event DataArrivedEventHandler OnDataArrived;
-
-        public event ErrEventHandler OnError;
-
-        public event HostErrEventHandler OnHostErr;
+        
+        public event ErrEventHandler OnError;        
 
         public Action<string> logger;
+        public Action<string, string> OnDataArrived;
 
-        public long ScanCounter
-        {
-            get
-            {
-                return this.long_0;
-            }
-            set
-            {
-                this.long_0 = value;
-            }
-        }
-
-        public long TestScanCounter
-        {
-            get
-            {
-                return this.long_1;
-            }
-            set
-            {
-                this.long_1 = value;
-            }
-        }
-
-        public NormalScan(string devicename, ICommunication _icom)
-        {
+        public NormalScan(string devicename, ICommunication _icom) {
             this.name = devicename;
-            icom = _icom;
-            this.long_0 = 0L;
+            icom = _icom;            
             this.mlsAckData = new List<string>();
         }
 
-        public bool Open()
-        {
+        public bool Open() {
             bool re = false;
-            try
-            {
+            try {
                 re = icom.Open();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 OnError(new Exception("创建连接失败！", ex));
                 re = false;
             }
             return re;
         }
 
-        public void Close()
-        {
-            try
-            {
+        public void Close() {
+            try {
                 Thread.Sleep(1);
                 icom.Close();
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 OnError(new Exception("关闭连接失败！", ex));
             }
         }
 
-        public void _StartJob()
-        {
-            this.long_0 = 0L;
+        public void _StartJob() {
             this.stoped = false;
-            Task.Factory.StartNew(() =>
-            {
-                while (!this.stoped)
-                {
+            Task.Factory.StartNew(() => {
+                while (!this.stoped) {
                     string data = Encoding.Default.GetString(GetReply());
-                    if (!string.IsNullOrEmpty(data))
-                    {
-                        this.long_0 += 1L;
+                    if (!string.IsNullOrEmpty(data)) {                    
                         OnDataArrived("", data);
                     }
                     Thread.Sleep(1000);
@@ -116,37 +64,14 @@ namespace ProduceComm.Scanner
             });
         }
 
-        public void _StopJob()
-        {
+        public void _StopJob() {
             this.stoped = true;
         }
 
-        public void TriggerScan()
-        {
-            lock (this)
-            {
-                this.long_1 += 1L;
-                DateTime now = DateTime.Now;
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.Append(now.Year);
-                stringBuilder.Append(now.Month.ToString().PadLeft(2, '0'));
-                stringBuilder.Append(now.Day.ToString().PadLeft(2, '0'));
-                stringBuilder.Append(now.Minute.ToString().PadLeft(2, '0'));
-                stringBuilder.Append(now.Second.ToString().PadLeft(2, '0'));
-                stringBuilder.Append(now.Millisecond.ToString());
-                stringBuilder.Append(this.long_1.ToString());
-                OnDataArrived("", stringBuilder.ToString());
-            }
-        }
-
-        private byte[] GetReply()
-        {
-            try
-            {
+        private byte[] GetReply() {
+            try {
                 return icom.Read(1024);
-            }
-            catch
-            {
+            } catch {
                 return new byte[] { };
             }
         }
