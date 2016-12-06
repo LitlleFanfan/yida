@@ -48,11 +48,11 @@ namespace yidascan {
             clsSetting.ToWeight = txtToWeight.Text;
             clsSetting.PanelFinish = txtPanelFinish.Text;
 
-            clsSetting.ShelfWidth = nudShelfWidth.Value;
-            clsSetting.ShelfTallFirst = nudTallFirst.Value;
-            clsSetting.ShelfTallSecond = nudTallSecond.Value;
-            clsSetting.ShelfTallThird = nudTallThird.Value;
-            clsSetting.ShelfTallFourth = nudTallFourth.Value;
+            //clsSetting.ShelfWidth = nudShelfWidth.Value;
+            //clsSetting.ShelfTallFirst = nudTallFirst.Value;
+            //clsSetting.ShelfTallSecond = nudTallSecond.Value;
+            //clsSetting.ShelfTallThird = nudTallThird.Value;
+            //clsSetting.ShelfTallFourth = nudTallFourth.Value;
             clsSetting.ShelfObligateLen = nudObligateLen.Value;
 
             clsSetting.SplintLength = nudSplintLength.Value;
@@ -126,11 +126,11 @@ namespace yidascan {
             txtToWeight.Text = clsSetting.ToWeight;
             txtPanelFinish.Text = clsSetting.PanelFinish;
 
-            nudShelfWidth.Value = clsSetting.ShelfWidth;
-            nudTallFirst.Value = clsSetting.ShelfTallFirst;
-            nudTallSecond.Value = clsSetting.ShelfTallSecond;
-            nudTallThird.Value = clsSetting.ShelfTallThird;
-            nudTallFourth.Value = clsSetting.ShelfTallFourth;
+            //nudShelfWidth.Value = clsSetting.ShelfWidth;
+            //nudTallFirst.Value = clsSetting.ShelfTallFirst;
+            //nudTallSecond.Value = clsSetting.ShelfTallSecond;
+            //nudTallThird.Value = clsSetting.ShelfTallThird;
+            //nudTallFourth.Value = clsSetting.ShelfTallFourth;
             nudObligateLen.Value = clsSetting.ShelfObligateLen;
 
             nudSplintLength.Value = clsSetting.SplintLength;

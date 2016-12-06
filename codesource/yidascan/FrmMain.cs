@@ -370,7 +370,7 @@ namespace yidascan {
                             if (bool.Parse(signal)) {
                                 string fullLable = ReadACCompleteLable(kv.Value);
 
-                                logOpt.ViewInfo(string.Format(">>>>>{0} 收到完成信号。标签:{1}", kv.Value.Signal, fullLable), LogType.NORMAL);
+                                logOpt.ViewInfo(string.Format("{0} 收到完成信号。标签:{1}", kv.Value.Signal, fullLable), LogType.NORMAL);
 
                                 try {
                                     if (!string.IsNullOrEmpty(fullLable)) {

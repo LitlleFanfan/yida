@@ -50,7 +50,7 @@ namespace ProduceComm {
         // 常用常数
         public const string DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
         public const string LABEL_CODE_DATE_FORMAT = "yyMMdd";
-        public const string PRODUCT_NAME = "广州恒微数据采集软件单机版";
+        public const string PRODUCT_NAME = "广州恒微-溢达机器人自动码垛软件";
 
         private const string ROBOT_IP = "RobotIP";
 
