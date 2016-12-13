@@ -64,7 +64,7 @@ namespace yidascan {
             int index = CalculateFloorIndex(lcs);
             decimal xory;
             if (index <= 2) {
-                xory = lc.FloorIndex % 2 == 1 ? 0 : -clsSetting.RollSep;
+                xory = lc.FloorIndex % 2 == 1 ? lc.Diameter : -clsSetting.RollSep;
             } else {
                 var lastRoll = (from s in lcs where IsRollInSameSide(s, lc.FloorIndex)
                                 orderby s.FloorIndex descending select s).First();
@@ -86,11 +86,13 @@ namespace yidascan {
 
         public void CalculatePosition(List<LableCode> lcs, LableCode lc, LableCode lc2) {
             lc.Floor = lc2.Floor;
-            if (lc.Diameter > lc2.Diameter) {
-                LableCode tmp = lc2;
-                lc2 = lc;
-                lc = tmp;
-            }
+
+            //if (lc.Diameter > lc2.Diameter) {
+            //    LableCode tmp = lc2;
+            //    lc2 = lc;
+            //    lc = tmp;
+            //}
+
             CalculatePosition(lcs, lc);
             lc2.FloorIndex = lc.FloorIndex + 2;
 

@@ -158,17 +158,15 @@ namespace yidascan {
         }
 
         public bool IsBusy() {
-            Dictionary<string, bool> status = rCtrl.GetPlayStatus();
-            FrmMain.logOpt.Write(string.Format("{0}", Newtonsoft.Json.JsonConvert.SerializeObject(status)), LogType.ROBOT_STACK);
-            if (status.Count == 0) { return true; } else {
-                return (status["Start"] || status["Hold"]);
-            }
-        }
-
-        private bool IsSafePlace() {
-            Dictionary<string, string> b1 = rCtrl.GetVariables(VariableType.B, 1, 1);
-            if (b1.Count == 0) { return false; } else {
-                return b1["b1"] == "1";
+            try {
+                Dictionary<string, bool> status = rCtrl.GetPlayStatus();
+                FrmMain.logOpt.Write(string.Format("{0}", Newtonsoft.Json.JsonConvert.SerializeObject(status)), LogType.ROBOT_STACK);
+                if (status == null || status.Count == 0) { return true; } else {
+                    return (status["Start"] || status["Hold"]);
+                }
+            } catch (Exception ex) {
+                FrmMain.logOpt.Write(string.Format("{0}", ex), LogType.ROBOT_STACK);
+                return true;
             }
         }
 
@@ -212,11 +210,11 @@ namespace yidascan {
 
                     FrmMain.logOpt.Write(string.Format("roll:{0}", Newtonsoft.Json.JsonConvert.SerializeObject(roll)), LogType.ROBOT_STACK);
 
-                    // 等待板可放料
-                    while (!PanelAvailable(roll.ToLocation)) {
-                        FrmMain.logOpt.Write("1111。");
-                        Thread.Sleep(OPCClient.DELAY * 400);
-                    }
+                    //// 等待板可放料
+                    //while (!PanelAvailable(roll.ToLocation)) {
+                    //    FrmMain.logOpt.Write("1111。");
+                    //    Thread.Sleep(OPCClient.DELAY * 400);
+                    //}
 
                     FrmMain.logOpt.Write("启动机器人动作。", LogType.ROBOT_STACK);
                     // 启动机器人动作。
@@ -258,11 +256,15 @@ namespace yidascan {
         }
 
         public Dictionary<string, string> AlarmTask() {
-            Dictionary<string, bool> s = rCtrl.GetAlarmStatus();
-            if (s.Count != 0) {
-                if (s["Error"] || s["Alarm"]) {
-                    return rCtrl.GetAlarmCode();
+            try {
+                Dictionary<string, bool> s = rCtrl.GetAlarmStatus();
+                if (s != null && s.Count != 0) {
+                    if (s["Error"] || s["Alarm"]) {
+                        return rCtrl.GetAlarmCode();
+                    }
                 }
+            } catch (Exception ex) {
+                FrmMain.logOpt.Write(string.Format("{0}", ex), LogType.ROBOT_STACK);
             }
             return new Dictionary<string, string>();
         }
