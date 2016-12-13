@@ -54,7 +54,7 @@ namespace yidascan {
 
         public static decimal GetToolOffSet(decimal xory) {
             decimal toolLen = 250;
-            if (xory > 0) {
+            if (xory >= 0) {
                 return xory + toolLen;
             } else {
                 return xory - toolLen;

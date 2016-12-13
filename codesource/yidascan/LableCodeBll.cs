@@ -64,11 +64,11 @@ namespace yidascan {
             int index = CalculateFloorIndex(lcs);
             decimal xory;
             if (index <= 2) {
-                xory = lc.FloorIndex % 2 == 1 ? lc.Diameter : -clsSetting.RollSep;
+                xory = lc.FloorIndex % 2 == 1 ? 0 : -clsSetting.RollSep;
             } else {
                 var lastRoll = (from s in lcs where IsRollInSameSide(s, lc.FloorIndex)
                                 orderby s.FloorIndex descending select s).First();
-                xory = (Math.Abs(lastRoll.Cx + lastRoll.Cz) + lastRoll.Diameter + clsSetting.RollSep)
+                xory = (Math.Abs(lastRoll.Cx + lastRoll.Cy) + lastRoll.Diameter + clsSetting.RollSep)
                     * (lc.FloorIndex % 2 == 1 ? 1 : -1);
             }
 
@@ -96,13 +96,13 @@ namespace yidascan {
             CalculatePosition(lcs, lc);
             lc2.FloorIndex = lc.FloorIndex + 2;
 
-            var d = Math.Abs(lc.Cx + lc.Cz) + lc.Diameter + clsSetting.RollSep;
+            var d = Math.Abs(lc.Cx + lc.Cy) + lc.Diameter + clsSetting.RollSep;
             var xory = d * (lc.FloorIndex % 2 == 1 ? 1 : -1);
 
             lc2.Coordinates = string.Format("{0},{1},{2}", lc.Cz, lc.Crz, xory);
 
-            lc2.Cx = lc2.Crz == 0 ? 0 : xory;
-            lc2.Cy = lc2.Crz == 0 ? xory : 0;
+            lc2.Cx = lc.Crz == 0 ? 0 : xory;
+            lc2.Cy = lc.Crz == 0 ? xory : 0;
             lc2.Cz = lc.Cz;
             lc2.Crz = lc.Crz;
         }

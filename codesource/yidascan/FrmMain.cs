@@ -767,7 +767,7 @@ namespace yidascan {
             //开始临时用
             if (errorPanel.Contains(lc.ToLocation)) {
                 lc.Remark = string.Format("{0} {1}", lc.Remark, lc.ToLocation);
-                lc.ToLocation = "B10";
+                lc.ToLocation = "B06";
             }
             //结束临时用
 
