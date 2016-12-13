@@ -28,7 +28,7 @@ namespace yidascan {
             ChangeAngle = x > 0 || y < 0;
 
             ToLocation = locationNo;
-            Index = CalculateBaseIndex(x, y);
+            Index = CalculateBaseIndex(locationNo, x, y);
 
             LocationNo = int.Parse(locationNo.Substring(1, 2));
             BaseIndex = 4 * (LocationNo - 1) + Index + 1;
@@ -44,7 +44,7 @@ namespace yidascan {
             Base2 = point.Base;
             XOffSet = GetXOffSet(origin.Base, point.Base);
             X = X + XOffSet;
-            Origin = new PostionVar(XOffSet, 0, 1750, origin.Rx, origin.Ry, origin.Rz + rz);
+            Origin = new PostionVar(XOffSet, 0, 1700, origin.Rx, origin.Ry, origin.Rz + rz);
             Target = new PostionVar(X, Y, Z, origin.Rx, origin.Ry, origin.Rz + rz);
         }
 
@@ -61,7 +61,9 @@ namespace yidascan {
             }
         }
 
-        private int CalculateBaseIndex(decimal x, decimal y) {
+
+        public static List<string> robotRSidePanel = new List<string>() { "B03", "B04", "B05", "B06", "B07", "B08" };
+        private int CalculateBaseIndex(string tolocation, decimal x, decimal y) {
             int baseindex = 0;
             if (x != 0) {
                 baseindex = 2;
@@ -69,7 +71,9 @@ namespace yidascan {
                     baseindex += 1;
                 }
             } else {
-                if (y < 0) {
+                if (robotRSidePanel.Contains(tolocation) && y > 0) {
+                    baseindex += 1;
+                } else if (!robotRSidePanel.Contains(tolocation) && y < 0) {
                     baseindex += 1;
                 }
             }
@@ -155,7 +159,7 @@ namespace yidascan {
 
         public bool IsBusy() {
             Dictionary<string, bool> status = rCtrl.GetPlayStatus();
-            FrmMain.logOpt.ViewInfo(string.Format("{0}", Newtonsoft.Json.JsonConvert.SerializeObject(status)), LogType.ROBOT_STACK);
+            FrmMain.logOpt.Write(string.Format("{0}", Newtonsoft.Json.JsonConvert.SerializeObject(status)), LogType.ROBOT_STACK);
             if (status.Count == 0) { return true; } else {
                 return (status["Start"] || status["Hold"]);
             }
@@ -175,41 +179,46 @@ namespace yidascan {
         }
 
         private void NotifyOpcJobFinished(PanelState pState, string tolocation) {
-            switch (pState) {
-                case PanelState.HalfFull:
-                    lock (client) {
-                        client.Write(param.BAreaFloorFinish[tolocation], true);
-                    }
-                    break;
-                case PanelState.Full:
-                    lock (client) {
-                        client.Write(param.BAreaPanelFinish[tolocation], true);
-                    }
-                    break;
-                case PanelState.LessHalf:
-                default:
-                    break;
+            try {
+                switch (pState) {
+                    case PanelState.HalfFull:
+                        lock (client) {
+                            client.Write(param.BAreaFloorFinish[tolocation], true);
+                        }
+                        break;
+                    case PanelState.Full:
+                        lock (client) {
+                            client.Write(param.BAreaPanelFinish[tolocation], true);
+                        }
+                        break;
+                    case PanelState.LessHalf:
+                    default:
+                        break;
+                }
+            } catch (Exception ex) {
+                FrmMain.logOpt.Write(string.Format("tolocation: {0} state:{1} opc:{2} err:{3}", tolocation, pState, Newtonsoft.Json.JsonConvert.SerializeObject(param.BAreaFloorFinish), ex), LogType.ROBOT_STACK);
             }
         }
 
         public void JobLoop(ref bool isrun) {
             while (isrun) {
-                FrmMain.logOpt.ViewInfo("job start。", LogType.ROBOT_STACK);
                 if (robotJobs.Rolls.Count > 0) {
-                    while (isrun && IsBusy()) {
+                    FrmMain.logOpt.Write("robotJobs.Rolls.Count: " + robotJobs.Rolls.Count.ToString(), LogType.ROBOT_STACK);
+                    while (IsBusy()) {
                         Thread.Sleep(OPCClient.DELAY);
                     }
 
                     var roll = robotJobs.GetRoll();
 
-                    FrmMain.logOpt.ViewInfo(string.Format("roll:{0}", Newtonsoft.Json.JsonConvert.SerializeObject(roll)), LogType.ROBOT_STACK);
-                    // 等待板可放料
-                    //while (isrun && !PanelAvailable(roll.ToLocation)) {
-                    //    FrmMain.logOpt.ViewInfo("1111。");
-                    //    Thread.Sleep(OPCClient.DELAY * 400);
-                    //}
+                    FrmMain.logOpt.Write(string.Format("roll:{0}", Newtonsoft.Json.JsonConvert.SerializeObject(roll)), LogType.ROBOT_STACK);
 
-                    FrmMain.logOpt.ViewInfo("启动机器人动作。", LogType.ROBOT_STACK);
+                    // 等待板可放料
+                    while (!PanelAvailable(roll.ToLocation)) {
+                        FrmMain.logOpt.Write("1111。");
+                        Thread.Sleep(OPCClient.DELAY * 400);
+                    }
+
+                    FrmMain.logOpt.Write("启动机器人动作。", LogType.ROBOT_STACK);
                     // 启动机器人动作。
                     WritePosition(roll);
 
@@ -217,31 +226,34 @@ namespace yidascan {
 
                     Thread.Sleep(RobotHelper.DELAY * 1000);
 
-                    // 等待安全位置信号
-                    //while (!IsSafePlace()) { Thread.Sleep(RobotHelper.DELAY * 10); }
-
-                    // 告知OPC
-                    //NotifyOpcSafePlace(roll.Side);
-
                     // 等待完成信号
-                    while (isrun && IsBusy()) {
-                        FrmMain.logOpt.ViewInfo("Working", LogType.ROBOT_STACK);
+                    while (IsBusy()) {
+                        FrmMain.logOpt.Write("Working", LogType.ROBOT_STACK);
                         Thread.Sleep(RobotHelper.DELAY * 200);
                     }
+
+                    LableCode.SetOnPanelState(roll.LabelCode);
+
                     // 告知OPC
-                    NotifyOpcJobFinished(roll.PnlState, roll.ToLocation);
-                    FrmMain.logOpt.ViewInfo("Work ok", LogType.ROBOT_STACK);
+                    Task.Factory.StartNew(() => {
+                        NotifyOpcJobFinished(roll.PnlState, roll.ToLocation);
+                    });
+                    FrmMain.logOpt.Write("Work ok", LogType.ROBOT_STACK);
                 }
-                FrmMain.logOpt.ViewInfo("job end。", LogType.ROBOT_STACK);
                 Thread.Sleep(RobotHelper.DELAY * 400);
             }
         }
 
         private bool PanelAvailable(string tolocation) {
-            lock (client) {
-                string s = client.ReadString(param.BAreaPanelState[tolocation]);
-                FrmMain.logOpt.ViewInfo(string.Format("{0}:{1}", param.BAreaPanelState[tolocation], s));
-                return s == "2";
+            try {
+                lock (client) {
+                    string s = client.ReadString(param.BAreaPanelState[tolocation]);
+                    FrmMain.logOpt.Write(string.Format("{0}:{1}", param.BAreaPanelState[tolocation], s));
+                    return s == "2";
+                }
+            } catch (Exception ex) {
+                FrmMain.logOpt.Write(string.Format("tolocation: {0} opc:{1} err:{2}", tolocation, Newtonsoft.Json.JsonConvert.SerializeObject(param.BAreaFloorFinish), ex), LogType.ROBOT_STACK);
+                return true;//临时
             }
         }
 

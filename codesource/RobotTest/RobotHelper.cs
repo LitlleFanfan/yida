@@ -51,7 +51,7 @@ namespace yidascan {
             ChangeAngle = x > 0 || y < 0;
 
             ToLocation = locationNo;
-            Index = CalculateBaseIndex(x, y);
+            Index = CalculateBaseIndex(locationNo, x, y);
 
             LocationNo = int.Parse(locationNo.Substring(1, 2));
             BaseIndex = 4 * (LocationNo - 1) + Index + 1;
@@ -67,15 +67,25 @@ namespace yidascan {
             Base2 = point.Base;
             XOffSet = GetXOffSet(origin.Base, point.Base);
             X = X + XOffSet;
-            Origin = new PostionVar(XOffSet, 0, 1750, origin.Rx, origin.Ry, origin.Rz + rz);
-            Target = new PostionVar(X, Y, Z, origin.Rx, origin.Ry, origin.Rz + rz);
+            Origin = new PostionVar(XOffSet, 0, 1700, origin.Rx, origin.Ry, origin.Rz + rz);
+            Target = new PostionVar(X, Y, Z, origin.Rz + rz, point.Base);
         }
 
         private decimal GetXOffSet(decimal originBase, decimal targetBase) {
             return ((targetBase - originBase) * 2 * -1);
         }
 
-        private int CalculateBaseIndex(decimal x, decimal y) {
+        public static decimal GetToolOffSet(decimal xory) {
+            decimal toolLen = 250;
+            if (xory > 0) {
+                return xory + toolLen;
+            } else {
+                return xory - toolLen;
+            }
+        }
+
+        public static List<string> robotRSidePanel = new List<string>() { "B03", "B04", "B05", "B06", "B07", "B08" };
+        private int CalculateBaseIndex(string tolocation, decimal x, decimal y) {
             int baseindex = 0;
             if (x != 0) {
                 baseindex = 2;
@@ -83,7 +93,9 @@ namespace yidascan {
                     baseindex += 1;
                 }
             } else {
-                if (y < 0) {
+                if (robotRSidePanel.Contains(tolocation) && y > 0) {
+                    baseindex += 1;
+                } else if (!robotRSidePanel.Contains(tolocation) && y < 0) {
                     baseindex += 1;
                 }
             }
@@ -188,7 +200,7 @@ namespace yidascan {
                         robotJobs.Rolls.Count, roll.X, roll.Y, roll.Z, roll.Rz, roll.Index,
                         roll.XOffSet, roll.Base1, roll.Base2, roll.BaseIndex));
 
-                    while (isrun && !hold && IsBusy()) {
+                    while (!hold && IsBusy()) {
                         Thread.Sleep(RobotHelper.DELAY);
                     }
 

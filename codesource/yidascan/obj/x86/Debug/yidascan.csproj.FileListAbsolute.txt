@@ -33,3 +33,7 @@ E:\ljework\yida\codesource\yidascan\obj\x86\Debug\yidascan.Properties.Resources.
 E:\ljework\yida\codesource\yidascan\obj\x86\Debug\yidascan.csproj.GenerateResource.Cache
 E:\ljework\yida\codesource\yidascan\obj\x86\Debug\yidascan.exe
 E:\ljework\yida\codesource\yidascan\obj\x86\Debug\yidascan.pdb
+E:\ljework\yida\codesource\yidascan\bin\Debug\help\index.html
+E:\ljework\yida\codesource\yidascan\bin\Debug\RobotControl.dll
+E:\ljework\yida\codesource\yidascan\bin\Debug\RobotControl.pdb
+E:\ljework\yida\codesource\yidascan\obj\x86\Debug\yidascan.WinDeleteLabel.resources

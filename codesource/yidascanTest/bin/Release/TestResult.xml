@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="E:\ljework\yida\codesource\yidascanTest\bin\Release\yidascanTest.dll" total="1" errors="1" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2016-12-08" time="17:32:56">
+  <environment nunit-version="2.5.2.9222" clr-version="4.0.30319.42000" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="C:\Windows\system32" machine-name="WIN-BK7Q2BLK53K" user="Administrator" user-domain="WIN-BK7Q2BLK53K" />
+  <culture-info current-culture="zh-CN" current-uiculture="zh-CN" />
+  <test-suite name="E:\ljework\yida\codesource\yidascanTest\bin\Release\yidascanTest.dll" executed="True" success="False" time="0.140" asserts="0">
+    <results>
+      <test-suite name="yidascanTest" executed="True" success="False" time="0.109" asserts="0">
+        <results>
+          <test-suite name="TestCase1" executed="True" success="False" time="0.047" asserts="0">
+            <results>
+              <test-case name="yidascanTest.TestCase1.Test" executed="True" success="False" time="0.031" asserts="0">
+                <failure>
+                  <message><![CDATA[System.BadImageFormatException : Could not load file or assembly 'yidascan, Version=1.0.9.6, Culture=neutral, PublicKeyToken=null' or one of its dependencies. 试图加载格式不正确的程序。]]></message>
+                  <stack-trace><![CDATA[at yidascanTest.TestCase1.Init()
+]]></stack-trace>
+                </failure>
+              </test-case>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

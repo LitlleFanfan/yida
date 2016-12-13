@@ -53,11 +53,14 @@ namespace yidascan {
             //clsSetting.ShelfTallSecond = nudTallSecond.Value;
             //clsSetting.ShelfTallThird = nudTallThird.Value;
             //clsSetting.ShelfTallFourth = nudTallFourth.Value;
-            clsSetting.ShelfObligateLen = nudObligateLen.Value;
+            clsSetting.RollSep = nudObligateLen.Value;
 
             clsSetting.SplintLength = nudSplintLength.Value;
             clsSetting.SplintWidth = nudSplintWidth.Value;
             clsSetting.SplintHeight = nudSplintHeight.Value;
+
+            clsSetting.OddTurn = chbOddTurn.Checked;
+            clsSetting.EdgeSpace = nudEdgeObligate.Value;
 
             clsSetting.RobotIP = txtRobotIP.Text;
             clsSetting.JobName = txtJobName.Text;
@@ -131,11 +134,14 @@ namespace yidascan {
             //nudTallSecond.Value = clsSetting.ShelfTallSecond;
             //nudTallThird.Value = clsSetting.ShelfTallThird;
             //nudTallFourth.Value = clsSetting.ShelfTallFourth;
-            nudObligateLen.Value = clsSetting.ShelfObligateLen;
+            nudObligateLen.Value = clsSetting.RollSep;
 
             nudSplintLength.Value = clsSetting.SplintLength;
             nudSplintWidth.Value = clsSetting.SplintWidth;
             nudSplintHeight.Value = clsSetting.SplintHeight;
+            
+            chbOddTurn.Checked = clsSetting.OddTurn;
+            nudEdgeObligate.Value = clsSetting.EdgeSpace;
 
             txtRobotIP.Text = clsSetting.RobotIP;
             txtJobName.Text = clsSetting.JobName;

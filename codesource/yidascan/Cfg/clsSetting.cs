@@ -24,7 +24,7 @@ namespace ProduceComm {
     public class LogOpreate {
         public yidascan.MessageCenter msgCenter = new yidascan.MessageCenter();
 
-        public void ViewInfo(string msg, string group = "normal", LogViewType type = LogViewType.Both) {
+        public void Write(string msg, string group = "normal", LogViewType type = LogViewType.Both) {
             switch (type) {
                 case LogViewType.Both:
                     msgCenter.Push(msg, group);
@@ -192,7 +192,7 @@ namespace ProduceComm {
             }
         }
 
-        public static decimal ShelfObligateLen {
+        public static decimal RollSep {
             get {
                 string tmp = clsSetting.GetCfgValue("ShelfObligateLen");
                 return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
@@ -241,7 +241,7 @@ namespace ProduceComm {
         /// <summary>
         /// 边缘预留宽度
         /// </summary>
-        public static decimal EdgeObligate {
+        public static decimal EdgeSpace {
             get {
                 string tmp = clsSetting.GetCfgValue("EdgeObligate");
                 return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);

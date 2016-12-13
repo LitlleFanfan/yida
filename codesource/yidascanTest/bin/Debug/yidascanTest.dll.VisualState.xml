@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ShowCheckBoxes="false">
+  <TopNode>[0-1008]E:\ljework\yida\codesource\yidascanTest\bin\Debug\yidascanTest.dll</TopNode>
+  <SelectedNode>[0-1007]yidascanTest.TestCase1.Test</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1008]E:\ljework\yida\codesource\yidascanTest\bin\Debug\yidascanTest.dll" Expanded="true" />
+    <Node UniqueName="[0-1009]yidascanTest" Expanded="true" />
+    <Node UniqueName="[0-1006]yidascanTest.TestCase1" Expanded="true" />
+    <Node UniqueName="[0-1004]yidascanTest.TestCase2" Expanded="true" />
+    <Node UniqueName="[0-1002]yidascanTest.TestCase3" Expanded="true" />
+    <Node UniqueName="[0-1000]yidascanTest.TestCase4" Expanded="true" />
+  </Nodes>
+</VisualState>

@@ -5,6 +5,12 @@ using ProduceComm;
 using System.Data.SqlClient;
 
 namespace yidascan.DataAccess {
+    public enum LableState {
+        Null = 0,
+        OnPanel = 3,
+        PanelFill = 5
+    }
+
     public enum FloorPerformance {
         None,
         OddFinish,
@@ -17,7 +23,8 @@ namespace yidascan.DataAccess {
         Go,
         Cache,
         GetThenCache,
-        GoThenGet
+        GoThenGet,
+        GetThenGo
     }
 
     public class LableCode {
@@ -79,8 +86,54 @@ namespace yidascan.DataAccess {
 
         string coordinates;
         public string Coordinates {
-            get { return coordinates; }
             set { coordinates = value; }
+        }
+        public bool CoordinatesIsEmpty() {
+            return string.IsNullOrEmpty(coordinates);
+        }
+
+        decimal cx;
+        public decimal Cx {
+            get {
+                return cx;
+            }
+
+            set {
+                cx = value;
+            }
+        }
+
+        decimal cy;
+        public decimal Cy {
+            get {
+                return cy;
+            }
+
+            set {
+                cy = value;
+            }
+        }
+
+        decimal cz;
+        public decimal Cz {
+            get {
+                return cz;
+            }
+
+            set {
+                cz = value;
+            }
+        }
+
+        decimal crz;
+        public decimal Crz {
+            get {
+                return crz;
+            }
+
+            set {
+                crz = value;
+            }
         }
 
         string getOutLCode;
@@ -113,6 +166,14 @@ namespace yidascan.DataAccess {
             set { floor = value; }
         }
 
+        public bool isOddSide() {
+            return this.floorIndex % 2 == 1;
+        }
+
+        public bool isEvenSide() {
+            return (floorIndex % 2 == 0) && (floorIndex > 0);
+        }
+
         /// <summary>
         /// 从交地字符串中提取序号
         /// </summary>
@@ -133,15 +194,17 @@ namespace yidascan.DataAccess {
                 : ToLocation.Substring(0, 1);
         }
 
-        static List<string> errorPanel = new List<string>() { "B08", "B03", "B02", "B01", "B04", "B05", "B06" };
+        public static void SetOnPanelState(string lablecode) {
+            List<CommandParameter> cp = new List<CommandParameter>() { new CommandParameter(@"UPDATE LableCode SET [Status] = @Status,[UpdateDate] = @UpdateDate
+                  WHERE [LCode] = @LCode",
+                new SqlParameter[]{
+                    new SqlParameter("@Status",LableState.OnPanel),
+                    new SqlParameter("@UpdateDate",DateTime.Now),
+                    new SqlParameter("@LCode",lablecode)}) };
+            DataAccess.CreateDataAccess.sa.NonQueryTran(cp);
+        }
 
         public static bool Add(LableCode c) {
-            //开始临时用
-            if (errorPanel.Contains(c.ToLocation)) {
-                c.Remark = string.Format("{0} {1}", c.Remark, c.ToLocation);
-                c.ToLocation = "B11";
-            }
-            //结束临时用
             List<CommandParameter> cps = CreateLableCodeInsert(c);
             return DataAccess.CreateDataAccess.sa.NonQueryTran(cps);
         }
@@ -160,12 +223,16 @@ namespace yidascan.DataAccess {
         public static bool Update(FloorPerformance fp, LableCode c, LableCode c2 = null) {
             List<CommandParameter> cps = CreateLableCodeUpdate(c);
             if (c2 != null) {
-                cps.Add(new CommandParameter("update LableCode set FloorIndex=@FloorIndex,Coordinates=@Coordinates,UpdateDate=@UpdateDate " +
-                         "where LCode=@LCode",
+                cps.Add(new CommandParameter(@"update LableCode set FloorIndex=@FloorIndex,Coordinates=@Coordinates,
+                    Cx=@Cx,Cy=@Cy,Cz=@Cz,Crz=@Crz,UpdateDate=@UpdateDate where LCode=@LCode",
                     new SqlParameter[]{
                         new SqlParameter("@LCode",c2.lCode),
                         new SqlParameter("@FloorIndex",c2.floorIndex),
                         new SqlParameter("@Coordinates",c2.coordinates),
+                        new SqlParameter("@Cx",c2.cx),
+                        new SqlParameter("@Cy",c2.cy),
+                        new SqlParameter("@Cz",c2.cz),
+                        new SqlParameter("@Crz",c2.crz),
                         new SqlParameter("@UpdateDate",DateTime.Now)}));
             }
             switch (fp) {
@@ -194,13 +261,13 @@ namespace yidascan.DataAccess {
                                 "UpdateDate = @UpdateDate WHERE PanelNo = @PanelNo",
                             new SqlParameter[]{
                         new SqlParameter("@PanelNo",c.PanelNo),
-                        new SqlParameter("@Status",5),
+                        new SqlParameter("@Status",LableState.PanelFill),
                         new SqlParameter("@UpdateDate",DateTime.Now)}));
                         cps.Add(new CommandParameter("UPDATE LableCode SET Status = @Status," +
                                 "UpdateDate = @UpdateDate WHERE PanelNo = @PanelNo",
                             new SqlParameter[]{
                         new SqlParameter("@PanelNo",c.PanelNo),
-                        new SqlParameter("@Status",5),
+                        new SqlParameter("@Status",LableState.PanelFill),
                         new SqlParameter("@UpdateDate",DateTime.Now)}));
                     }
                     break;
@@ -213,8 +280,8 @@ namespace yidascan.DataAccess {
 
         private static List<CommandParameter> CreateLableCodeInsert(LableCode c) {
             return new List<CommandParameter>() { new CommandParameter(
-                                "insert into LableCode(LCode,ToLocation,PanelNo,Floor,FloorIndex,Diameter,Length,Coordinates,GetOutLCode,Remark) " +
-                            "values(@LCode,@ToLocation,@PanelNo,@Floor,@FloorIndex,@Diameter,@Length,@Coordinates,@GetOutLCode,@Remark)",
+                                "insert into LableCode(LCode,ToLocation,PanelNo,Floor,FloorIndex,Diameter,Length,Coordinates,Cx,Cy,Cz,Crz,GetOutLCode,Remark) " +
+                            "values(@LCode,@ToLocation,@PanelNo,@Floor,@FloorIndex,@Diameter,@Length,@Coordinates,@Cx,@Cy,@Cz,@Crz,@GetOutLCode,@Remark)",
                                 new SqlParameter[]{
                         new SqlParameter("@LCode",c.lCode),
                         new SqlParameter("@ToLocation",c.toLocation),
@@ -224,6 +291,10 @@ namespace yidascan.DataAccess {
                         new SqlParameter("@Diameter",c.diameter),
                         new SqlParameter("@Length",c.length),
                         new SqlParameter("@Coordinates",c.coordinates),
+                        new SqlParameter("@Cx",c.cx),
+                        new SqlParameter("@Cy",c.cy),
+                        new SqlParameter("@Cz",c.cz),
+                        new SqlParameter("@Crz",c.crz),
                         c.getOutLCode==null?new SqlParameter("@GetOutLCode",DBNull.Value):new SqlParameter("@GetOutLCode",c.getOutLCode),
                         c.remark==null?new SqlParameter("@Remark",DBNull.Value):new SqlParameter("@Remark",c.remark)}) };
         }
@@ -263,12 +334,12 @@ namespace yidascan.DataAccess {
                 new CommandParameter(@"update LableCode set UpdateDate=@UpdateDate,Status=@Status where panelNo=@panelNo",
                 new SqlParameter[]{
                 new SqlParameter("@UpdateDate",DateTime.Now),
-                new SqlParameter("@Status",5),
+                new SqlParameter("@Status",LableState.PanelFill),
                 new SqlParameter("@panelNo",panelNo)}),
                 new CommandParameter("update Panel set UpdateDate=@UpdateDate,Status=@Status where panelNo=@panelNo",
                 new SqlParameter[]{
                 new SqlParameter("@UpdateDate",DateTime.Now),
-                new SqlParameter("@Status",5),
+                new SqlParameter("@Status",LableState.PanelFill),
                 new SqlParameter("@panelNo",panelNo)})};
             return DataAccess.CreateDataAccess.sa.NonQueryTran(cps);
         }
@@ -287,13 +358,17 @@ namespace yidascan.DataAccess {
             return new List<CommandParameter>() {
                 new CommandParameter(@"UPDATE LableCode SET [PanelNo] = @PanelNo
                   ,[Floor] = @Floor,[FloorIndex] = @FloorIndex,[Coordinates] = @Coordinates
-                  ,[GetOutLCode] = @GetOutLCode,[UpdateDate] = @UpdateDate,[Remark] = @Remark
-                  WHERE SequenceNo =@SequenceNo and [LCode] = @LCode and [ToLocation] = @ToLocation",
+                  ,Cx=@Cx,Cy=@Cy,Cz=@Cz,Crz=@Crz,[GetOutLCode] = @GetOutLCode,[UpdateDate] = @UpdateDate,
+                  [Remark] = @Remark WHERE SequenceNo =@SequenceNo and [LCode] = @LCode and [ToLocation] = @ToLocation",
                 new SqlParameter[]{
                     new SqlParameter("@PanelNo",obj.panelNo),
                     new SqlParameter("@Floor",obj.floor),
                     new SqlParameter("@FloorIndex",obj.floorIndex),
                     obj.coordinates==null?new SqlParameter("@Coordinates",DBNull.Value):new SqlParameter("@Coordinates",obj.coordinates),
+                        new SqlParameter("@Cx",obj.cx),
+                        new SqlParameter("@Cy",obj.cy),
+                        new SqlParameter("@Cz",obj.cz),
+                        new SqlParameter("@Crz",obj.crz),
                     obj.getOutLCode==null?new SqlParameter("@GetOutLCode",DBNull.Value):new SqlParameter("@GetOutLCode",obj.getOutLCode),
                     new SqlParameter("@UpdateDate",DateTime.Now),
                     new SqlParameter("@Remark",obj.remark),

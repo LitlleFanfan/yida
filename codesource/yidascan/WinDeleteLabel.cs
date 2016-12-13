@@ -41,9 +41,9 @@ namespace yidascan {
             // 删除号码。
             if (LableCode.Delete(code)) {
                 mainwin.WriteLabelCodeToOpc(code);
-                FrmMain.logOpt.ViewInfo(string.Format("删除标签{0}成功", code), LogType.NORMAL);
+                FrmMain.logOpt.Write(string.Format("删除标签{0}成功", code), LogType.NORMAL);
             } else {
-                FrmMain.logOpt.ViewInfo(string.Format("删除标签{0}失败", code), LogType.NORMAL);
+                FrmMain.logOpt.Write(string.Format("删除标签{0}失败", code), LogType.NORMAL);
             }
 
             txtDelLCode.Text = string.Empty;
