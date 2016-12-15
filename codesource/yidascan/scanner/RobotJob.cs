@@ -19,6 +19,12 @@ namespace yidascan {
             }
         }
 
+        public RollPosition PeekRoll() {
+            lock(Rolls) {
+                return Rolls.Count == 0 ? null : Rolls.Peek();
+            }
+        }
+
         public RollPosition GetRoll() {
             lock (Rolls) {
                 return Rolls.Count == 0 ?

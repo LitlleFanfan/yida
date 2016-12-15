@@ -22,3 +22,15 @@ E:\ljework\yida\codesource\RobotTest\obj\Release\RobotTest.csproj.GenerateResour
 E:\ljework\yida\codesource\RobotTest\obj\Release\RobotTest.exe
 E:\ljework\yida\codesource\RobotTest\obj\Release\RobotTest.pdb
 E:\ljework\yida\codesource\RobotTest\bin\Release\Newtonsoft.Json.dll
+D:\mywork\softproject\yida\codesource\RobotTest\bin\Release\RobotTest.exe.config
+D:\mywork\softproject\yida\codesource\RobotTest\bin\Release\RobotTest.exe
+D:\mywork\softproject\yida\codesource\RobotTest\bin\Release\RobotTest.pdb
+D:\mywork\softproject\yida\codesource\RobotTest\bin\Release\Newtonsoft.Json.dll
+D:\mywork\softproject\yida\codesource\RobotTest\bin\Release\RobotControl.dll
+D:\mywork\softproject\yida\codesource\RobotTest\bin\Release\RobotControl.pdb
+D:\mywork\softproject\yida\codesource\RobotTest\obj\Release\RobotTest.csprojResolveAssemblyReference.cache
+D:\mywork\softproject\yida\codesource\RobotTest\obj\Release\RobotTest.Form1.resources
+D:\mywork\softproject\yida\codesource\RobotTest\obj\Release\RobotTest.Properties.Resources.resources
+D:\mywork\softproject\yida\codesource\RobotTest\obj\Release\RobotTest.csproj.GenerateResource.Cache
+D:\mywork\softproject\yida\codesource\RobotTest\obj\Release\RobotTest.exe
+D:\mywork\softproject\yida\codesource\RobotTest\obj\Release\RobotTest.pdb

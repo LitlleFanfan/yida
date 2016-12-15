@@ -1,14 +1,11 @@
 ﻿using ProduceComm;
 using ProduceComm.OPC;
 using RobotControl;
-
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
 using yidascan.DataAccess;
 
 namespace yidascan {
@@ -138,6 +135,7 @@ namespace yidascan {
         public void WritePosition(RollPosition rollPos) {
             rCtrl.SetVariables(RobotControl.VariableType.B, 10, 1, rollPos.ChangeAngle ? "1" : "0");
             rCtrl.SetVariables(RobotControl.VariableType.B, 0, 1, rollPos.BaseIndex.ToString());
+            rCtrl.SetVariables(RobotControl.VariableType.B, 5, 1, "1");
 
             // 原点高位旋转
             rCtrl.SetPostion(RobotControl.PosVarType.Robot,
@@ -206,15 +204,14 @@ namespace yidascan {
                         Thread.Sleep(OPCClient.DELAY);
                     }
 
-                    var roll = robotJobs.GetRoll();
+                    var roll = robotJobs.PeekRoll();
 
-                    FrmMain.logOpt.Write(string.Format("roll:{0}", Newtonsoft.Json.JsonConvert.SerializeObject(roll)), LogType.ROBOT_STACK);
+                    FrmMain.logOpt.Write(string.Format("roll:{0}", JsonConvert.SerializeObject(roll)), LogType.ROBOT_STACK);
 
-                    //// 等待板可放料
-                    //while (!PanelAvailable(roll.ToLocation)) {
-                    //    FrmMain.logOpt.Write("1111。");
-                    //    Thread.Sleep(OPCClient.DELAY * 400);
-                    //}
+                    // 等待板可放料
+                    while (!PanelAvailable(roll.ToLocation)) {
+                        Thread.Sleep(OPCClient.DELAY * 400);
+                    }
 
                     FrmMain.logOpt.Write("启动机器人动作。", LogType.ROBOT_STACK);
                     // 启动机器人动作。
@@ -224,13 +221,21 @@ namespace yidascan {
 
                     Thread.Sleep(RobotHelper.DELAY * 1000);
 
-                    // 等待完成信号
-                    while (IsBusy()) {
+                    // 等待布卷上垛信号
+                    while (true) {
+                       if (IsRollOnPanel()) {
+                            LableCode.SetOnPanelState(roll.LabelCode);
+                            robotJobs.GetRoll();
+                            break;
+                        }
+                        Thread.Sleep(RobotHelper.DELAY * 100);
+                    }
+
+                    // 等待机器人结束码垛。
+                    while (IsBusy()) {                        
                         FrmMain.logOpt.Write("Working", LogType.ROBOT_STACK);
                         Thread.Sleep(RobotHelper.DELAY * 200);
                     }
-
-                    LableCode.SetOnPanelState(roll.LabelCode);
 
                     // 告知OPC
                     Task.Factory.StartNew(() => {
@@ -242,15 +247,28 @@ namespace yidascan {
             }
         }
 
+        private bool IsRollOnPanel() {
+            try {
+                Dictionary<string, string> b5 = rCtrl.GetVariables(VariableType.B, 5, 1);
+
+                if (b5 != null && b5.Count != 0) {
+                    return b5["5"] == "0";
+                }
+            } catch (Exception ex) {
+                FrmMain.logOpt.Write(string.Format("{0}", ex), LogType.ROBOT_STACK);
+            }
+            return false;
+        }
+
         private bool PanelAvailable(string tolocation) {
             try {
                 lock (client) {
                     string s = client.ReadString(param.BAreaPanelState[tolocation]);
-                    FrmMain.logOpt.Write(string.Format("{0}:{1}", param.BAreaPanelState[tolocation], s));
+                    FrmMain.logOpt.Write(string.Format("交地状态 {0}:{1}", param.BAreaPanelState[tolocation], s));
                     return s == "2";
                 }
             } catch (Exception ex) {
-                FrmMain.logOpt.Write(string.Format("tolocation: {0} opc:{1} err:{2}", tolocation, Newtonsoft.Json.JsonConvert.SerializeObject(param.BAreaFloorFinish), ex), LogType.ROBOT_STACK);
+                FrmMain.logOpt.Write(string.Format("读交地状态信号异常 tolocation: {0} opc:{1} err:{2}", tolocation, Newtonsoft.Json.JsonConvert.SerializeObject(param.BAreaFloorFinish), ex), LogType.ROBOT_STACK);
                 return true;//临时
             }
         }

@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using commonhelper;
@@ -40,7 +33,7 @@ namespace yidascan {
 
             // 删除号码。
             if (LableCode.Delete(code)) {
-                mainwin.WriteLabelCodeToOpc(code);
+                mainwin.WriteDeletedLabelToOpc(code);
                 FrmMain.logOpt.Write(string.Format("删除标签{0}成功", code), LogType.NORMAL);
             } else {
                 FrmMain.logOpt.Write(string.Format("删除标签{0}失败", code), LogType.NORMAL);

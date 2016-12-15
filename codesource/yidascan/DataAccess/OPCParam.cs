@@ -188,6 +188,8 @@ namespace yidascan.DataAccess
 
         public Dictionary<string, string> BAreaPanelState;
 
+        public Dictionary<string, string> BAreaUserFinalLayer;
+
         public static DataTable Query(string where = "")
         {
             string sql = string.Format("select IndexNo,Name,Code,Class,Remark from OPCParam {0} order by IndexNo DESC", where);
@@ -199,7 +201,7 @@ namespace yidascan.DataAccess
             InitNone();
             InitBAreaPanelFinish();
             InitBAreaFloorFinish();
-            InitBAreaPanelState();
+            InitBAreaUserFinalLayer();
 
             ScanParam = new OPCScanParam();
             CacheParam = new OPCBeforCacheParam();
@@ -272,6 +274,17 @@ namespace yidascan.DataAccess
             foreach (DataRow dr in dt.Rows)
             {
                 BAreaPanelState.Add(dr["Name"].ToString(), dr["Code"].ToString());
+            }
+            return true;
+        }
+        private bool InitBAreaUserFinalLayer() {
+            BAreaUserFinalLayer = new Dictionary<string, string>();
+            DataTable dt = Query(string.Format("where Class='BAreaUserFinalLayer'"));
+            if (dt == null || dt.Rows.Count < 1) {
+                return false;
+            }
+            foreach (DataRow dr in dt.Rows) {
+                BAreaUserFinalLayer.Add(dr["Name"].ToString(), dr["Code"].ToString());
             }
             return true;
         }

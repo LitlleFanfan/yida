@@ -192,6 +192,9 @@ namespace ProduceComm {
             }
         }
 
+        /// <summary>
+        /// 码垛布卷间隙
+        /// </summary>
         public static decimal RollSep {
             get {
                 string tmp = clsSetting.GetCfgValue("ShelfObligateLen");
@@ -199,16 +202,6 @@ namespace ProduceComm {
             }
             set {
                 clsSetting.SetCfgValue("ShelfObligateLen", value.ToString());
-            }
-        }
-
-        public static int DiameterDiff {
-            get {
-                string tmp = clsSetting.GetCfgValue("DiameterDiff");
-                return int.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
-            }
-            set {
-                clsSetting.SetCfgValue("DiameterDiff", value.ToString());
             }
         }
 
@@ -248,6 +241,19 @@ namespace ProduceComm {
             }
             set {
                 clsSetting.SetCfgValue("EdgeObligate", value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// 缓存忽略直径偏差
+        /// </summary>
+        public static decimal CacheIgnoredDiff {
+            get {
+                string tmp = clsSetting.GetCfgValue("CacheIgnoredDiff");
+                return decimal.Parse(string.IsNullOrEmpty(tmp) ? "0" : tmp);
+            }
+            set {
+                clsSetting.SetCfgValue("CacheIgnoredDiff", value.ToString());
             }
         }
 

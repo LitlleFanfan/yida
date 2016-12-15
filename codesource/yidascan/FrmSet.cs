@@ -61,6 +61,7 @@ namespace yidascan {
 
             clsSetting.OddTurn = chbOddTurn.Checked;
             clsSetting.EdgeSpace = nudEdgeObligate.Value;
+            clsSetting.CacheIgnoredDiff = nudCacheIgnoredDiff.Value;
 
             clsSetting.RobotIP = txtRobotIP.Text;
             clsSetting.JobName = txtJobName.Text;
@@ -142,6 +143,7 @@ namespace yidascan {
             
             chbOddTurn.Checked = clsSetting.OddTurn;
             nudEdgeObligate.Value = clsSetting.EdgeSpace;
+            nudCacheIgnoredDiff.Value = clsSetting.CacheIgnoredDiff;
 
             txtRobotIP.Text = clsSetting.RobotIP;
             txtJobName.Text = clsSetting.JobName;

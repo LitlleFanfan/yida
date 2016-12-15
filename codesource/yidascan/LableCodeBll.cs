@@ -23,7 +23,7 @@ namespace yidascan {
                     {
                         List<LableCode> lcObjs = new List<LableCode>();
                         foreach (LableCode l in tmp) {
-                            if (l.Diameter + clsSetting.DiameterDiff < lc.Diameter) { lcObjs.Add(l); }
+                            if (l.Diameter + clsSetting.CacheIgnoredDiff < lc.Diameter) { lcObjs.Add(l); }
                         }
                         if (lcObjs.Count > 0) {
                             lc2 = lcObjs[0];
@@ -61,15 +61,29 @@ namespace yidascan {
         }
 
         private decimal CalculateXory(List<LableCode> lcs, LableCode lc) {
-            int index = CalculateFloorIndex(lcs);
             decimal xory;
-            if (index <= 2) {
+            if (lc.FloorIndex <= 2) {
                 xory = lc.FloorIndex % 2 == 1 ? 0 : -clsSetting.RollSep;
             } else {
                 var lastRoll = (from s in lcs where IsRollInSameSide(s, lc.FloorIndex)
                                 orderby s.FloorIndex descending select s).First();
                 xory = (Math.Abs(lastRoll.Cx + lastRoll.Cy) + lastRoll.Diameter + clsSetting.RollSep)
                     * (lc.FloorIndex % 2 == 1 ? 1 : -1);
+            }
+
+            return xory;
+        }
+
+        private decimal CalculateXory(List<LableCode> lcs) {
+            int index = CalculateFloorIndex(lcs);
+            decimal xory;
+            if (index <= 2) {
+                xory = index % 2 == 1 ? 0 : -clsSetting.RollSep;
+            } else {
+                var lastRoll = (from s in lcs where IsRollInSameSide(s, index)
+                                orderby s.FloorIndex descending select s).First();
+                xory = (Math.Abs(lastRoll.Cx + lastRoll.Cy) + lastRoll.Diameter + clsSetting.RollSep)
+                    * (index % 2 == 1 ? 1 : -1);
             }
 
             return xory;
@@ -118,7 +132,7 @@ namespace yidascan {
             const decimal MAX_LEN = 800;
 
             var cache = from s in lcs where s.FloorIndex == 0 select s;
-            decimal xory = CalculateXory(lcs, lc);//计算lc的Xory
+            decimal xory = CalculateXory(lcs);//计算要码上去布的Xory
 
             foreach (LableCode item in cache) {
                 // 当前卷的坐标。
@@ -201,8 +215,8 @@ namespace yidascan {
             }
             msg = string.Format(@"交地:{0};当前标签:{1};直径:{2};长:{3};缓存状态:{4};取出标签:{5};直径:{6};长:{7};",
                    lc.ToLocation, lc.LCode, lc.Diameter, lc.Length, cState, outCacheLable,
-                   (string.IsNullOrEmpty(outCacheLable) ? 0 : lc2.Diameter),
-                   (string.IsNullOrEmpty(outCacheLable) ? 0 : lc2.Length));
+                   (lc2 == null ? 0 : lc2.Diameter),//outCacheLable
+                   (lc2 == null ? 0 : lc2.Length));//outCacheLable
             return cState;
         }
 
