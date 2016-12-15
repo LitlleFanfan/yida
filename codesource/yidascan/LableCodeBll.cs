@@ -173,8 +173,6 @@ namespace yidascan {
                 FloorPerformance fp = FloorPerformance.None;
                 PanelInfo pinfo = LableCode.GetPanel(lcs[0].PanelNo);
 
-                Console.WriteLine(pinfo != null); // 这里显示pinfo是null.
-
                 lc.SetupPanelInfo(pinfo);
 
                 if (pinfo.CurrFloor == lcs[0].Floor) {

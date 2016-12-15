@@ -2,8 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\codesource",
+    "\\codesource\\yidascan",
+    "\\codesource\\yidascan\\Properties",
     "\\otherfile"
   ],
-  "SelectedNode": "\\doc",
+  "SelectedNode": "\\codesource\\yidascan.sln",
   "PreviewInSolutionExplorer": false
 }
