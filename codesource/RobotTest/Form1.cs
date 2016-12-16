@@ -145,11 +145,17 @@ namespace RobotTest {
             //new LableCode() { LCode = "122361083003", ToLocation = "B07", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 7, Diameter = 185, Length = 1570, Coordinates = "30,90,700" },
             //new LableCode() { LCode = "122361082003", ToLocation = "B07", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 8, Diameter = 180, Length = 1553, Coordinates = "30,90,-700" },
 
-            new LableCode() { LCode = "122361083003", ToLocation = "B08", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 7, Diameter = 185, Length = 1570, Coordinates = "30,0,700" },
-            new LableCode() { LCode = "122361082003", ToLocation = "B08", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 8, Diameter = 180, Length = 1553, Coordinates = "30,0,-700" },
-            new LableCode() { LCode = "122361083003", ToLocation = "B08", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 7, Diameter = 185, Length = 1570, Coordinates = "30,90,700" },
-            new LableCode() { LCode = "122361082003", ToLocation = "B08", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 8, Diameter = 180, Length = 1553, Coordinates = "30,90,-700" }
-            
+            new LableCode() { LCode = "122361083003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 7, Diameter = 185, Length = 1570, Coordinates = "30,0,500" },
+            new LableCode() { LCode = "122361082003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 8, Diameter = 180, Length = 1553, Coordinates = "30,0,-500" },
+            new LableCode() { LCode = "122361083003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 7, Diameter = 185, Length = 1570, Coordinates = "30,90,500" },
+            new LableCode() { LCode = "122361082003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 8, Diameter = 180, Length = 1553, Coordinates = "30,90,-500" },
+
+
+            new LableCode() { LCode = "122361083003", ToLocation = "B11", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 7, Diameter = 185, Length = 1570, Coordinates = "30,0,500" },
+            new LableCode() { LCode = "122361082003", ToLocation = "B11", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 8, Diameter = 180, Length = 1553, Coordinates = "30,0,-500" },
+            new LableCode() { LCode = "122361083003", ToLocation = "B11", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 7, Diameter = 185, Length = 1570, Coordinates = "30,90,500" },
+            new LableCode() { LCode = "122361082003", ToLocation = "B11", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 8, Diameter = 180, Length = 1553, Coordinates = "30,90,-500" }
+
 
 
             ////new LableCode() { LCode = "122361081003", ToLocation = "B09", PanelNo = "1611240008", Status = 0, Floor = 1, FloorIndex = 1, Diameter = 180, Length = 1566, Coordinates = "30,90,0" },

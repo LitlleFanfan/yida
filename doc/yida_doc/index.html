@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>index.html</title>
+<meta charset="UTF-8"/> <style>body{margin-left: auto;
+margin-right: auto; letter-spacing: 1px; color: #444444;
+line-height: 1; max-width: 1024px;padding: 30px;}
+h1, h2, h3, h4 {color: #111111;font-weight: 400;}
+h1 {font-size: 30px;}
+h2 {font-size: 24px;}
+h3 {font-size: 20px;}
+h4 {font-size: 18px;}
+h5 {font-size: 16px;}
+h6 {font-size: 14px;}
+h1 {margin-top: 30px 0 20px;}
+h2, h3, h4 {margin: 30px 0 20px -28px;}
+h1, h5, h6 {text-align: center;}
+a {color: #0099ff;margin: 0;padding:0; vertical-align: baseline;}
+ul, ol {padding: 0;margin: 0;}
+li {line-height: 32px;}
+p, ul, ol {font-size: 16px;line-height:32px;}
+pre {padding: 0px 24px; white-space: pre-wrap;}
+code {font-family: Helvetica, lucida console, Monaco, Andale Mono, monospace;
+line-height: 2em;font-size: 16px;}
+aside {display:block; float: right; width: 200px;}
+blockquote {margin: 1em 2em; max-width: 95%;}
+hr {width: 100%; text-align: left; margin: 0 auto 0 -28px; color: #ddd;}
+.footnotes {font-family: Kaiti;}
+.footnotes p {line-height: 18px;}h1, h2, h3, h4, h5, h6, p, li, hr,
+blockquote, img, pre{ max-width: 90%; }
+::-moz-selection {color: red;background: yellow;}
+::selection {color: red; background: yellow;}
+img {display: block; margin-left: 0px; margin-right: auto;}
+figcaption {text-align: left; color: gray;  margin-top: 3px; margin-bottom: 6px;}
+.footnotes ol {margin-left: 30px;}
+table {margin: 15px auto 30px; min-width: 70%; line-height: 32px;}
+thead tr th{border-bottom: 1px solid gray; margin-bottom: 5px; padding-bottom: 5px; padding-left: 5px;}
+td {padding-left: 5px;}
+</style>
+</head>
+
+<body>
+
+<h1 id="溢达机器人自动码垛软件">溢达机器人自动码垛软件</h1>
+<h2 id="安装">安装</h2>
+<p>本软件包含如下文件和目录：</p>
+<ul>
+<li>NLog.dll</li>
+<li>NLog.config</li>
+<li>Newtonsoft.Json.dll</li>
+<li>OpcNetApi.Com.dll</li>
+<li>OpcNetApi.dll</li>
+<li>RobotControl.dll</li>
+<li>System.Data.SQLite.dll</li>
+<li>yidascan.exe.config</li>
+<li>config.ini</li>
+<li>help <帮助文件目录></li>
+<li>log <日志文件目录></li>
+</ul>
+<h2 id="启动程序">启动程序</h2>
+<p>鼠标双击桌面图标“溢达机器人码垛”。</p>
+<p>也可以在软件目录里，鼠标双击yidascan.exe程序。</p>
+<h2 id="操作指南">操作指南</h2>
+<h2 id="主窗口说明">主窗口说明</h2>
+<figure>
+<img src="images/mainform.png" alt="主窗口" /><figcaption>主窗口</figcaption>
+</figure>
+<p><strong>工具条：</strong> 包含主要的操作命令按钮。</p>
+<p><strong>流程状态：</strong> 显示计数器、流程运行状态、扫描到的标签号码、手持扫描号码输入栏、机器人状态等运行信息。</p>
+<p><strong>日志栏：</strong> 分别显示流程运行信息、机器人运行信息、扫描的标签号码队列等实时运行日志。</p>
+<p><strong>状态栏：</strong> 显示OPC连接状态、扫描器连接状态、机器人连接状态等。连接有效时，显示为绿色，无效时显示为灰色。</p>
+<p><strong>手动扫码：</strong> 用于接收手持扫描枪的扫码数据。使用手持扫描枪时，光标应当停留在此输入框，否则不能采集到扫描数据。</p>
+<p><strong>计时器：</strong> 从按下“启动”按钮时开始计时，到按下“停止”按钮时，停止计时。计时格式是：<strong>天.小时:分钟:秒</strong>。</p>
+<h2 id="功能说明">功能说明</h2>
+<ol type="1">
+<li><p>启动流程</p>
+<p>点击工具条按钮“启动”，日志栏会显示启动流程，启动过程完成以后，计数器右侧的颜色条显示为浅绿色。</p>
+<p><strong>注意：</strong></p>
+<p><strong>在启动之前，应当留意选择是否启动机器人操作。通常，应当把“启动机器人”选择框打上勾，意味着启动机器人。</strong></p>
+<p><strong>如果生产线调试时，不需要启动机器人操作，则应当把此项取消。</strong></p>
+<p><img src="images/counter.png" width="400px" /></p></li>
+<li><p>停止流程</p>
+<p>点击工具条按钮“停止”, 日志栏会显示停止流程，停止过程完成以后，计数器右侧的颜色条显示为橙色。</p></li>
+<li><p>退出软件</p>
+<p>点击工具条按钮“退出”，软件系统会提示，要求用户确认退出，用户确认以后，软件系统结束运行。</p>
+<p><strong>如果在流程运行时点“退出”按钮，软件系统不能退出。用户应当先停止流程，然后再退出。</strong></p></li>
+<li><p>配置</p>
+<p>配置各种通信参数和运行参数。</p>
+<p>4.1 设置采集器通信参数。</p>
+<p><img src="images/configscan.png" width="600px" /></p>
+<p>采集器有两种通信方式，一种是串口通信，一种是以太网通信。</p>
+<p>串口通信需要设置串口号和波特率，其中，波特率必须和设备自身设定的波特率一致。</p>
+<p>以太网通信需要设置IP地址和端口，这两个参数由设备决定的，在设置时必须知道要连接的设备的IP地址和端口。</p>
+<p>参数设好以后，按下“确定”按钮，保存参数。按“取消”按钮，则放弃所做的修改。</p>
+<p>4.2 设置托板参数。</p>
+<p><img src="images/configpanel.png" width="600px" /></p>
+<p>设置托板尺寸和布卷码垛参数。</p>
+<p>长，宽：指垛板的尺寸。</p>
+<p>限高：布卷码放的最大高度。</p>
+<p>布卷间隙：布卷之间的间隔。</p>
+<p>边缘预留：垛板上最靠边的布卷和垛板边缘的间隔。设置此参数是为避免布卷尺寸有误差，可能导致布卷掉出垛板。</p>
+<p>缓存许可：在B区缓存比较布卷大小时，允许一定误差。因为如果严格按照布卷直径的数字比较，即使出现几毫米的差别，也会产生交换布卷位置的动作。而很多这样的交换是不必要的。缓存许可设置的，就是布卷直径比较时，忽略的直径差别。</p>
+<p>4.3 设置机器人参数。</p>
+<p><img src="images/configrobot.png" width="600px" /></p>
+<p>需要设置参数包括机器人IP地址和端口，以及机器人执行的程序名。</p>
+<p>IP地址和端口：按照机器人示教器所显示的IP地址和端口设定。</p>
+<p>机器人程序：机器人示教器上的程序名。本软件在发送给机器人码垛信号后，机器人会调用此程序。这个程序做的是抓料和移动到指定位置放料。程序代码在示教器上可以看到。</p>
+<p>4.4 设置其他参数。</p>
+<p><img src="images/configother.png" width="600px" /></p>
+<p>这里包括和ERP接口的通信地址，以及OPC的IP地址。</p>
+<p>获取交地、称重、完成码垛三个通信地址，都由ERP系统提供。</p>
+<p>OPC地址总是127.0.0.1。</p></li>
+<li><p>查看日志</p>
+<p>打开日志目录，然后选择目录下的日志文件，用任何文字编辑器都可以打开查看。</p>
+<p>日志文件以日期命名。</p></li>
+<li><p>其他功能</p>
+<p>6.1 机器人启动</p>
+<p>当机器人需要单独启动时，点击此按钮，启动机器人运行。</p>
+<p>6.2 机器人停止</p>
+<p>当机器人流程需要单独停止时，点击此按钮，停止机器人运行。</p>
+<p>6.3 称重复位</p>
+<p>称重失败时，输送带停止。此功能告知OPC称重完成，可以让输送带继续走。</p>
+<p>6.4 删除标签</p>
+<p>扫描发生重码时，运行状态颜色条会显示红色，并显示“扫描重复”。此时，应当点击按钮“其他/删除标签”，弹出窗口。</p>
+<p><img src="images/deletelabel.png" width="400px" /></p>
+<p>用手持扫描枪扫描需要删除的标签条码，扫描成功后，标签号码会显示在输入框里，然后点击按钮“删除”，该号码就会从软件系统的号码队列里删除。</p>
+<p>如果点按钮“取消”，则不会做删除动作，直接从此窗口退出。</p>
+<p>6.5 传送复位</p>
+<p>布卷在条码扫描位置，扫描器红光熄灭之后，过了大约5秒钟以上，布卷仍然未通过扫描位置，那么可能是出现故障了。</p>
+<p>此时可以按下“传送复位”按钮，将布卷通过扫描位置，使生产线继续运行下去。</p>
+<p>在这样的状态下，此布卷的信息是没有正确记录下来的，也不能正确的自动码垛。</p>
+<p>6.6 帮助</p>
+<p>显示本文档。</p></li>
+</ol>
+<hr />
+<p>项目开发：广州恒微机电设备有限公司</p>
+<p>软件开发： Guangzhou Golden Beaver software workshop.</p>
+<p>林工 &lt;jine_gz@139.com&gt; 手机：13544376094</p>
+<p>张工 &lt;laozhang_gz@139.com&gt;</p>
+<p>更新时间：2016-12-17</p>
+
+</body>
+</html>

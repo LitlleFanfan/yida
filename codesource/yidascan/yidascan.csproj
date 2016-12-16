@@ -118,6 +118,7 @@
     </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="LableCodeBll.cs" />
+    <Compile Include="ListBoxHelper.cs" />
     <Compile Include="LogType.cs" />
     <Compile Include="MessageCenter.cs" />
     <Compile Include="PanelGen.cs" />

@@ -24,7 +24,7 @@ namespace ProduceComm {
     public class LogOpreate {
         public yidascan.MessageCenter msgCenter = new yidascan.MessageCenter();
 
-        public void Write(string msg, string group = "normal", LogViewType type = LogViewType.Both) {
+        public void Write(string msg, string group = "normal", LogViewType type = LogViewType.Both) {           
             switch (type) {
                 case LogViewType.Both:
                     msgCenter.Push(msg, group);

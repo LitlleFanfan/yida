@@ -11,6 +11,12 @@ using Newtonsoft.Json;
 
 namespace yidascan.DataAccess
 {
+    public enum ERPAlarmNo {
+        // ERP通信故障
+        COMMUNICATION_ERROR = 1,
+        // 取交地失败
+        TO_LOCATION_ERROR = 2
+    }
     public class LCodeSignal
     {
         public string LCode1 { get; set; }
@@ -40,9 +46,9 @@ namespace yidascan.DataAccess
     public class OPCScanParam
     {
         /// <summary>
-        /// 采集处信号
+        /// 尺寸处信号
         /// </summary>
-        public string ScanState { get; set; }
+        public string SizeState { get; set; }
 
         /// <summary>
         /// 直径
@@ -53,6 +59,11 @@ namespace yidascan.DataAccess
         /// 长度
         /// </summary>
         public string Length { get; set; }
+
+        /// <summary>
+        /// 采集处信号
+        /// </summary>
+        public string ScanState { get; set; }
 
         public string ScanLable1 { get; set; }
 
@@ -176,6 +187,11 @@ namespace yidascan.DataAccess
         public string ALarmSlot;
 
         /// <summary>
+        /// ERP故障
+        /// </summary>
+        public string ERPAlarm;
+
+        /// <summary>
         /// 机器人报警地址。
         /// </summary>
         public string RobotAlarmSlot;
@@ -201,6 +217,7 @@ namespace yidascan.DataAccess
             InitNone();
             InitBAreaPanelFinish();
             InitBAreaFloorFinish();
+            InitBAreaPanelState();
             InitBAreaUserFinalLayer();
 
             ScanParam = new OPCScanParam();

@@ -67,11 +67,12 @@ namespace ProduceComm
                 {
                     StreamReader readStream = new StreamReader(myWebResponse.GetResponseStream(), Encoding.UTF8);
                     result = JsonConvert.DeserializeObject<Dictionary<string, string>>(readStream.ReadToEnd());
+                    result.Add("ERPState", "OK");
                 }
             }
             catch (Exception ex)
             {
-                result = new Dictionary<string, string>() { { "State", "Fail" }, { "ERR", "请求接口信息出错 " + ex } };
+                result = new Dictionary<string, string>() { { "ERPState", "Fail" }, { "ERR", "请求接口信息出错 " + ex } };
             }
             return result;
         }

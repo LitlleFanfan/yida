@@ -455,6 +455,5 @@ D:\mywork\softproject\yida\codesource\WebApiSample\bin\zh-Hans\Microsoft.Owin.Se
 D:\mywork\softproject\yida\codesource\WebApiSample\bin\zh-Hans\Microsoft.Owin.Security.Twitter.resources.dll
 D:\mywork\softproject\yida\codesource\WebApiSample\bin\zh-Hans\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
 D:\mywork\softproject\yida\codesource\WebApiSample\bin\zh-Hans\System.Web.Http.Owin.resources.dll
-D:\mywork\softproject\yida\codesource\WebApiSample\obj\Release\WebApiSample.csprojResolveAssemblyReference.cache
 D:\mywork\softproject\yida\codesource\WebApiSample\obj\Release\WebApiSample.dll
 D:\mywork\softproject\yida\codesource\WebApiSample\obj\Release\WebApiSample.pdb

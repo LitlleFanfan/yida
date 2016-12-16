@@ -10,4 +10,3 @@ D:\mywork\softproject\yida\codesource\RobotControl\bin\Release\RobotControl.dll
 D:\mywork\softproject\yida\codesource\RobotControl\bin\Release\RobotControl.pdb
 D:\mywork\softproject\yida\codesource\RobotControl\obj\Release\RobotControl.dll
 D:\mywork\softproject\yida\codesource\RobotControl\obj\Release\RobotControl.pdb
-D:\mywork\softproject\yida\codesource\RobotControl\obj\Release\RobotControl.csprojResolveAssemblyReference.cache

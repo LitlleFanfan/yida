@@ -13,3 +13,7 @@ E:\ljework\yida\codesource\RobotControl\bin\Debug\RobotControl.pdb
 E:\ljework\yida\codesource\RobotControl\obj\Debug\RobotControl.dll
 E:\ljework\yida\codesource\RobotControl\obj\Debug\RobotControl.pdb
 E:\ljework\yida\codesource\RobotControl\obj\Debug\RobotControl.csprojResolveAssemblyReference.cache
+D:\mywork\softproject\yida\codesource\RobotControl\bin\Debug\RobotControl.dll
+D:\mywork\softproject\yida\codesource\RobotControl\bin\Debug\RobotControl.pdb
+D:\mywork\softproject\yida\codesource\RobotControl\obj\Debug\RobotControl.dll
+D:\mywork\softproject\yida\codesource\RobotControl\obj\Debug\RobotControl.pdb

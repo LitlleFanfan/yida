@@ -34,3 +34,15 @@ E:\ljework\yida\codesource\RobotTest\obj\Debug\RobotTest.Properties.Resources.re
 E:\ljework\yida\codesource\RobotTest\obj\Debug\RobotTest.csproj.GenerateResource.Cache
 E:\ljework\yida\codesource\RobotTest\bin\Debug\Newtonsoft.Json.dll
 E:\ljework\yida\codesource\RobotTest\obj\Debug\RobotTest.csprojResolveAssemblyReference.cache
+D:\mywork\softproject\yida\codesource\RobotTest\bin\Debug\RobotTest.exe.config
+D:\mywork\softproject\yida\codesource\RobotTest\bin\Debug\RobotTest.exe
+D:\mywork\softproject\yida\codesource\RobotTest\bin\Debug\RobotTest.pdb
+D:\mywork\softproject\yida\codesource\RobotTest\bin\Debug\Newtonsoft.Json.dll
+D:\mywork\softproject\yida\codesource\RobotTest\bin\Debug\RobotControl.dll
+D:\mywork\softproject\yida\codesource\RobotTest\bin\Debug\RobotControl.pdb
+D:\mywork\softproject\yida\codesource\RobotTest\obj\Debug\RobotTest.csprojResolveAssemblyReference.cache
+D:\mywork\softproject\yida\codesource\RobotTest\obj\Debug\RobotTest.Form1.resources
+D:\mywork\softproject\yida\codesource\RobotTest\obj\Debug\RobotTest.Properties.Resources.resources
+D:\mywork\softproject\yida\codesource\RobotTest\obj\Debug\RobotTest.csproj.GenerateResource.Cache
+D:\mywork\softproject\yida\codesource\RobotTest\obj\Debug\RobotTest.exe
+D:\mywork\softproject\yida\codesource\RobotTest\obj\Debug\RobotTest.pdb

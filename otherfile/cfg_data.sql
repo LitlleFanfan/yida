@@ -1,9 +1,10 @@
 
 TRUNCATE  TABLE  OPCParam
-
-INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('0','ScanState','MicroWin.S7-1200.NewItem1','Scan','采集处与PLC数据交换状态(读到0开始写，写完写1）')
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('0','SizeState','MicroWin.S7-1200.NewItem112','Scan','size与PLC数据交换状态(读到0开始写，写完写1）')
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('1','Diameter','MicroWin.S7-1200.NewItem10','Scan','直径')
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('2','Length','MicroWin.S7-1200.NewItem11','Scan','长度')
+
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('0','ScanState','MicroWin.S7-1200.NewItem1','Scan','采集处与PLC数据交换状态(读到0开始写，写完写1）')
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('3','ToLocationArea','MicroWin.S7-1200.NewItem12','Scan','交地区')
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('4','ToLocationNo','MicroWin.S7-1200.NewItem14','Scan','交地编号')
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('5','ScanLable1','MicroWin.S7-1200.NewItem21','Scan','采集到的标签号01')
@@ -35,9 +36,6 @@ INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('61','Signal','MicroWin.S
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('62','LCode1','MicroWin.S7-1200.NewItem27','DeleteLCode','删除布卷标签1');
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('63','LCode2','MicroWin.S7-1200.NewItem28','DeleteLCode','删除布卷标签2');
 
-
-INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('72','RobotWorkState','MicroWin.S7-1200.NewItem70','None','工作状态（运行：１；空闲：０；）')
-INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('73','RobotRunState','MicroWin.S7-1200.NewItem72','None','运行状态是否在安全位置（安全：１；危险：０；）')
 
 --
 -- 2016-11-8
@@ -156,17 +154,23 @@ INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B09','MicroWin.S7-1
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B10','MicroWin.S7-1200.NewItem64','BAreaPanelState','板状态Ｂ区板号10');
 INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','B11','MicroWin.S7-1200.NewItem65','BAreaPanelState','板状态Ｂ区板号11');
 
+--故障和报警
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('83','ERPAlarm','MicroWin.S7-1200.NewItem165','None','ERP:1=ERP通讯失败，2=ERP没有交地标签错误？');
+
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('72','RobotWorkState','MicroWin.S7-1200.NewItem70','None','工作状态（运行：１；空闲：０；）')
+INSERT OPCParam(IndexNo,Name,Code,Class,Remark) VALUES('73','RobotRunState','MicroWin.S7-1200.NewItem72','None','运行状态是否在安全位置（安全：１；危险：０；）')
+
 
 
 TRUNCATE  TABLE  robotparam
-INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('1','0','-2633.241','180.0000','0.0000','-90.0538',convert(datetime,'2016-09-12 15:37:32.843',121),convert(datetime,'2016-09-12 15:37:32.843',121),NULL)
-INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('1','1','-3671.072','180.0000','0.0000','90.2548',convert(datetime,'2016-09-12 15:37:35.600',121),convert(datetime,'2016-09-12 15:37:35.600',121),'Base')
-INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('1','2','-3671.072','180.0000','0.0000','0.5577',convert(datetime,'2016-09-12 15:37:37.800',121),convert(datetime,'2016-09-12 15:37:37.800',121),NULL)
-INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('1','3','-3671.072','180.0000','0.0000','-179.4834',convert(datetime,'2016-09-12 15:37:40.030',121),convert(datetime,'2016-09-12 15:37:40.030',121),NULL)
-INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('2','0','-4854.495','180.0000','0.0000','-89.2469',convert(datetime,'2016-09-12 15:37:43.570',121),convert(datetime,'2016-09-12 15:37:43.570',121),NULL)
-INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('2','1','-5748.995','180.0000','0.0000','91.4408',convert(datetime,'2016-09-12 15:37:46.010',121),convert(datetime,'2016-09-12 15:37:46.010',121),'Base')
-INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('2','2','-5748.995','180.0000','0.0000','0.7965',convert(datetime,'2016-09-12 15:37:48.147',121),convert(datetime,'2016-09-12 15:37:48.147',121),NULL)
-INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('2','3','-5748.995','180.0000','0.0000','-179.7696',convert(datetime,'2016-09-12 15:37:51.290',121),convert(datetime,'2016-09-12 15:37:51.290',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('1','0','-2480.105','180.0000','0.0000','-90.0538',convert(datetime,'2016-09-12 15:37:32.843',121),convert(datetime,'2016-09-12 15:37:32.843',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('1','1','-3520.166','180.0000','0.0000','90.2548',convert(datetime,'2016-09-12 15:37:35.600',121),convert(datetime,'2016-09-12 15:37:35.600',121),'Base')
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('1','2','-3520.166','180.0000','0.0000','0.5577',convert(datetime,'2016-09-12 15:37:37.800',121),convert(datetime,'2016-09-12 15:37:37.800',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('1','3','-3520.166','180.0000','0.0000','-179.4834',convert(datetime,'2016-09-12 15:37:40.030',121),convert(datetime,'2016-09-12 15:37:40.030',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('2','0','-4693.363','180.0000','0.0000','-89.2469',convert(datetime,'2016-09-12 15:37:43.570',121),convert(datetime,'2016-09-12 15:37:43.570',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('2','1','-5583.320','180.0000','0.0000','91.4408',convert(datetime,'2016-09-12 15:37:46.010',121),convert(datetime,'2016-09-12 15:37:46.010',121),'Base')
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('2','2','-5583.320','180.0000','0.0000','0.7965',convert(datetime,'2016-09-12 15:37:48.147',121),convert(datetime,'2016-09-12 15:37:48.147',121),NULL)
+INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('2','3','-5583.320','180.0000','0.0000','-179.7696',convert(datetime,'2016-09-12 15:37:51.290',121),convert(datetime,'2016-09-12 15:37:51.290',121),NULL)
 INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('3','0','-4633.681','180.0000','0.0000','90.2939',convert(datetime,'2016-09-12 15:20:43.883',121),convert(datetime,'2016-09-12 15:20:43.883',121),NULL)
 INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('3','1','-5121.404','180.0000','0.0000','-89.9200',convert(datetime,'2016-09-12 15:23:14.297',121),convert(datetime,'2016-09-12 15:23:14.297',121),'Base')
 INSERT robotparam(PanelIndexNo,BaseIndex,Base,Rx,Ry,Rz,CreateDate,UpdateDate,Remark) VALUES('3','2','-5121.404','180.0000','0.0000','-0.3127',convert(datetime,'2016-09-12 15:24:08.067',121),convert(datetime,'2016-09-12 15:24:08.067',121),NULL)

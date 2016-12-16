@@ -171,10 +171,15 @@ namespace yidascan {
         }
 
         public bool IsBusy() {
-            Dictionary<string, bool> status = rCtrl.GetPlayStatus();
+            try {
+                Dictionary<string, bool> status = rCtrl.GetPlayStatus();
             msg.Push(string.Format("{0}", Newtonsoft.Json.JsonConvert.SerializeObject(status)));
-            if (status.Count == 0) { return true; } else {
-                return (status["Start"] || status["Hold"]);
+                if (status == null || status.Count == 0) { return true; } else {
+                    return (status["Start"] || status["Hold"]);
+                }
+            } catch (Exception ex) {
+                msg.Push(string.Format("{0}",ex.ToString()));
+                return true;
             }
         }
 

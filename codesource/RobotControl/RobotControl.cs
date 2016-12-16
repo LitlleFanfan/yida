@@ -290,7 +290,11 @@ namespace RobotControl {
                     if (cmdID == Commands.CMD_MpGetVarData) {
                         foreach (string str in tmp) {
                             string[] stmp = str.Split(new string[] { "= " }, StringSplitOptions.RemoveEmptyEntries);
-                            ret.Add(stmp[0], stmp[1]);
+                            if (ret.ContainsKey(stmp[0])) {
+                                ret[stmp[0]] = stmp[1];
+                            } else {
+                                ret.Add(stmp[0], stmp[1]);
+                            }
                         }
                     } else {
                         ret = GetVal(tmp);
@@ -314,7 +318,11 @@ namespace RobotControl {
                     foreach (string str in tmp) {
                         if (str.Contains("Start") || str.Contains("Hold")) {
                             string[] stmp = str.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                            ret.Add(stmp[0], stmp[1].ToLower() == "true" || stmp[1].ToLower() == "on");
+                            if (ret.ContainsKey(stmp[0])) {
+                                ret[stmp[0]] = stmp[1].ToLower() == "true" || stmp[1].ToLower() == "on";
+                            } else {
+                                ret.Add(stmp[0], stmp[1].ToLower() == "true" || stmp[1].ToLower() == "on");
+                            }
                         }
                     }
                 }
@@ -335,7 +343,11 @@ namespace RobotControl {
                     string[] tmp = reitem.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string str in tmp) {
                         string[] stmp = str.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                        ret.Add(stmp[1], stmp[0].ToLower() != "on");
+                        if (ret.ContainsKey(stmp[0])) {
+                            ret[stmp[0]] = stmp[0].ToLower() != "on";
+                        } else {
+                            ret.Add(stmp[1], stmp[0].ToLower() != "on");
+                        }
                     }
                 }
             }
@@ -355,7 +367,11 @@ namespace RobotControl {
                     string[] tmp = reitem.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string str in tmp) {
                         string[] stmp = str.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
-                        ret.Add(stmp[0], stmp[1]);
+                        if (ret.ContainsKey(stmp[0])) {
+                            ret[stmp[0]] = stmp[1];
+                        } else {
+                            ret.Add(stmp[0], stmp[1]);
+                        }
                     }
                 }
             }

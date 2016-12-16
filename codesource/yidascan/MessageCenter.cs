@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace yidascan {
     public class MessageItem {
-        private const string FMT_MESSAGE = "[{0}] [{1}] {2}";
+        private const string FMT_MESSAGE = "{0}[{1}] [{2}] {3}";
         private const string FMT_DATE = "yyyy-MM-dd HH:mm:ss";
 
         public DateTime Timestamp { get; set; }
@@ -20,10 +20,16 @@ namespace yidascan {
         }
 
         public override string ToString() {
+            var prefix = "";
+            if (this.Text.StartsWith("!") || this.Text.StartsWith("?")) {
+                prefix = this.Text.Substring(0, 1);                
+            }
+
             return string.Format(FMT_MESSAGE,
-                                  Timestamp.ToString(FMT_DATE),
-                                  Group,
-                                  Text);
+                prefix,
+                Timestamp.ToString(FMT_DATE),
+                Group,
+                Text);
         }
     }
 

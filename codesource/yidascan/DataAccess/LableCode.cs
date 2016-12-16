@@ -476,13 +476,12 @@ namespace yidascan.DataAccess {
         }
 
         public static decimal GetFloorMaxDiameter(string panelNo, int currFloor) {
-            string sql = "select isnull(sum(diameter),0) from (select (select max(diameter) Diameter " +
-                "from LableCode b where PanelNo=@PanelNo and b.Floor=a.Floor)diameter " +
-                "from LableCode a where PanelNo = @PanelNo and Floor<@Floor group by Floor)tmp";
+            string sql = "select  MAX(Diameter+Cz) " +
+                "from LableCode a where PanelNo = @PanelNo and Floor<@Floor";
 
             SqlParameter[] sp = new SqlParameter[]{
                 new SqlParameter("@PanelNo",panelNo),
-                new SqlParameter("@Floor",currFloor)};
+                new SqlParameter("@Floor",currFloor-1)};
             DataTable dt = DataAccess.CreateDataAccess.sa.Query(sql, sp);
             if (dt == null || dt.Rows.Count < 1) {
                 return 0;

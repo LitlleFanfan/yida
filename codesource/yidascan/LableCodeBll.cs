@@ -45,7 +45,7 @@ namespace yidascan {
         public void CalculatePosition(List<LableCode> lcs, LableCode lc) {
             lc.FloorIndex = CalculateFloorIndex(lcs);
 
-            decimal z = lc.Floor == 1 ? 0 : LableCode.GetFloorMaxDiameter(lc.PanelNo, lc.Floor);
+            decimal z = lc.Floor == 1 ? -35 : LableCode.GetFloorMaxDiameter(lc.PanelNo, lc.Floor) - 10;
             decimal r = clsSetting.OddTurn ?
                 (lc.Floor % 2 == 1 ? 0 : 90) : //奇数层横放
                 (lc.Floor % 2 == 1 ? 90 : 0); //偶数层横放
@@ -235,13 +235,17 @@ namespace yidascan {
                 Dictionary<string, string> re = CallWebApi.Post(clsSetting.PanelFinish, erpParam);
 
                 // show result.
-                if (re["State"] == "Fail") {
-                    msg = string.Format("{0}板号{1}完成失败。{2}", (handwork ? "手工" : "自动"),
-                        JsonConvert.SerializeObject(erpParam), re["ERR"]);
+                if (re["ERPState"] == "OK") {
+                    if (re["State"] == "Fail") {
+                        msg = string.Format("{0}板号{1}完成失败。{2}", (handwork ? "手工" : "自动"),
+                            JsonConvert.SerializeObject(erpParam), re["ERR"]);
+                    } else {
+                        msg = string.Format("{0}板号{1}完成成功。{2}", (handwork ? "手工" : "自动"),
+                            JsonConvert.SerializeObject(erpParam), re["Data"]);
+                        return true;
+                    }
                 } else {
-                    msg = string.Format("{0}板号{1}完成成功。{2}", (handwork ? "手工" : "自动"),
-                        JsonConvert.SerializeObject(erpParam), re["Data"]);
-                    return true;
+                    FrmMain.ERPAlarm(FrmMain.opcClient, FrmMain.opcParam, ERPAlarmNo.COMMUNICATION_ERROR);
                 }
             }
             msg = "板号完成失败，板号为空。";
