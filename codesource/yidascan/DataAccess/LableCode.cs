@@ -263,12 +263,6 @@ namespace yidascan.DataAccess {
                         new SqlParameter("@PanelNo",c.PanelNo),
                         new SqlParameter("@Status",LableState.PanelFill),
                         new SqlParameter("@UpdateDate",DateTime.Now)}));
-                        cps.Add(new CommandParameter("UPDATE LableCode SET Status = @Status," +
-                                "UpdateDate = @UpdateDate WHERE PanelNo = @PanelNo",
-                            new SqlParameter[]{
-                        new SqlParameter("@PanelNo",c.PanelNo),
-                        new SqlParameter("@Status",LableState.PanelFill),
-                        new SqlParameter("@UpdateDate",DateTime.Now)}));
                     }
                     break;
                 case FloorPerformance.None:
@@ -346,10 +340,13 @@ namespace yidascan.DataAccess {
 
         public static bool Update(LableCode obj) {
             List<CommandParameter> cps = CreateLableCodeUpdate(obj);
-            cps.Add(new CommandParameter("INSERT INTO Panel (PanelNo,Status,CurrFloor,Remark)" +
-                    "VALUES(@PanelNo,5,1,@Remark)",
+            cps.Add(new CommandParameter("INSERT INTO Panel (PanelNo,ToLocation,Status,CurrFloor,MaxFloor,Remark)" +
+                    "VALUES(@PanelNo,@ToLocation,@Status,1,@MaxFloor,@Remark)",
                 new SqlParameter[]{
                     new SqlParameter("@PanelNo",obj.panelNo),
+                    new SqlParameter("@ToLocation",obj.toLocation),
+                    new SqlParameter("@Status",obj.ToLocation.Substring(0,1)=="B"? LableState.Null:LableState.PanelFill),
+                    new SqlParameter("@MaxFloor",clsSetting.MaxFloor),
                     new SqlParameter("@Remark",obj.toLocation)}));
             return DataAccess.CreateDataAccess.sa.NonQueryTran(cps);
         }
@@ -426,18 +423,30 @@ namespace yidascan.DataAccess {
         /// <param name="tolocation">交地</param>
         /// <param name="panelDate">板号字头</param>
         /// <returns></returns>
-        public static List<LableCode> GetLableCodesOfRecentFloor(string tolocation, string panelDate) {
-            string sql = "select * from LableCode a where exists(select * from " +
-                "(select top 1 * from LableCode where ToLocation=@ToLocation and PanelNo like @PanelDate+'%'  and Status<5 order by PanelNo desc,Floor desc) b " +
-                "where a.PanelNo=b.PanelNo and a.Floor=b.Floor)";
+        public static List<LableCode> GetLableCodesOfRecentFloor(string tolocation, PanelInfo pinfo) {
+            string sql = @"select * from LableCode where ToLocation=@ToLocation and 
+                                    PanelNo=@PanelNo and Floor=@Floor";
             SqlParameter[] sp = new SqlParameter[]{
                 new SqlParameter("@ToLocation",tolocation),
-                new SqlParameter("@PanelDate",panelDate)};
+                new SqlParameter("@PanelNo",pinfo.PanelNo),
+                new SqlParameter("@Floor",pinfo.CurrFloor)};
             DataTable dt = DataAccess.CreateDataAccess.sa.Query(sql, sp);
             if (dt == null || dt.Rows.Count < 1) {
                 return null;
             }
             return Helper.DataTableToObjList<LableCode>(dt);
+        }
+
+        public static PanelInfo GetTolactionCurrPanelNo(string tolocation, string dateShiftNo) {
+            string sql = "select * from Panel where ToLocation=@ToLocation and PanelNo like @PanelDate+'%'  and Status=0 order by PanelNo desc";
+            SqlParameter[] sp = new SqlParameter[]{
+                new SqlParameter("@ToLocation",tolocation),
+                new SqlParameter("@PanelDate",dateShiftNo)};
+            DataTable dt = DataAccess.CreateDataAccess.sa.Query(sql, sp);
+            if (dt == null || dt.Rows.Count < 1) {
+                return null;
+            }
+            return Helper.DataTableToObjList<PanelInfo>(dt)[0];
         }
 
         public static bool SetPanelNo(string lCode) {
@@ -477,7 +486,21 @@ namespace yidascan.DataAccess {
 
         public static decimal GetFloorMaxDiameter(string panelNo, int currFloor) {
             string sql = "select  MAX(Diameter+Cz) " +
-                "from LableCode a where PanelNo = @PanelNo and Floor<@Floor";
+                "from LableCode where PanelNo = @PanelNo and Floor=@Floor";
+
+            SqlParameter[] sp = new SqlParameter[]{
+                new SqlParameter("@PanelNo",panelNo),
+                new SqlParameter("@Floor",currFloor-1)};
+            DataTable dt = DataAccess.CreateDataAccess.sa.Query(sql, sp);
+            if (dt == null || dt.Rows.Count < 1) {
+                return 0;
+            }
+            return (decimal)dt.Rows[0][0];
+        }
+
+        public static decimal GetFloorHalfAvgLength(string panelNo, int currFloor) {
+            string sql = "select  avg(Length)/2 " +
+                "from LableCode where PanelNo = @PanelNo and Floor=@Floor";
 
             SqlParameter[] sp = new SqlParameter[]{
                 new SqlParameter("@PanelNo",panelNo),

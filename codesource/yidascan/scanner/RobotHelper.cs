@@ -201,7 +201,7 @@ namespace yidascan {
                         Thread.Sleep(OPCClient.DELAY);
                     }
 
-                    var roll = robotJobs.PeekRoll();
+                    var roll = robotJobs.GetRoll();
 
                     FrmMain.logOpt.Write(string.Format("roll:{0}", JsonConvert.SerializeObject(roll)), LogType.ROBOT_STACK);
                     try {
@@ -226,7 +226,6 @@ namespace yidascan {
                     while (isrun) {
                         if (IsRollOnPanel()) {
                             LableCode.SetOnPanelState(roll.LabelCode);
-                            robotJobs.GetRoll();
                             break;
                         }
                         Thread.Sleep(RobotHelper.DELAY * 100);

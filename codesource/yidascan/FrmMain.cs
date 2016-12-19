@@ -147,6 +147,7 @@ namespace yidascan {
             });
             logOpt.Write("机器人抓料A布卷队列任务启动。", LogType.NORMAL);
         }
+
         /// <summary>
         /// 启动机器人布卷队列等待。
         /// </summary>
@@ -192,14 +193,7 @@ namespace yidascan {
             }
 
             PanelInfo pinfo = LableCode.GetPanel(label.PanelNo);
-            var state = PanelState.LessHalf;
-            if (label.Floor - 1 == pinfo.MaxFloor) {
-                if (pinfo.OddStatus && pinfo.EvenStatus) {
-                    state = PanelState.Full;
-                } else {
-                    state = PanelState.HalfFull;
-                }
-            }
+            PanelState state = GetPanelState(label, pinfo);
 
             decimal x = label.Cx;
             decimal y = label.Cy;
@@ -232,6 +226,19 @@ namespace yidascan {
                 : string.Format("重复:{0}", roll.LabelCode);
 
             logOpt.Write(string.Format("{0} {1}", side, msg), LogType.ROLL_QUEUE);
+        }
+
+        private static PanelState GetPanelState(LableCode label, PanelInfo pinfo) {
+            var state = PanelState.LessHalf;
+            if (label.Floor == pinfo.MaxFloor - 2) {
+                if (label.Floor == pinfo.MaxFloor - 1 && pinfo.OddStatus && pinfo.EvenStatus) {
+                    state = PanelState.Full;
+                } else {
+                    state = PanelState.HalfFull;
+                }
+            }
+
+            return state;
         }
 
         private void StartRobotTask() {
@@ -483,23 +490,14 @@ namespace yidascan {
                                         if (string.IsNullOrEmpty(lc.PanelNo)) {
                                             // 板号以前没算过。                                            
 
-                                            // 取当前交地、最后板、最后层所有标签。
-                                            List<LableCode> lcs = LableCode.GetLableCodesOfRecentFloor(lc.ToLocation, string.Format("{0}{1}",
-                            dtpDate.Value.ToString(clsSetting.LABEL_CODE_DATE_FORMAT),
-                            cmbShiftNo.SelectedIndex.ToString()));
-
-                                            // log for debug.
-                                            logOpt.Write("----- bord layers begin -----", LogType.BUFFER, LogViewType.OnlyFile);
-                                            if (lcs != null) {
-                                                foreach (var l in lcs) {
-                                                    logOpt.Write(JsonConvert.SerializeObject(l), LogType.BUFFER, LogViewType.OnlyFile);
-                                                }
-                                            }
-                                            logOpt.Write("----- bord layer end -----", LogType.BUFFER, LogViewType.OnlyFile);
-
                                             // 计算位置
                                             string outCacheLable, msg;
-                                            CacheState cState = lcb.AreaBCalculate(lc, out outCacheLable, lcs, out msg); //计算位置
+                                            CacheState cState = lcb.AreaBCalculate(lc,
+                                                string.Format("{0}{1}",
+                                                        dtpDate.Value.ToString(clsSetting.LABEL_CODE_DATE_FORMAT),
+                                                        cmbShiftNo.SelectedIndex.ToString()),
+                                                out outCacheLable, out msg); //计算位置
+
                                             logOpt.Write(msg, LogType.BUFFER);
 
                                             // 写标签码到OPC
@@ -859,13 +857,13 @@ namespace yidascan {
             LableCode lc = LableCode.QueryByLCode(lCode);
             if (lc == null) { return false; }
 
-            lcb.GetPanelNo(lc);
+            lcb.GetPanelNo(lc, "");
             LableCode.Update(lc);
             LableCode.SetPanelNo(lCode);
 
             string msg;
-            bool re = lcb.PanelEnd(lc.PanelNo, out msg);
-            logOpt.Write(msg, LogType.NORMAL);
+            bool re = lcb.NotifyPanelEnd(lc.PanelNo, out msg);
+            logOpt.Write(string.Format("{0} {1}", lc.ToLocation, msg), LogType.NORMAL);
 
             return re;
         }

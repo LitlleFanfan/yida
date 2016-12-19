@@ -129,8 +129,12 @@ namespace yidascan {
         /// <returns></returns>
         public LableCode IsPanelFull(List<LableCode> lcs, LableCode lc) {
             LableCode result = null;
-            const decimal MAX_LEN = 800;
-
+            decimal MAX_LEN = clsSetting.SplintLength / 2;
+            if (lc.Floor > 1) {
+                MAX_LEN = LableCode.GetFloorHalfAvgLength(lc.PanelNo, lc.Floor);
+                MAX_LEN = MAX_LEN == 0 ? (clsSetting.SplintLength / 2) : MAX_LEN;
+                FrmMain.logOpt.Write(string.Format("板号{0}层号{1}层的平均长度{2}", lc.PanelNo, lc.Floor - 1, MAX_LEN), LogType.BUFFER, LogViewType.OnlyFile);
+            }
             var cache = from s in lcs where s.FloorIndex == 0 select s;
             decimal xory = CalculateXory(lcs);//计算要码上去布的Xory
 
@@ -149,33 +153,51 @@ namespace yidascan {
             return result;
         }
 
-        public void GetPanelNo(LableCode lc) {
-            // string panelNo = NewPanelNo(dtime, shiftNo);
-            string panelNo = PanelGen.NewPanelNo();
-            lc.PanelNo = panelNo;
-            lc.FloorIndex = 0;
-            lc.Floor = 1;
-            lc.Coordinates = "";
+        public PanelInfo GetPanelNo(LableCode lc, string dateShiftNo) {
+            PanelInfo pf = LableCode.GetTolactionCurrPanelNo(lc.ToLocation, dateShiftNo);
+            if (pf == null) {
+                string panelNo = PanelGen.NewPanelNo();
+                lc.PanelNo = panelNo;
+                lc.FloorIndex = 0;
+                lc.Floor = 1;
+                lc.Coordinates = "";
+            } else {
+                lc.SetupPanelInfo(pf);
+            }
+            return pf;
         }
 
-        public CacheState AreaBCalculate(LableCode lc, out string outCacheLable, List<LableCode> lcs, out string msg) {
+        public CacheState AreaBCalculate(LableCode lc, string dateShiftNo, out string outCacheLable, out string msg) {
             CacheState cState = CacheState.Error;
             outCacheLable = string.Empty;
             msg = string.Empty;
-            LableCode lc2 = null;
 
-            if (lcs == null || lcs.Count == 0) {
+            PanelInfo pinfo = GetPanelNo(lc, dateShiftNo);
+
+            if (pinfo == null) {
                 // 产生新板号赋予当前标签。
-                GetPanelNo(lc);
+                //板第一卷
                 LableCode.Update(lc);
                 cState = CacheState.Cache;
+                msg = string.Format(@"交地:{0};当前标签:{1};直径:{2};长:{3};缓存状态:{4};取出标签:{5};直径:{6};长:{7};",
+                       lc.ToLocation, lc.LCode, lc.Diameter, lc.Length, cState, outCacheLable, 0, 0);
             } else {
+                LableCode lc2 = null;
                 FloorPerformance fp = FloorPerformance.None;
-                PanelInfo pinfo = LableCode.GetPanel(lcs[0].PanelNo);
 
-                lc.SetupPanelInfo(pinfo);
+                // 取当前交地、当前板、当前层所有标签。
+                List<LableCode> lcs = LableCode.GetLableCodesOfRecentFloor(lc.ToLocation, pinfo);
 
-                if (pinfo.CurrFloor == lcs[0].Floor) {
+                // log for debug.
+                FrmMain.logOpt.Write("----- bord layers begin -----", LogType.BUFFER, LogViewType.OnlyFile);
+                if (lcs != null) {
+                    foreach (var l in lcs) {
+                        FrmMain.logOpt.Write(JsonConvert.SerializeObject(l), LogType.BUFFER, LogViewType.OnlyFile);
+                    }
+                }
+                FrmMain.logOpt.Write("----- bord layer end -----", LogType.BUFFER, LogViewType.OnlyFile);
+
+                if (lcs != null && lcs.Count > 0) {
                     // 最近一层没满。
                     lc2 = IsPanelFull(lcs, lc);
 
@@ -208,17 +230,18 @@ namespace yidascan {
                 }
 
                 if (fp == FloorPerformance.BothFinish && lc.Floor == pinfo.MaxFloor) {
-                    PanelEnd(lc.PanelNo, out msg);
+                    bool re = NotifyPanelEnd(lc.PanelNo, out msg);
+                    FrmMain.logOpt.Write(string.Format("{0} {1}", lc.ToLocation, msg), LogType.NORMAL);
                 }
+                msg = string.Format(@"交地:{0};当前标签:{1};直径:{2};长:{3};缓存状态:{4};取出标签:{5};直径:{6};长:{7};",
+                       lc.ToLocation, lc.LCode, lc.Diameter, lc.Length, cState, outCacheLable,
+                       (lc2 == null ? 0 : lc2.Diameter),//outCacheLable
+                       (lc2 == null ? 0 : lc2.Length));//outCacheLable
             }
-            msg = string.Format(@"交地:{0};当前标签:{1};直径:{2};长:{3};缓存状态:{4};取出标签:{5};直径:{6};长:{7};",
-                   lc.ToLocation, lc.LCode, lc.Diameter, lc.Length, cState, outCacheLable,
-                   (lc2 == null ? 0 : lc2.Diameter),//outCacheLable
-                   (lc2 == null ? 0 : lc2.Length));//outCacheLable
             return cState;
         }
 
-        public bool PanelEnd(string panelNo, out string msg, bool handwork = false) {
+        public bool NotifyPanelEnd(string panelNo, out string msg, bool handwork = false) {
             if (!string.IsNullOrEmpty(panelNo)) {
                 // 这个从数据库取似更合理。                
                 var data = LableCode.QueryLabelcodeByPanelNo(panelNo);

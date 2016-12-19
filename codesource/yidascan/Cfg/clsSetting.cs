@@ -257,6 +257,8 @@ namespace ProduceComm {
             }
         }
 
+        public const int MaxFloor = 7;
+
         /// <summary>
         /// OPC服务IP
         /// </summary>
