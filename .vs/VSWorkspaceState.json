@@ -3,9 +3,11 @@
     "",
     "\\codesource",
     "\\codesource\\yidascan",
+    "\\codesource\\yidascan\\Cfg",
+    "\\codesource\\yidascan\\DataAccess",
     "\\codesource\\yidascan\\Properties",
     "\\otherfile"
   ],
-  "SelectedNode": "\\codesource\\yidascan.sln",
+  "SelectedNode": "\\codesource\\yidascan\\DataAccess",
   "PreviewInSolutionExplorer": false
 }

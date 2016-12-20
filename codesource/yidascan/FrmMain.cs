@@ -225,7 +225,7 @@ namespace yidascan {
                 ? string.Format("布卷:{0}。", roll.LabelCode)
                 : string.Format("重复:{0}", roll.LabelCode);
 
-            logOpt.Write(string.Format("{0} {1}", side, msg), LogType.ROLL_QUEUE);
+            logOpt.Write(string.Format("{0} {1} {2}", side, msg, label.ToLocation), LogType.ROLL_QUEUE);
         }
 
         private static PanelState GetPanelState(LableCode label, PanelInfo pinfo) {

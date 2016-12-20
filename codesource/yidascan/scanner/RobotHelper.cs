@@ -177,11 +177,13 @@ namespace yidascan {
                     case PanelState.HalfFull:
                         lock (FrmMain.opcClient) {
                             FrmMain.opcClient.Write(FrmMain.opcParam.BAreaFloorFinish[tolocation], true);
+                            FrmMain.logOpt.Write(string.Format("{0} HalfFull", tolocation), LogType.ROBOT_STACK);
                         }
                         break;
                     case PanelState.Full:
                         lock (FrmMain.opcClient) {
                             FrmMain.opcClient.Write(FrmMain.opcParam.BAreaPanelFinish[tolocation], true);
+                            FrmMain.logOpt.Write(string.Format("{0} Full", tolocation), LogType.ROBOT_STACK);
                         }
                         break;
                     case PanelState.LessHalf:
