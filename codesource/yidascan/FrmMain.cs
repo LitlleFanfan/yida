@@ -40,8 +40,6 @@ namespace yidascan {
         Mutex OPC_IDLE = new Mutex();
         RobotJobQueue robotJobQueue;
 
-        public static bool WaitPanelAvailable = true;
-
         private int counter = 0;
 
         public FrmMain() {
@@ -114,7 +112,7 @@ namespace yidascan {
                 logOpt.Write(string.Format("OPC服务连接成功。"), LogType.NORMAL);
                 opcClient.AddSubscription(dtopc);
             } else {
-                logOpt.Write(string.Format("OPC服务连接失败。"), LogType.NORMAL);
+                logOpt.Write(string.Format("!OPC服务连接失败。"), LogType.NORMAL);
             }
             opcParam.Init();
 
@@ -178,22 +176,23 @@ namespace yidascan {
 
             var label = LableCode.QueryByLCode(fullcode);
             if (label == null) {
-                logOpt.Write(string.Format("{0} {1}找不到", side, fullcode), LogType.ROLL_QUEUE);
+                logOpt.Write(string.Format("!{0} {1}找不到", side, fullcode), LogType.ROLL_QUEUE);
                 return;
             }
             if (label.Status >= (int)LableState.OnPanel) {
-                logOpt.Write(string.Format("{0} {1}已在板上,未加入队列,交地{2}.",
+                logOpt.Write(string.Format("!{0} {1}已在板上,未加入队列,交地{2}.",
                     side, label.LCode, label.ToLocation), LogType.ROLL_QUEUE);
                 return;
             }
             if (label.CoordinatesIsEmpty()) {
-                logOpt.Write(string.Format("{0} {1}未算位置，未加入队列,交地{2}.",
+                logOpt.Write(string.Format("!{0} {1}未算位置，未加入队列,交地{2}.",
                     side, label.LCode, label.ToLocation), LogType.ROLL_QUEUE);
                 return;
             }
 
             PanelInfo pinfo = LableCode.GetPanel(label.PanelNo);
             PanelState state = GetPanelState(label, pinfo);
+            logOpt.Write(string.Format("{0} {1} {2}", label.LCode, label.ToLocation, Enum.GetName(typeof(PanelState), state)), LogType.ROLL_QUEUE, LogViewType.OnlyFile);
 
             decimal x = label.Cx;
             decimal y = label.Cy;
@@ -225,19 +224,17 @@ namespace yidascan {
                 ? string.Format("布卷:{0}。", roll.LabelCode)
                 : string.Format("重复:{0}", roll.LabelCode);
 
-            logOpt.Write(string.Format("{0} {1} {2}", side, msg, label.ToLocation), LogType.ROLL_QUEUE);
+            logOpt.Write(string.Format((success ? "" : "!") + "{0} {1} {2}", side, msg, label.ToLocation), LogType.ROLL_QUEUE);
         }
 
         private static PanelState GetPanelState(LableCode label, PanelInfo pinfo) {
             var state = PanelState.LessHalf;
-            if (label.Floor == pinfo.MaxFloor - 2) {
-                if (label.Floor == pinfo.MaxFloor - 1 && pinfo.OddStatus && pinfo.EvenStatus) {
-                    state = PanelState.Full;
-                } else {
-                    state = PanelState.HalfFull;
-                }
+            if (label.Floor == pinfo.MaxFloor - 1 && (pinfo.OddStatus || pinfo.EvenStatus)) {
+                state = PanelState.HalfFull;
             }
-
+            if (label.Floor == pinfo.MaxFloor && pinfo.OddStatus && pinfo.EvenStatus) {
+                state = PanelState.Full;
+            }
             return state;
         }
 
@@ -308,7 +305,7 @@ namespace yidascan {
             } else {
                 lblScanner2.BackColor = System.Drawing.Color.Gray;
                 ShowWarning("启动相机失败。");
-                logOpt.Write(nscan1.name + "启动失败！", LogType.NORMAL);
+                logOpt.Write("!" + nscan1.name + "启动失败！", LogType.NORMAL);
             }
             //if (OpenPort(ref nscan2, SECOND_CAMERA, FrmSet.pcfgScan2))
             //{   
@@ -360,7 +357,7 @@ namespace yidascan {
             } else {
                 var msg = "连接OPC设备失败！";
                 ShowWarning(msg);
-                logOpt.Write(msg, LogType.NORMAL);
+                logOpt.Write("!" + msg, LogType.NORMAL);
             }
         }
 
@@ -484,7 +481,7 @@ namespace yidascan {
                                     LableCode lc = LableCode.QueryByLCode(fullLable);
 
                                     if (lc == null) {
-                                        logOpt.Write(string.Format("{0}标签找不到", fullLable), LogType.BUFFER);
+                                        logOpt.Write(string.Format("!{0}标签找不到", fullLable), LogType.BUFFER);
                                     } else {
                                         // 检查重复计算。
                                         if (string.IsNullOrEmpty(lc.PanelNo)) {
@@ -505,7 +502,7 @@ namespace yidascan {
                                             opcClient.Write(opcParam.CacheParam.GetOutLable1, string.IsNullOrEmpty(outCacheLable) ? "0" : outCacheLable.Substring(0, 6));
                                             opcClient.Write(opcParam.CacheParam.GetOutLable2, string.IsNullOrEmpty(outCacheLable) ? "0" : outCacheLable.Substring(6, 6));
                                         } else {
-                                            logOpt.Write(string.Format("{0}标签重复。", fullLable), LogType.BUFFER);
+                                            logOpt.Write(string.Format("!{0}标签重复。", fullLable), LogType.BUFFER);
                                         }
                                     }
 
@@ -524,7 +521,7 @@ namespace yidascan {
         private object OPCRead(string code) {
             object val = opcClient.Read(code);
             if (val == null) {
-                logOpt.Write(string.Format("警告:OPC项目[{0}]质量:坏。", code), LogType.NORMAL);
+                logOpt.Write(string.Format("!警告:OPC项目[{0}]质量:坏。", code), LogType.NORMAL);
                 return string.Empty;
             } else {
                 return val;
@@ -901,7 +898,7 @@ namespace yidascan {
             LableCode dt = LableCode.QueryByLCode(code);
             if (dt != null) {
                 var msg = string.Format("{0}重复扫描{1}", (handwork ? "手工" : "自动"), code);
-                logOpt.Write(msg, LogType.NORMAL);
+                logOpt.Write("!" + msg, LogType.NORMAL);
                 ShowWarning("重复扫码");
             } else {
                 Dictionary<string, string> str;
@@ -917,13 +914,13 @@ namespace yidascan {
                         } else {
                             ShowWarning("取交地失败");
                             ERPAlarm(opcClient, opcParam, ERPAlarmNo.TO_LOCATION_ERROR);
-                            logOpt.Write(string.Format("{0}{1}获取交地失败。{2}",
+                            logOpt.Write(string.Format("!{0}{1}获取交地失败。{2}",
                                 (handwork ? "手工" : "自动"), code, JsonConvert.SerializeObject(str)), LogType.NORMAL);
                         }
                     } else {
                         ShowWarning("取交地失败");
                         ERPAlarm(opcClient, opcParam, ERPAlarmNo.COMMUNICATION_ERROR);
-                        logOpt.Write(string.Format("{0}{1}获取交地失败。{2}",
+                        logOpt.Write(string.Format("!{0}{1}获取交地失败。{2}",
                             (handwork ? "手工" : "自动"), code, JsonConvert.SerializeObject(str)), LogType.NORMAL);
                     }
                 } catch (Exception ex) {
@@ -1095,10 +1092,6 @@ namespace yidascan {
 
         private void btnWeighReset_Click(object sender, EventArgs e) {
             opcClient.Write(opcParam.ScanParam.GetWeigh, 0);
-        }
-
-        private void chkWaitPanelAvailable_CheckedChanged(object sender, EventArgs e) {
-            WaitPanelAvailable = chkWaitPanelAvailable.Checked;
         }
     }
 }

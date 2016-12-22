@@ -220,7 +220,7 @@ namespace yidascan.DataAccess {
             Coordinates = "";
         }
 
-        public static bool Update(FloorPerformance fp, LableCode c, LableCode c2 = null) {
+        public static bool Update(FloorPerformance fp, PanelInfo pInfo, LableCode c, LableCode c2 = null) {
             List<CommandParameter> cps = CreateLableCodeUpdate(c);
             if (c2 != null) {
                 cps.Add(new CommandParameter(@"update LableCode set FloorIndex=@FloorIndex,Coordinates=@Coordinates,
@@ -248,21 +248,22 @@ namespace yidascan.DataAccess {
                         new SqlParameter("@UpdateDate",DateTime.Now)}));
                     break;
                 case FloorPerformance.BothFinish:
-                    cps.Add(new CommandParameter("UPDATE Panel SET CurrFloor = @CurrFloor,OddStatus = @OddStatus,EvenStatus = @EvenStatus," +
-                            "UpdateDate = @UpdateDate WHERE PanelNo = @PanelNo",
-                        new SqlParameter[]{
-                        new SqlParameter("@PanelNo",c.PanelNo),
-                        new SqlParameter("@CurrFloor",c.floor+1),
-                        new SqlParameter("@OddStatus",false),
-                        new SqlParameter("@EvenStatus",false),
-                        new SqlParameter("@UpdateDate",DateTime.Now)}));
-                    if ((c.ToLocation.Substring(0, 1) == "B" && c.floor == 7) || (c.ToLocation.Substring(0, 1) != "B" && c.floor == 4)) {
+                    if (c.floor == pInfo.MaxFloor) {
                         cps.Add(new CommandParameter("UPDATE Panel SET Status = @Status," +
                                 "UpdateDate = @UpdateDate WHERE PanelNo = @PanelNo",
                             new SqlParameter[]{
-                        new SqlParameter("@PanelNo",c.PanelNo),
-                        new SqlParameter("@Status",LableState.PanelFill),
-                        new SqlParameter("@UpdateDate",DateTime.Now)}));
+                            new SqlParameter("@PanelNo",c.PanelNo),
+                            new SqlParameter("@Status",LableState.PanelFill),
+                            new SqlParameter("@UpdateDate",DateTime.Now)}));
+                    } else {
+                        cps.Add(new CommandParameter("UPDATE Panel SET CurrFloor = @CurrFloor,OddStatus = @OddStatus,EvenStatus = @EvenStatus," +
+                                "UpdateDate = @UpdateDate WHERE PanelNo = @PanelNo",
+                            new SqlParameter[]{
+                            new SqlParameter("@PanelNo",c.PanelNo),
+                            new SqlParameter("@CurrFloor",c.floor+1),
+                            new SqlParameter("@OddStatus",false),
+                            new SqlParameter("@EvenStatus",false),
+                            new SqlParameter("@UpdateDate",DateTime.Now)}));
                     }
                     break;
                 case FloorPerformance.None:
@@ -305,7 +306,7 @@ namespace yidascan.DataAccess {
         }
 
         public static bool SetMaxFloor(string tolocation) {
-            string sql = "update panel set maxfloor=currfloor where panelno in ( select top 1 panelno from lablecode where status!= 5 and tolocation = @tolocation and panelno is not null order by createdate desc )";
+            string sql = "update panel set maxfloor=currfloor where status!= 5 and tolocation = @tolocation";
             SqlParameter[] sp = new SqlParameter[]{
                 new SqlParameter("@tolocation",tolocation)};
             return DataAccess.CreateDataAccess.sa.NonQuery(sql, sp);

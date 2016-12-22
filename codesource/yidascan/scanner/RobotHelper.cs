@@ -140,7 +140,7 @@ namespace yidascan {
 
             //基座
             rCtrl.SetPostion(RobotControl.PosVarType.Base,
-                new RobotControl.PostionVar(rollPos.Target.axis7, 0, 0, 0, 0),
+                new RobotControl.PostionVar(rollPos.Base2 * 1000, 0, 0, 0, 0),
                 0, RobotControl.PosType.Robot, 0, 0);
 
             // 目标位置
@@ -183,6 +183,7 @@ namespace yidascan {
                     case PanelState.Full:
                         lock (FrmMain.opcClient) {
                             FrmMain.opcClient.Write(FrmMain.opcParam.BAreaPanelFinish[tolocation], true);
+                            FrmMain.opcClient.Write(FrmMain.opcParam.BAreaPanelFinish[tolocation], 3);
                             FrmMain.logOpt.Write(string.Format("{0} Full", tolocation), LogType.ROBOT_STACK);
                         }
                         break;
@@ -198,17 +199,16 @@ namespace yidascan {
         public void JobLoop(ref bool isrun) {
             while (isrun) {
                 if (robotJobs.Rolls.Count > 0) {
-                    FrmMain.logOpt.Write("robotJobs.Rolls: " + JsonConvert.SerializeObject(robotJobs.Rolls), LogType.ROBOT_STACK);
+                    FrmMain.logOpt.Write("robotJobs.Rolls: " + JsonConvert.SerializeObject(robotJobs.Rolls), LogType.ROBOT_STACK, LogViewType.OnlyFile);
                     while (IsBusy()) {
                         Thread.Sleep(OPCClient.DELAY);
                     }
-
                     var roll = robotJobs.GetRoll();
 
-                    FrmMain.logOpt.Write(string.Format("roll:{0}", JsonConvert.SerializeObject(roll)), LogType.ROBOT_STACK);
+                    FrmMain.logOpt.Write(string.Format("roll:{0} {1}\r\n{2}", roll.LabelCode, roll.ToLocation, JsonConvert.SerializeObject(roll)), LogType.ROBOT_STACK);
                     try {
                         // 等待板可放料
-                        while (isrun && FrmMain.WaitPanelAvailable && !PanelAvailable(roll.ToLocation)) {
+                        while (isrun && !PanelAvailable(roll.ToLocation)) {
                             FrmMain.logOpt.Write("等可放料信号", LogType.ROBOT_STACK);
                             Thread.Sleep(OPCClient.DELAY * 400);
                         }
@@ -216,12 +216,10 @@ namespace yidascan {
                         FrmMain.logOpt.Write(ex.ToString(), LogType.ROBOT_STACK);
                     }
 
-                    FrmMain.logOpt.Write("启动机器人动作。", LogType.ROBOT_STACK);
                     // 启动机器人动作。
+                    FrmMain.logOpt.Write("启动机器人动作。", LogType.ROBOT_STACK);
                     WritePosition(roll);
-
                     RunJob(JOB_NAME);
-
                     Thread.Sleep(RobotHelper.DELAY * 1000);
 
                     // 等待布卷上垛信号
@@ -230,13 +228,13 @@ namespace yidascan {
                             LableCode.SetOnPanelState(roll.LabelCode);
                             break;
                         }
-                        Thread.Sleep(RobotHelper.DELAY * 100);
+                        Thread.Sleep(RobotHelper.DELAY * 200);
                     }
 
                     // 等待机器人结束码垛。
                     while (isrun && IsBusy()) {
                         FrmMain.logOpt.Write("Working", LogType.ROBOT_STACK, LogViewType.OnlyFile);
-                        Thread.Sleep(RobotHelper.DELAY * 200);
+                        Thread.Sleep(RobotHelper.DELAY * 100);
                     }
 
                     // 告知OPC
@@ -263,7 +261,6 @@ namespace yidascan {
         }
 
         private bool PanelAvailable(string tolocation) {
-            FrmMain.logOpt.Write("PanelAvailable", LogType.ROBOT_STACK);
             try {
                 lock (FrmMain.opcClient) {
                     string s = FrmMain.opcClient.ReadString(FrmMain.opcParam.BAreaPanelState[tolocation]);

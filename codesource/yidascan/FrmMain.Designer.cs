@@ -86,7 +86,6 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer_message = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.chkWaitPanelAvailable = new System.Windows.Forms.CheckBox();
             this.toolStrip1.SuspendLayout();
             this.grbHandwork.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -357,7 +356,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
             this.splitContainer1.Size = new System.Drawing.Size(1460, 529);
-            this.splitContainer1.SplitterDistance = 422;
+            this.splitContainer1.SplitterDistance = 453;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 52;
             // 
@@ -377,7 +376,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.lsvRobotRollLog);
             this.splitContainer2.Panel2.Controls.Add(this.label1);
-            this.splitContainer2.Size = new System.Drawing.Size(422, 529);
+            this.splitContainer2.Size = new System.Drawing.Size(453, 529);
             this.splitContainer2.SplitterDistance = 264;
             this.splitContainer2.TabIndex = 2;
             // 
@@ -387,7 +386,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 32);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(422, 232);
+            this.panel2.Size = new System.Drawing.Size(453, 232);
             this.panel2.TabIndex = 1;
             // 
             // lbxLabelCode
@@ -397,7 +396,7 @@
             this.lbxLabelCode.ItemHeight = 28;
             this.lbxLabelCode.Location = new System.Drawing.Point(0, 0);
             this.lbxLabelCode.Name = "lbxLabelCode";
-            this.lbxLabelCode.Size = new System.Drawing.Size(422, 232);
+            this.lbxLabelCode.Size = new System.Drawing.Size(453, 232);
             this.lbxLabelCode.TabIndex = 0;
             // 
             // label8
@@ -407,7 +406,7 @@
             this.label8.Location = new System.Drawing.Point(0, 0);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(422, 32);
+            this.label8.Size = new System.Drawing.Size(453, 32);
             this.label8.TabIndex = 0;
             this.label8.Text = "数据";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -420,7 +419,7 @@
             this.lsvRobotRollLog.Location = new System.Drawing.Point(0, 32);
             this.lsvRobotRollLog.MinimumSize = new System.Drawing.Size(250, 4);
             this.lsvRobotRollLog.Name = "lsvRobotRollLog";
-            this.lsvRobotRollLog.Size = new System.Drawing.Size(422, 229);
+            this.lsvRobotRollLog.Size = new System.Drawing.Size(453, 229);
             this.lsvRobotRollLog.TabIndex = 4;
             // 
             // label1
@@ -430,7 +429,7 @@
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(422, 32);
+            this.label1.Size = new System.Drawing.Size(453, 32);
             this.label1.TabIndex = 3;
             this.label1.Text = "机器人布卷队列";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -451,7 +450,7 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
             this.splitContainer3.Panel2MinSize = 200;
-            this.splitContainer3.Size = new System.Drawing.Size(1033, 529);
+            this.splitContainer3.Size = new System.Drawing.Size(1002, 529);
             this.splitContainer3.SplitterDistance = 200;
             this.splitContainer3.TabIndex = 0;
             // 
@@ -462,7 +461,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1033, 200);
+            this.panel3.Size = new System.Drawing.Size(1002, 200);
             this.panel3.TabIndex = 2;
             // 
             // lsvLog
@@ -473,7 +472,7 @@
             this.lsvLog.ItemHeight = 28;
             this.lsvLog.Location = new System.Drawing.Point(0, 32);
             this.lsvLog.Name = "lsvLog";
-            this.lsvLog.Size = new System.Drawing.Size(1033, 168);
+            this.lsvLog.Size = new System.Drawing.Size(1002, 168);
             this.lsvLog.TabIndex = 2;
             // 
             // label9
@@ -483,7 +482,7 @@
             this.label9.Location = new System.Drawing.Point(0, 0);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(1033, 32);
+            this.label9.Size = new System.Drawing.Size(1002, 32);
             this.label9.TabIndex = 1;
             this.label9.Text = "日志";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -506,7 +505,7 @@
             this.splitContainer4.Panel2.Controls.Add(this.lsvRobotStackLog);
             this.splitContainer4.Panel2.Controls.Add(this.label3);
             this.splitContainer4.Panel2MinSize = 100;
-            this.splitContainer4.Size = new System.Drawing.Size(1033, 325);
+            this.splitContainer4.Size = new System.Drawing.Size(1002, 325);
             this.splitContainer4.SplitterDistance = 200;
             this.splitContainer4.TabIndex = 0;
             // 
@@ -517,7 +516,7 @@
             this.lsvBufferLog.Location = new System.Drawing.Point(0, 32);
             this.lsvBufferLog.MinimumSize = new System.Drawing.Size(250, 4);
             this.lsvBufferLog.Name = "lsvBufferLog";
-            this.lsvBufferLog.Size = new System.Drawing.Size(1033, 168);
+            this.lsvBufferLog.Size = new System.Drawing.Size(1002, 168);
             this.lsvBufferLog.TabIndex = 4;
             // 
             // label2
@@ -527,7 +526,7 @@
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(1033, 32);
+            this.label2.Size = new System.Drawing.Size(1002, 32);
             this.label2.TabIndex = 3;
             this.label2.Text = "缓存日志";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -539,7 +538,7 @@
             this.lsvRobotStackLog.Location = new System.Drawing.Point(0, 32);
             this.lsvRobotStackLog.MinimumSize = new System.Drawing.Size(250, 4);
             this.lsvRobotStackLog.Name = "lsvRobotStackLog";
-            this.lsvRobotStackLog.Size = new System.Drawing.Size(1033, 89);
+            this.lsvRobotStackLog.Size = new System.Drawing.Size(1002, 89);
             this.lsvRobotStackLog.TabIndex = 4;
             // 
             // label3
@@ -549,7 +548,7 @@
             this.label3.Location = new System.Drawing.Point(0, 0);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(1033, 32);
+            this.label3.Size = new System.Drawing.Size(1002, 32);
             this.label3.TabIndex = 3;
             this.label3.Text = "机器人码垛日志";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -614,7 +613,7 @@
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(894, 31);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(848, 31);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // lblTimer
@@ -752,26 +751,11 @@
             this.pictureBox1.TabIndex = 50;
             this.pictureBox1.TabStop = false;
             // 
-            // chkWaitPanelAvailable
-            // 
-            this.chkWaitPanelAvailable.AutoSize = true;
-            this.chkWaitPanelAvailable.Checked = true;
-            this.chkWaitPanelAvailable.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkWaitPanelAvailable.Font = new System.Drawing.Font("宋体", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.chkWaitPanelAvailable.Location = new System.Drawing.Point(1147, 24);
-            this.chkWaitPanelAvailable.Name = "chkWaitPanelAvailable";
-            this.chkWaitPanelAvailable.Size = new System.Drawing.Size(212, 32);
-            this.chkWaitPanelAvailable.TabIndex = 6;
-            this.chkWaitPanelAvailable.Text = "等可放料信号";
-            this.chkWaitPanelAvailable.UseVisualStyleBackColor = true;
-            this.chkWaitPanelAvailable.CheckedChanged += new System.EventHandler(this.chkWaitPanelAvailable_CheckedChanged);
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1460, 750);
-            this.Controls.Add(this.chkWaitPanelAvailable);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.grbHandwork);
@@ -879,7 +863,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem btnWeighReset;
         private System.Windows.Forms.ListBox lsvLog;
-        private System.Windows.Forms.CheckBox chkWaitPanelAvailable;
     }
 }
 

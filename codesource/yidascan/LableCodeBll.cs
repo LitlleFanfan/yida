@@ -221,11 +221,11 @@ namespace yidascan {
                     fp = FloorPerformance.BothFinish;
 
                 if (lc2 != null) {
-                    if (LableCode.Update(fp, lc, lc2))
+                    if (LableCode.Update(fp, pinfo, lc, lc2))
                         outCacheLable = lc2.LCode;
                     cState = lc.FloorIndex == 0 ? CacheState.GetThenCache : CacheState.GoThenGet;
                 } else {
-                    if (LableCode.Update(fp, lc))
+                    if (LableCode.Update(fp, pinfo, lc))
                         cState = lc.FloorIndex == 0 ? CacheState.Cache : CacheState.Go;
                 }
 
@@ -247,7 +247,7 @@ namespace yidascan {
                 var data = LableCode.QueryLabelcodeByPanelNo(panelNo);
 
                 if (data == null) {
-                    msg = "板号完成失败，未能查到数据库的标签。";
+                    msg = "!板号完成失败，未能查到数据库的标签。";
                     return false;
                 }
 
@@ -260,7 +260,7 @@ namespace yidascan {
                 // show result.
                 if (re["ERPState"] == "OK") {
                     if (re["State"] == "Fail") {
-                        msg = string.Format("{0}板号{1}完成失败。{2}", (handwork ? "手工" : "自动"),
+                        msg = string.Format("!{0}板号{1}完成失败。{2}", (handwork ? "手工" : "自动"),
                             JsonConvert.SerializeObject(erpParam), re["ERR"]);
                     } else {
                         msg = string.Format("{0}板号{1}完成成功。{2}", (handwork ? "手工" : "自动"),
@@ -271,7 +271,7 @@ namespace yidascan {
                     FrmMain.ERPAlarm(FrmMain.opcClient, FrmMain.opcParam, ERPAlarmNo.COMMUNICATION_ERROR);
                 }
             }
-            msg = "板号完成失败，板号为空。";
+            msg = "!板号完成失败，板号为空。";
             return false;
         }
     }
