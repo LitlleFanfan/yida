@@ -1,13 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\codesource",
     "\\codesource\\yidascan",
     "\\codesource\\yidascan\\Cfg",
     "\\codesource\\yidascan\\DataAccess",
     "\\codesource\\yidascan\\Properties",
-    "\\otherfile"
+    "\\codesource\\yidascan\\scanner"
   ],
-  "SelectedNode": "\\codesource\\yidascan\\DataAccess",
   "PreviewInSolutionExplorer": false
 }

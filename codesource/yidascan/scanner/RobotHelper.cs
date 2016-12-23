@@ -183,7 +183,7 @@ namespace yidascan {
                     case PanelState.Full:
                         lock (FrmMain.opcClient) {
                             FrmMain.opcClient.Write(FrmMain.opcParam.BAreaPanelFinish[tolocation], true);
-                            FrmMain.opcClient.Write(FrmMain.opcParam.BAreaPanelFinish[tolocation], 3);
+                            FrmMain.opcClient.Write(FrmMain.opcParam.BAreaPanelState[tolocation], 3);
                             FrmMain.logOpt.Write(string.Format("{0} Full", tolocation), LogType.ROBOT_STACK);
                         }
                         break;
@@ -206,16 +206,7 @@ namespace yidascan {
                     var roll = robotJobs.GetRoll();
 
                     FrmMain.logOpt.Write(string.Format("roll:{0} {1}\r\n{2}", roll.LabelCode, roll.ToLocation, JsonConvert.SerializeObject(roll)), LogType.ROBOT_STACK);
-                    try {
-                        // 等待板可放料
-                        while (isrun && !PanelAvailable(roll.ToLocation)) {
-                            FrmMain.logOpt.Write("等可放料信号", LogType.ROBOT_STACK);
-                            Thread.Sleep(OPCClient.DELAY * 400);
-                        }
-                    } catch (Exception ex) {
-                        FrmMain.logOpt.Write(ex.ToString(), LogType.ROBOT_STACK);
-                    }
-
+                   
                     // 启动机器人动作。
                     FrmMain.logOpt.Write("启动机器人动作。", LogType.ROBOT_STACK);
                     WritePosition(roll);
@@ -231,16 +222,16 @@ namespace yidascan {
                         Thread.Sleep(RobotHelper.DELAY * 200);
                     }
 
+                    // 告知OPC
+                    Task.Factory.StartNew(() => {
+                        NotifyOpcJobFinished(roll.PnlState, roll.ToLocation);
+                    });
+
                     // 等待机器人结束码垛。
                     while (isrun && IsBusy()) {
                         FrmMain.logOpt.Write("Working", LogType.ROBOT_STACK, LogViewType.OnlyFile);
                         Thread.Sleep(RobotHelper.DELAY * 100);
                     }
-
-                    // 告知OPC
-                    Task.Factory.StartNew(() => {
-                        NotifyOpcJobFinished(roll.PnlState, roll.ToLocation);
-                    });
                     FrmMain.logOpt.Write("Work ok", LogType.ROBOT_STACK);
                 }
                 Thread.Sleep(RobotHelper.DELAY);

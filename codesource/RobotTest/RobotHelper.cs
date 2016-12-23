@@ -222,12 +222,12 @@ namespace yidascan {
                     // 等待完成信号
                     while (IsBusy() && !hold) {
                         msg.Push("Working");
-                        Thread.Sleep(RobotHelper.DELAY * 200);
+                        Thread.Sleep(RobotHelper.DELAY * 100);
                     }
 
                 }
                 msg.Push("JobLoop End");
-                Thread.Sleep(RobotHelper.DELAY * 1000);
+                Thread.Sleep(RobotHelper.DELAY);
             }
         }
 

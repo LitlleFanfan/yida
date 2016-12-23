@@ -140,7 +140,7 @@ namespace yidascan {
                             opcClient.Write(opcParam.RobotCarryA.Signal, false);
                         }
                     }
-                    Thread.Sleep(1000);
+                    Thread.Sleep(5000);
                 }
             });
             logOpt.Write("机器人抓料A布卷队列任务启动。", LogType.NORMAL);
@@ -166,7 +166,7 @@ namespace yidascan {
                             opcClient.Write(opcParam.RobotCarryB.Signal, false);
                         }
                     }
-                    Thread.Sleep(1000);
+                    Thread.Sleep(5000);
                 }
             });
             logOpt.Write("机器人抓料B布卷队列任务启动。", LogType.NORMAL);
@@ -188,6 +188,16 @@ namespace yidascan {
                 logOpt.Write(string.Format("!{0} {1}未算位置，未加入队列,交地{2}.",
                     side, label.LCode, label.ToLocation), LogType.ROLL_QUEUE);
                 return;
+            }
+
+            try {
+                // 等待板可放料
+                while (isrun && !PanelAvailable(label.ToLocation)) {
+                    logOpt.Write("等可放料信号", LogType.ROBOT_STACK);
+                    Thread.Sleep(OPCClient.DELAY * 200);
+                }
+            } catch (Exception ex) {
+                logOpt.Write(ex.ToString(), LogType.ROBOT_STACK);
             }
 
             PanelInfo pinfo = LableCode.GetPanel(label.PanelNo);
@@ -227,9 +237,21 @@ namespace yidascan {
             logOpt.Write(string.Format((success ? "" : "!") + "{0} {1} {2}", side, msg, label.ToLocation), LogType.ROLL_QUEUE);
         }
 
+        private bool PanelAvailable(string tolocation) {
+            try {
+                lock (opcClient) {
+                    string s = opcClient.ReadString(opcParam.BAreaPanelState[tolocation]);
+                    return s == "2";
+                }
+            } catch (Exception ex) {
+                logOpt.Write(string.Format("读交地状态信号异常 tolocation: {0} opc:{1} err:{2}", tolocation, Newtonsoft.Json.JsonConvert.SerializeObject(opcParam.BAreaFloorFinish), ex), LogType.ROBOT_STACK);
+                return true;//临时
+            }
+        }
+
         private static PanelState GetPanelState(LableCode label, PanelInfo pinfo) {
             var state = PanelState.LessHalf;
-            if (label.Floor == pinfo.MaxFloor - 1 && (pinfo.OddStatus || pinfo.EvenStatus)) {
+            if (label.Floor >= pinfo.MaxFloor - 1) {
                 state = PanelState.HalfFull;
             }
             if (label.Floor == pinfo.MaxFloor && pinfo.OddStatus && pinfo.EvenStatus) {
@@ -389,7 +411,7 @@ namespace yidascan {
                         logOpt.Write("!" + ex.ToString(), LogType.NORMAL);
                     }
 
-                    Thread.Sleep(OPCClient.DELAY * 100);
+                    Thread.Sleep(OPCClient.DELAY * 200);
                 }
             });
 
@@ -420,7 +442,7 @@ namespace yidascan {
                                 opcClient.Write(kv.Value.Signal, 0);
                             }
                         }
-                        Thread.Sleep(OPCClient.DELAY * 200);
+                        Thread.Sleep(OPCClient.DELAY * 2000);
                     }
                 });
             }
@@ -734,24 +756,28 @@ namespace yidascan {
                 : string.Empty;
         }
 
-        private void txtLableCode1_KeyPress(object sender, KeyPressEventArgs e) {
+        private async void txtLableCode1_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == '\r') {
                 var code = GetCodeFromInput();
                 if (string.IsNullOrEmpty(code)) { return; }
 
                 txtLableCode1.Enabled = false;
-                // waiting for mutex available.
-                OPC_IDLE.WaitOne();
-                try {
-                    ScanLableCode(code, 0, true);
-                } finally {
-                    OPC_IDLE.ReleaseMutex();
 
-                    // reset the code input box.
-                    txtLableCode1.Text = string.Empty;
-                    txtLableCode1.Enabled = true;
-                    txtLableCode1.Focus();
-                }
+                await Task.Factory.StartNew(() => {
+                    // waiting for mutex available.
+                    OPC_IDLE.WaitOne();
+                    try {
+                        ScanLableCode(code, 0, true);
+                    } finally {
+                        OPC_IDLE.ReleaseMutex();
+                    }
+                });
+                
+                // reset the code input box.
+                txtLableCode1.Text = string.Empty;
+                txtLableCode1.Enabled = true;
+                txtLableCode1.Focus();
+
             } else if (txtLableCode1.Text.Length > 12) {
                 txtLableCode1.Text = txtLableCode1.Text.Substring(0, 12);
             }
@@ -765,6 +791,7 @@ namespace yidascan {
             ShowWarning(code, false);
 
             string tolocation = string.Empty;
+            LableCode lc = new LableCode();
 
             long t = TimeCount.TimeIt(() => {
                 tolocation = GetLocation(code, handwork);
@@ -774,7 +801,14 @@ namespace yidascan {
             if (string.IsNullOrEmpty(tolocation))
                 return;
 
+            lc.LCode = code;
+            lc.ToLocation = tolocation;
+            lc.Remark = (handwork ? "handwork" : "automatic");
+            lc.Coordinates = "";
             var clothsize = new ClothRollSize();
+
+            logOpt.Write("scanlable等待锁定opcclient");
+
             lock (opcClient) {
                 t = TimeCount.TimeIt(() => {
                     while (isrun) {
@@ -792,24 +826,10 @@ namespace yidascan {
                 const string ROLLSIZE_FMT = "布卷直径:{0};布卷长:{1};耗时:{2}ms;";
                 var msg = string.Format(ROLLSIZE_FMT, clothsize.diameter, clothsize.length, t);
                 logOpt.Write(msg, LogType.NORMAL);
-            }
 
-            LableCode lc = new LableCode();
-            lc.LCode = code;
-            lc.ToLocation = tolocation;
-            lc.Diameter = clothsize.diameter;
-            lc.Length = clothsize.length;
-            lc.Remark = (handwork ? "handwork" : "automatic");
-            lc.Coordinates = "";
+                lc.Diameter = clothsize.diameter;
+                lc.Length = clothsize.length;
 
-            ////开始临时用
-            //if (errorPanel.Contains(lc.ToLocation)) {
-            //    lc.Remark = string.Format("{0} {1}", lc.Remark, lc.ToLocation);
-            //    lc.ToLocation = "B06";
-            //}
-            ////结束临时用
-
-            lock (opcClient) {
                 t = TimeCount.TimeIt(() => {
                     while (isrun) {
                         var f = OPCRead(opcParam.ScanParam.ScanState);
@@ -829,7 +849,6 @@ namespace yidascan {
                     var lcode2 = lc.LCode.Substring(6, 6);
                     opcClient.Write(opcParam.ScanParam.ScanLable1, lcode1);
                     opcClient.Write(opcParam.ScanParam.ScanLable2, lcode2);
-                    //logOpt.ViewInfo(String.Format("标签写回OPC，{0} {1}", lcode1, lcode2), LogType.NORMAL);
 
                     opcClient.Write(opcParam.ScanParam.CameraNo, scanNo);
                     opcClient.Write(opcParam.ScanParam.ScanState, true);
@@ -840,6 +859,8 @@ namespace yidascan {
                     lablecodes.Enqueue(lc.LCode);
                 }
             }
+
+            logOpt.Write("scanlable解锁opcclient");
 
             if (LableCode.Add(lc)) {
                 ViewAddLable(lc);
@@ -999,8 +1020,11 @@ namespace yidascan {
 
         private void btnReset_Click(object sender, EventArgs e) {
             lock (opcClient) {
+                opcClient.Write(opcParam.ScanParam.SizeState, false);
                 opcClient.Write(opcParam.ScanParam.ScanLable1, "");
                 opcClient.Write(opcParam.ScanParam.ScanLable2, "");
+                opcClient.Write(opcParam.ScanParam.ToLocationArea, clsSetting.AreaNo["A07".Substring(0, 1)]);
+                opcClient.Write(opcParam.ScanParam.ToLocationNo, "A07".Substring(1, 2));
                 logOpt.Write("传送复位。", LogType.NORMAL);
                 opcClient.Write(opcParam.ScanParam.ScanState, true);
             }
@@ -1049,7 +1073,7 @@ namespace yidascan {
         /// <param name="value">报警信号的值。</param>
         private void AlarmToOPC(object value) {
             lock (opcClient) {
-                opcClient.Write(opcParam.ALarmSlot, value);
+                opcClient.Write(opcParam.None.ERPAlarm, value);
             }
         }
 
@@ -1058,8 +1082,12 @@ namespace yidascan {
         /// </summary>
         /// <param name="erpAlarm"></param>
         public static void ERPAlarm(OPCClient opcClient, OPCParam opcParam, ERPAlarmNo erpAlarm) {
-            lock (opcClient) {
-                opcClient.Write(opcParam.ALarmSlot, (int)erpAlarm);
+            try {
+                lock (opcClient) {
+                    opcClient.Write(opcParam.None.ERPAlarm, (int)erpAlarm);
+                }
+            } catch (Exception ex) {
+                logOpt.Write(ex.ToString());
             }
         }
 
@@ -1069,7 +1097,7 @@ namespace yidascan {
         /// <param name="value">报警信号的值。</param>
         private void RobotAlarmToOpc(object value) {
             lock (opcClient) {
-                opcClient.Write(opcParam.RobotAlarmSlot, value);
+                opcClient.Write(opcParam.None.RobotAlarmSlot, value);
             }
         }
 

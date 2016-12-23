@@ -34,3 +34,4 @@ D:\mywork\softproject\yida\codesource\RobotTest\obj\Release\RobotTest.Properties
 D:\mywork\softproject\yida\codesource\RobotTest\obj\Release\RobotTest.csproj.GenerateResource.Cache
 D:\mywork\softproject\yida\codesource\RobotTest\obj\Release\RobotTest.exe
 D:\mywork\softproject\yida\codesource\RobotTest\obj\Release\RobotTest.pdb
+D:\mywork\softproject\yida\codesource\RobotTest\obj\Release\RobotTest.FrmCacheTest.resources
