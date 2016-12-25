@@ -409,16 +409,17 @@ namespace yidascan.DataAccess {
             return dt != null && dt.Rows.Count > 0;
         }
 
-        public static int PanelLastRollFloorIndex(string panelNo) {
-            string sql = @"select MAX(FloorIndex) from LableCode where PanelNo=@PanelNo 
-                and exists(select * from Panel where PanelNo=@PanelNo and LableCode.Floor=Panel.MaxFloor)";
+        public static bool IsPanelLastRoll(string panelNo, string lcode) {
+            string sql = @"select top 1 * from LableCode
+where panelNo=@PanelNo and exists (select top 1 panelNo from Panel where PanelNo=@PanelNo and LableCode.floor=panel.MaxFloor)
+order by floorindex desc;";
             SqlParameter[] sp = new SqlParameter[]{
                 new SqlParameter("@PanelNo",panelNo)};
             DataTable dt = DataAccess.CreateDataAccess.sa.Query(sql, sp);
             if (dt != null && dt.Rows.Count > 0) {
-                return int.Parse(dt.Rows[0][0].ToString());
+                return dt.Rows[0]["LCode"].ToString() == lcode;
             }
-            return 0;
+            return false;
         }
 
         public static bool PanelNoHas(string panelNo) {

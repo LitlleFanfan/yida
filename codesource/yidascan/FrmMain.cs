@@ -254,7 +254,7 @@ namespace yidascan {
             if (label.Floor >= pinfo.MaxFloor - 1) {
                 state = PanelState.HalfFull;
             }
-            if (pinfo.Status == 5 && LableCode.PanelLastRollFloorIndex(pinfo.PanelNo) == label.FloorIndex) {
+            if (pinfo.Status == 5 && LableCode.IsPanelLastRoll(pinfo.PanelNo, label.LCode)) {
                 state = PanelState.Full;
             }
             return state;
