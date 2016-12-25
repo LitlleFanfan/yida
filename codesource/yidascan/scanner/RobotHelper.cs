@@ -135,17 +135,27 @@ namespace yidascan {
             rCtrl.SetVariables(RobotControl.VariableType.B, 5, 1, "1");
 
             // 原点高位旋转
-            rCtrl.SetPostion(RobotControl.PosVarType.Robot,
-                rollPos.Origin, 100, RobotControl.PosType.User, 0, rollPos.LocationNo);
+            if (rCtrl.SetPostion(RobotControl.PosVarType.Robot,
+                rollPos.Origin, 100, RobotControl.PosType.User, 0, rollPos.LocationNo)) {
+                rCtrl.SetPostion(RobotControl.PosVarType.Robot,
+                    rollPos.Origin, 100, RobotControl.PosType.User, 0, rollPos.LocationNo);
+            }
 
             //基座
-            rCtrl.SetPostion(RobotControl.PosVarType.Base,
+            if (rCtrl.SetPostion(RobotControl.PosVarType.Base,
                 new RobotControl.PostionVar(rollPos.Base2 * 1000, 0, 0, 0, 0),
-                0, RobotControl.PosType.Robot, 0, 0);
+                0, RobotControl.PosType.Robot, 0, 0)) {
+                rCtrl.SetPostion(RobotControl.PosVarType.Base,
+                    new RobotControl.PostionVar(rollPos.Base2 * 1000, 0, 0, 0, 0),
+                    0, RobotControl.PosType.Robot, 0, 0);
+            }
 
             // 目标位置
-            rCtrl.SetPostion(RobotControl.PosVarType.Robot,
-               rollPos.Target, 101, RobotControl.PosType.User, 0, rollPos.LocationNo);
+            if (rCtrl.SetPostion(RobotControl.PosVarType.Robot,
+               rollPos.Target, 101, RobotControl.PosType.User, 0, rollPos.LocationNo)) {
+                rCtrl.SetPostion(RobotControl.PosVarType.Robot,
+                    rollPos.Target, 101, RobotControl.PosType.User, 0, rollPos.LocationNo);
+            }
         }
 
         public void RunJob(string jobName) {
@@ -206,7 +216,7 @@ namespace yidascan {
                     var roll = robotJobs.GetRoll();
 
                     FrmMain.logOpt.Write(string.Format("roll:{0} {1}\r\n{2}", roll.LabelCode, roll.ToLocation, JsonConvert.SerializeObject(roll)), LogType.ROBOT_STACK);
-                   
+
                     // 启动机器人动作。
                     FrmMain.logOpt.Write("启动机器人动作。", LogType.ROBOT_STACK);
                     WritePosition(roll);

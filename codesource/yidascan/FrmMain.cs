@@ -254,7 +254,7 @@ namespace yidascan {
             if (label.Floor >= pinfo.MaxFloor - 1) {
                 state = PanelState.HalfFull;
             }
-            if (label.Floor == pinfo.MaxFloor && pinfo.OddStatus && pinfo.EvenStatus) {
+            if (pinfo.Status == 5 && LableCode.PanelLastRollFloorIndex(pinfo.PanelNo) == label.FloorIndex) {
                 state = PanelState.Full;
             }
             return state;
@@ -772,7 +772,7 @@ namespace yidascan {
                         OPC_IDLE.ReleaseMutex();
                     }
                 });
-                
+
                 // reset the code input box.
                 txtLableCode1.Text = string.Empty;
                 txtLableCode1.Enabled = true;
