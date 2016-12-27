@@ -29,6 +29,10 @@ namespace commonhelper {
                 }
             }
         }
+
+        public static void InvokeEx(this Control c, Action p) {
+            c.Invoke((Delegate)p);
+        }
     }
 }
 

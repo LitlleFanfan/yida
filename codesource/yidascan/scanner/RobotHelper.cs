@@ -218,9 +218,14 @@ namespace yidascan {
                     FrmMain.logOpt.Write(string.Format("roll:{0} {1}\r\n{2}", roll.LabelCode, roll.ToLocation, JsonConvert.SerializeObject(roll)), LogType.ROBOT_STACK);
 
                     // 启动机器人动作。
-                    FrmMain.logOpt.Write("启动机器人动作。", LogType.ROBOT_STACK);
+                    // FrmMain.logOpt.Write("机器人动作准备。", LogType.ROBOT_STACK);
                     WritePosition(roll);
+
+                    FrmMain.logOpt.Write($"完成机器人写位置{roll.LabelCode}操作。");
+
                     RunJob(JOB_NAME);
+                    FrmMain.logOpt.Write($"发出机器人示教器动作{JOB_NAME}命令。");
+
                     Thread.Sleep(RobotHelper.DELAY * 1000);
 
                     // 等待布卷上垛信号

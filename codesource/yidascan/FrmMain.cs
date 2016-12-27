@@ -23,8 +23,13 @@ namespace yidascan {
         NormalScan nscan2;
         private LableCodeBll lcb = new LableCodeBll();
         bool isrun = false;
+
+        #region opc
         public static OPCParam opcParam = new OPCParam();
         public static OPCClient opcClient = new OPCClient();
+        public static OPCClient ScannerOpcClient = new OPCClient();
+        #endregion
+
         DataTable dtopc = new DataTable();
 
         RobotHelper robot;
@@ -36,8 +41,9 @@ namespace yidascan {
 
         private decimal zStart = 0;
 
-        // mutex to ensure securely calling opc.
-        Mutex OPC_IDLE = new Mutex();
+        // 用于锁定手动和自动扫描标签的处理工程。
+        public object LOCK_CAMERA_PROCESS = new object();
+
         RobotJobQueue robotJobQueue;
 
         private int counter = 0;
@@ -108,12 +114,21 @@ namespace yidascan {
             dtopc = OPCParam.Query();
             dtopc.Columns.Remove("Class");
             dtopc.Columns.Add(new DataColumn("Value"));
+
             if (opcClient.Open(clsSetting.OPCServerIP)) {
-                logOpt.Write(string.Format("OPC服务连接成功。"), LogType.NORMAL);
+                logOpt.Write("OPC服务连接成功。", LogType.NORMAL);
                 opcClient.AddSubscription(dtopc);
             } else {
-                logOpt.Write(string.Format("!OPC服务连接失败。"), LogType.NORMAL);
+                logOpt.Write("!OPC服务连接失败。", LogType.NORMAL);
             }
+
+            if (ScannerOpcClient.Open(clsSetting.OPCServerIP)) {
+                logOpt.Write("相机OPC client连接成功。", LogType.NORMAL);
+                ScannerOpcClient.AddSubscription(dtopc);
+            } else {
+                logOpt.Write("相机OPC client务连接失败。", LogType.NORMAL);
+            }
+
             opcParam.Init();
 
             logOpt.Write(JsonConvert.SerializeObject(opcParam), LogType.NORMAL, LogViewType.OnlyFile);
@@ -567,11 +582,8 @@ namespace yidascan {
 
             // wait for opc available.
             // must use try/finally block to release this mutex.
-            OPC_IDLE.WaitOne();
-            try {
+            lock (LOCK_CAMERA_PROCESS) {
                 ScanLableCode(code, scanNo, false);
-            } finally {
-                OPC_IDLE.ReleaseMutex();
             }
         }
 
@@ -749,34 +761,38 @@ namespace yidascan {
         /// read scanned code from input box.
         /// </summary>
         /// <returns></returns>
-        private string GetCodeFromInput() {
-            string code = txtLableCode1.Text.Trim();
+        private string GetLabelFromInput() {
+            var code = txtLableCode1.Text.Trim();
             return code.Length >= 12
                 ? code.Substring(0, 12)
                 : string.Empty;
         }
 
+        /// <summary>
+        /// 复位标签输入栏。
+        /// </summary>
+        private void ResetLabelInput() {
+            // reset the code input box.
+            txtLableCode1.Text = string.Empty;
+            txtLableCode1.Enabled = true;
+            txtLableCode1.Focus();
+        }
+
         private async void txtLableCode1_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == '\r') {
-                var code = GetCodeFromInput();
+                var code = GetLabelFromInput();
                 if (string.IsNullOrEmpty(code)) { return; }
 
                 txtLableCode1.Enabled = false;
 
-                await Task.Factory.StartNew(() => {
+                await Task.Run(() => {
                     // waiting for mutex available.
-                    OPC_IDLE.WaitOne();
-                    try {
+                    lock (LOCK_CAMERA_PROCESS) {
                         ScanLableCode(code, 0, true);
-                    } finally {
-                        OPC_IDLE.ReleaseMutex();
                     }
                 });
 
-                // reset the code input box.
-                txtLableCode1.Text = string.Empty;
-                txtLableCode1.Enabled = true;
-                txtLableCode1.Focus();
+                ResetLabelInput();
 
             } else if (txtLableCode1.Text.Length > 12) {
                 txtLableCode1.Text = txtLableCode1.Text.Substring(0, 12);
@@ -790,84 +806,95 @@ namespace yidascan {
         private void ScanLableCode(string code, int scanNo, bool handwork) {
             ShowWarning(code, false);
 
-            string tolocation = string.Empty;
-            LableCode lc = new LableCode();
+            var tolocation = string.Empty;
 
-            long t = TimeCount.TimeIt(() => {
+            var t = TimeCount.TimeIt(() => {
                 tolocation = GetLocation(code, handwork);
             });
-            logOpt.Write(string.Format("取交地耗时:　{0}ms", t));
+            logOpt.Write($"取交地耗时:　{t}ms");
 
-            if (string.IsNullOrEmpty(tolocation))
-                return;
+            if (string.IsNullOrEmpty(tolocation)) { return; }
 
-            lc.LCode = code;
-            lc.ToLocation = tolocation;
-            lc.Remark = (handwork ? "handwork" : "automatic");
-            lc.Coordinates = "";
+            //var lc = new LableCode();
+            //lc.LCode = code;
+            //lc.ToLocation = tolocation;
+            //lc.Remark = (handwork ? "handwork" : "automatic");
+            //lc.Coordinates = "";
+            var lc = new LableCode(code, tolocation, handwork);
             var clothsize = new ClothRollSize();
 
-            logOpt.Write("scanlable等待锁定opcclient");
+            logOpt.Write("等待SizeState信号。");
 
-            lock (opcClient) {
-                t = TimeCount.TimeIt(() => {
-                    while (isrun) {
-                        var f = OPCRead(opcParam.ScanParam.SizeState);
-                        if (bool.Parse(f.ToString())) { break; }
-                        Thread.Sleep(OPCClient.DELAY);
-                    }
-                });
-                logOpt.Write(string.Format("等尺寸信号耗时:{0}ms", t), LogType.NORMAL);
+            t = TimeCount.TimeIt(() => {
+                while (isrun) {
+                    // var f = OPCRead(opcParam.ScanParam.SizeState);
+                    // if (bool.Parse(f.ToString())) { break; }
+                    var f = ScannerOpcClient.ReadBool(opcParam.ScanParam.SizeState);
+                    if (f) { break; }
 
-                t = TimeCount.TimeIt(() => {
-                    clothsize.getFromOPC(opcClient, opcParam);
-                    opcClient.Write(opcParam.ScanParam.SizeState, false);
-                });
-                const string ROLLSIZE_FMT = "布卷直径:{0};布卷长:{1};耗时:{2}ms;";
-                var msg = string.Format(ROLLSIZE_FMT, clothsize.diameter, clothsize.length, t);
-                logOpt.Write(msg, LogType.NORMAL);
-
-                lc.Diameter = clothsize.diameter;
-                lc.Length = clothsize.length;
-
-                t = TimeCount.TimeIt(() => {
-                    while (isrun) {
-                        var f = OPCRead(opcParam.ScanParam.ScanState);
-                        if (!bool.Parse(f.ToString())) { break; }
-                        Thread.Sleep(OPCClient.DELAY);
-                    }
-                });
-
-                logOpt.Write(string.Format("等OPC ScanState 状态信号耗时:{0}ms", t), LogType.NORMAL);
-
-                t = TimeCount.TimeIt(() => {
-                    opcClient.Write(opcParam.ScanParam.ToLocationArea, clsSetting.AreaNo[lc.ToLocation.Substring(0, 1)]);
-                    opcClient.Write(opcParam.ScanParam.ToLocationNo, lc.ToLocation.Substring(1, 2));
-
-                    // write label back to opc.
-                    var lcode1 = lc.LCode.Substring(0, 6);
-                    var lcode2 = lc.LCode.Substring(6, 6);
-                    opcClient.Write(opcParam.ScanParam.ScanLable1, lcode1);
-                    opcClient.Write(opcParam.ScanParam.ScanLable2, lcode2);
-
-                    opcClient.Write(opcParam.ScanParam.CameraNo, scanNo);
-                    opcClient.Write(opcParam.ScanParam.ScanState, true);
-                });
-                logOpt.Write(string.Format("写OPC耗时:{0}ms", t), LogType.NORMAL);
-
-                lock (lablecodes) {
-                    lablecodes.Enqueue(lc.LCode);
+                    Thread.Sleep(OPCClient.DELAY);
                 }
+            });
+            logOpt.Write($"等尺寸信号耗时:{t}ms", LogType.NORMAL);
+
+            t = TimeCount.TimeIt(() => {
+                clothsize.getFromOPC(ScannerOpcClient, opcParam);
+                ScannerOpcClient.Write(opcParam.ScanParam.SizeState, false);
+            });
+
+            lc.SetSize(clothsize.diameter, clothsize.length);
+            logOpt.Write($"{lc.Size_s()}, 耗时: {t}ms");
+
+            //const string ROLLSIZE_FMT = "布卷直径:{0};布卷长:{1};耗时:{2}ms;";
+            //var msg = string.Format(ROLLSIZE_FMT, clothsize.diameter, clothsize.length, t);
+            // logOpt.Write(msg, LogType.NORMAL);               
+
+            //lc.Diameter = clothsize.diameter;
+            //lc.Length = clothsize.length;
+
+
+            while (isrun) {
+                // 等待变量可写信号。
+
+                ////var f = OPCRead(opcParam.ScanParam.ScanState);
+                //if (!bool.Parse(f.ToString())) { break; }
+                var f = ScannerOpcClient.ReadBool(opcParam.ScanParam.ScanState);
+                if (!f) { break; }
+
+                Thread.Sleep(OPCClient.DELAY);
             }
 
-            logOpt.Write("scanlable解锁opcclient");
+            t = TimeCount.TimeIt(() => {
+                // ScannerOpcClient.Write(opcParam.ScanParam.ToLocationArea, clsSetting.AreaNo[lc.ToLocation.Substring(0, 1)]);
+                // ScannerOpcClient.Write(opcParam.ScanParam.ToLocationNo, lc.ToLocation.Substring(1, 2));
+
+                ScannerOpcClient.Write(opcParam.ScanParam.ToLocationArea, clsSetting.AreaNo[lc.ParseLocationArea()]);
+                ScannerOpcClient.Write(opcParam.ScanParam.ToLocationNo, lc.ParseLocationNo());
+
+                // write label back to opc.
+                // var lcode1 = lc.LCode.Substring(0, 6);
+                // var lcode2 = lc.LCode.Substring(6, 6);
+                // ScannerOpcClient.Write(opcParam.ScanParam.ScanLable1, lcode1);
+                // ScannerOpcClient.Write(opcParam.ScanParam.ScanLable2, lcode2);
+
+                ScannerOpcClient.Write(opcParam.ScanParam.ScanLable1, lc.CodePart1());
+                ScannerOpcClient.Write(opcParam.ScanParam.ScanLable2, lc.CodePart2());
+
+                ScannerOpcClient.Write(opcParam.ScanParam.CameraNo, scanNo);
+                ScannerOpcClient.Write(opcParam.ScanParam.ScanState, true);
+            });
+            logOpt.Write($"写OPC耗时: {t}ms", LogType.NORMAL);
+
+            lock (lablecodes) {
+                lablecodes.Enqueue(lc.LCode);
+            }
 
             if (LableCode.Add(lc)) {
                 ViewAddLable(lc);
                 counter += 1;
                 RefreshCounter();
             } else {
-                ShowWarning("程序异常");
+                ShowWarning("label code存入数据库时发生异常。");
             }
         }
 

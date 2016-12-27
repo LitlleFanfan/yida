@@ -122,6 +122,7 @@
     <Compile Include="ListBoxHelper.cs" />
     <Compile Include="LogType.cs" />
     <Compile Include="MessageCenter.cs" />
+    <Compile Include="OpcHelper.cs" />
     <Compile Include="PanelGen.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,6 +143,12 @@
     <Compile Include="WinDeleteLabel.Designer.cs">
       <DependentUpon>WinDeleteLabel.cs</DependentUpon>
     </Compile>
+    <Compile Include="WRollBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WRollBrowser.Designer.cs">
+      <DependentUpon>WRollBrowser.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -160,6 +167,9 @@
     </Compile>
     <EmbeddedResource Include="WinDeleteLabel.resx">
       <DependentUpon>WinDeleteLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WRollBrowser.resx">
+      <DependentUpon>WRollBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="ClassDiagram1.cd" />

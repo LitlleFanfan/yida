@@ -43,3 +43,6 @@ D:\mywork\softproject\yida\codesource\yidascanTest\bin\Release\RobotControl.pdb
 D:\mywork\softproject\yida\codesource\yidascanTest\obj\Release\yidascanTest.csprojResolveAssemblyReference.cache
 D:\mywork\softproject\yida\codesource\yidascanTest\obj\Release\yidascanTest.dll
 D:\mywork\softproject\yida\codesource\yidascanTest\obj\Release\yidascanTest.pdb
+D:\projects\yida_github\yida\codesource\yidascanTest\obj\Release\yidascanTest.csprojResolveAssemblyReference.cache
+D:\projects\yida_github\yida\codesource\yidascanTest\obj\Release\yidascanTest.dll
+D:\projects\yida_github\yida\codesource\yidascanTest\obj\Release\yidascanTest.pdb

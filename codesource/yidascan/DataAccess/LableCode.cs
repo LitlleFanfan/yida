@@ -165,6 +165,40 @@ namespace yidascan.DataAccess {
             get { return floor; }
             set { floor = value; }
         }
+        
+        public LableCode() { }
+
+        public LableCode(string code, string tolocation, bool scanByMan) {
+            LCode = code;
+            ToLocation = tolocation;
+            Remark = (scanByMan ? "handwork" : "automatic");
+            Coordinates = "";
+        }
+
+        /// <summary>
+        /// 号码前6位。
+        /// </summary>
+        /// <returns></returns>
+        public string CodePart1() {
+            return LCode.Substring(0, 6);
+        }
+
+        /// <summary>
+        /// 号码后6位。
+        /// </summary>
+        /// <returns></returns>
+        public string CodePart2() {
+            return LCode.Substring(6, 6);
+        }
+
+        public void SetSize(decimal dia, decimal len) {
+            Diameter = dia;
+            Length = len;
+        }
+
+        public string Size_s() {
+            return $"布卷直径: {Diameter};布卷长: {Length}";
+        }
 
         public bool isOddSide() {
             return this.floorIndex % 2 == 1;
