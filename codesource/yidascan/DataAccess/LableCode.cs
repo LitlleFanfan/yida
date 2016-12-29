@@ -191,6 +191,12 @@ namespace yidascan.DataAccess {
             return LCode.Substring(6, 6);
         }
 
+        public static string MakeCode(string part1, string part2) {
+            const int WIDTH = 6;
+            const char FILL_CHAR = '0';
+            return part1.PadLeft(WIDTH, FILL_CHAR) + part2.PadLeft(WIDTH, FILL_CHAR);
+        }
+
         public void SetSize(decimal dia, decimal len) {
             Diameter = dia;
             Length = len;

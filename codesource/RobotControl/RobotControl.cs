@@ -304,6 +304,38 @@ namespace RobotControl {
             return ret;
         }
 
+        [Obsolete("not test yet.")]
+        public Dictionary<string, string> GetVariablesPro(VariableType vt, int varIndex, int qtyToSet) {
+            var cmdID = (int)vt > 4 ? Commands.CMD_MpGetPosVarData : Commands.CMD_MpGetVarData;
+            var cmd = string.Format("cmd={0};a1={1};a2={2};a3={3};a4=0;a5=0;",
+                cmdID, (int)vt, varIndex, qtyToSet);
+            Send(cmd);
+
+            var re = GetRobotResult();
+            var ret = new Dictionary<string, string>();
+
+            if (re.Count > 0) {
+                foreach (string reitem in re) {
+                    if (reitem.Contains("OK")) { continue; }
+                    var tmp = reitem.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    if (cmdID == Commands.CMD_MpGetVarData) {
+                        foreach (string str in tmp) {
+                            var stmp = str.Split(new string[] { "= " }, StringSplitOptions.RemoveEmptyEntries);
+                            if (ret.ContainsKey(stmp[0])) {
+                                ret[stmp[0]] = stmp[1];
+                            } else {
+                                ret.Add(stmp[0], stmp[1]);
+                            }
+                        }
+                    } else {
+                        ret = GetVal(tmp);
+                    }
+                }
+            } // end of if.
+            return ret;
+        }
+
+
         /// <summary>
         /// 获得机器人运行状态
         /// </summary>

@@ -82,6 +82,14 @@ namespace yidascan {
             return this.LabelCode == roll.LabelCode;
         }
 
+        /// <summary>
+        /// 返回坐标的字符串表示。
+        /// </summary>
+        /// <returns></returns>
+        public string Pos_s() {
+            return $"x: {X}, y: {Y}, z: {Z}, rz: {Rz}";
+        }
+
         public string LabelCode;
 
         public int LocationNo;
@@ -114,6 +122,11 @@ namespace yidascan {
 
         public const int DELAY = 5;
 
+        public Action<string, string, LogViewType> _log;
+
+        private OPCClient client;
+        private OPCParam param;
+
         public RobotHelper(string ip, string jobName) {
             try {
                 rCtrl = new RobotControl.RobotControl(ip);
@@ -125,10 +138,71 @@ namespace yidascan {
             }
         }
 
+        public void setup(Action<string, string, LogViewType> logfunc, OPCClient c, OPCParam p) {
+            _log = logfunc;
+            client = c;
+            param = p;
+        }
+
+        private void log(string msg, string group, LogViewType ltype = LogViewType.Both) {
+            if (_log == null) { return; }
+            _log(msg, group, ltype);
+        }
+
         public bool IsConnected() {
             return rCtrl.IsConnected();
         }
 
+        /// <summary>
+        /// 尝试多次机器人写坐标，直到成功或用完次数。
+        /// </summary>
+        /// <param name="rollPos"></param>
+        /// <param name="times"></param>
+        /// <returns></returns>
+        public bool TryWritePositionPro(RollPosition rollPos, int times = 5) {
+            const int DELAY = 100;
+            while (times > 0) {
+                if (WritePositionPro(rollPos)) {
+                    log($"机器人写坐标成功, {rollPos.LabelCode}, {rollPos.Pos_s()}。", LogType.ROBOT_STACK);
+                    return true;
+                }
+                times--;
+                Thread.Sleep(DELAY);
+            }
+            log("!机器人写坐标失败", LogType.ROBOT_STACK);
+            return false;
+        }
+
+        private bool WritePositionPro(RollPosition rollPos) {
+            const int DELAY = 100;
+            var a = rCtrl.SetVariables(RobotControl.VariableType.B, 10, 1, rollPos.ChangeAngle ? "1" : "0");
+            Thread.Sleep(DELAY);
+            var b = rCtrl.SetVariables(RobotControl.VariableType.B, 0, 1, rollPos.BaseIndex.ToString());
+            Thread.Sleep(DELAY);
+            var c = rCtrl.SetVariables(RobotControl.VariableType.B, 5, 1, "1");
+            Thread.Sleep(DELAY);
+
+            // 原点高位旋转
+            var d = rCtrl.SetPostion(RobotControl.PosVarType.Robot,
+                rollPos.Origin, 100, RobotControl.PosType.User, 0, rollPos.LocationNo);
+            Thread.Sleep(DELAY);
+
+            //基座
+            var e = rCtrl.SetPostion(RobotControl.PosVarType.Base,
+                new RobotControl.PostionVar(rollPos.Base2 * 1000, 0, 0, 0, 0),
+                0, RobotControl.PosType.Robot, 0, 0);
+
+            Thread.Sleep(DELAY);
+
+            // 目标位置
+            var f = rCtrl.SetPostion(RobotControl.PosVarType.Robot,
+               rollPos.Target, 101, RobotControl.PosType.User, 0, rollPos.LocationNo);
+            Thread.Sleep(DELAY);
+
+            return a && b && c && d && e && f;
+        }
+
+        [Obsolete("使用WritePositionPro.")]
         public void WritePosition(RollPosition rollPos) {
             rCtrl.SetVariables(RobotControl.VariableType.B, 10, 1, rollPos.ChangeAngle ? "1" : "0");
             rCtrl.SetVariables(RobotControl.VariableType.B, 0, 1, rollPos.BaseIndex.ToString());
@@ -158,26 +232,40 @@ namespace yidascan {
             }
         }
 
-        public void RunJob(string jobName) {
-            rCtrl.StartJob(jobName);
+        public bool TryRunJob(string jobName, int times = 5) {
+            const int DELAY = 30;
+            while (times > 0) {
+                if (rCtrl.StartJob(jobName)) {
+                    return true;
+                }
+                times--;
+                Thread.Sleep(DELAY);
+            }
+            return false;
         }
 
         public bool IsBusy() {
+            // 读机器人的状态可能有错。
             try {
-                Dictionary<string, bool> status = rCtrl.GetPlayStatus();
-                FrmMain.logOpt.Write(string.Format("{0}", Newtonsoft.Json.JsonConvert.SerializeObject(status)), LogType.ROBOT_STACK, LogViewType.OnlyFile);
-                if (status == null || status.Count == 0) { return true; } else {
+                var status = rCtrl.GetPlayStatus();
+                log($"robot status: {JsonConvert.SerializeObject(status)}", LogType.ROBOT_STACK, LogViewType.OnlyFile);
+
+                if (status == null || status.Count == 0) {
+                    return true;
+                } else {
                     return (status["Start"] || status["Hold"]);
                 }
             } catch (Exception ex) {
-                FrmMain.logOpt.Write(string.Format("{0}", ex), LogType.ROBOT_STACK, LogViewType.OnlyFile);
+                // FrmMain.logOpt.Write(string.Format("{0}", ex), LogType.ROBOT_STACK, LogViewType.OnlyFile);
+                log($"{ex}", LogType.ROBOT_STACK, LogViewType.OnlyFile);
                 return true;
             }
         }
 
         private void NotifyOpcSafePlace(string side) {
             lock (FrmMain.opcClient) {
-                FrmMain.opcClient.Write(side == "A" ? FrmMain.opcParam.RobotCarryA.Signal : FrmMain.opcParam.RobotCarryB.Signal, false);
+                // FrmMain.opcClient.Write(side == "A" ? FrmMain.opcParam.RobotCarryA.Signal : FrmMain.opcParam.RobotCarryB.Signal, false);
+                client.Write(side == "A" ? param.RobotCarryA.Signal : param.RobotCarryB.Signal, false);
             }
         }
 
@@ -185,52 +273,68 @@ namespace yidascan {
             try {
                 switch (pState) {
                     case PanelState.HalfFull:
-                        lock (FrmMain.opcClient) {
-                            FrmMain.opcClient.Write(FrmMain.opcParam.BAreaFloorFinish[tolocation], true);
-                            FrmMain.logOpt.Write(string.Format("{0} HalfFull", tolocation), LogType.ROBOT_STACK);
-                        }
+                        // FrmMain.opcClient.Write(FrmMain.opcParam.BAreaFloorFinish[tolocation], true);
+                        client.Write(param.BAreaFloorFinish[tolocation], true);
+                        log($"{tolocation}: 半板信号发出。slot: {param.BAreaFloorFinish[tolocation]}", LogType.ROBOT_STACK);
+
                         break;
                     case PanelState.Full:
-                        lock (FrmMain.opcClient) {
-                            FrmMain.opcClient.Write(FrmMain.opcParam.BAreaPanelFinish[tolocation], true);
-                            FrmMain.opcClient.Write(FrmMain.opcParam.BAreaPanelState[tolocation], 3);
-                            FrmMain.logOpt.Write(string.Format("{0} Full", tolocation), LogType.ROBOT_STACK);
-                        }
+                        // FrmMain.opcClient.Write(FrmMain.opcParam.BAreaPanelFinish[tolocation], true);
+                        client.Write(param.BAreaPanelFinish[tolocation], true);
+                        log($"{tolocation}: 满板信号发出。slot: {param.BAreaPanelFinish[tolocation]}", LogType.ROBOT_STACK);
+
+                        // FrmMain.opcClient.Write(FrmMain.opcParam.BAreaPanelState[tolocation], 3);
+                        const int SIGNAL_3 = 3;
+                        client.Write(param.BAreaPanelState[tolocation], SIGNAL_3);
+                        log($"{tolocation}: 板状态信号发出，状态值: {SIGNAL_3}。slot: {param.BAreaPanelState[tolocation]}", LogType.ROBOT_STACK);
+
                         break;
                     case PanelState.LessHalf:
+                        log($"板未半满，不发信号, {pState}", LogType.ROBOT_STACK);
+                        break;
                     default:
+                        log($"板状态不明，不发信号, {pState}", LogType.ROBOT_STACK);
                         break;
                 }
             } catch (Exception ex) {
-                FrmMain.logOpt.Write(string.Format("tolocation: {0} state:{1} opc:{2} err:{3}", tolocation, pState, Newtonsoft.Json.JsonConvert.SerializeObject(FrmMain.opcParam.BAreaFloorFinish), ex), LogType.ROBOT_STACK);
+                log($"tolocation: {tolocation} state:{pState} opc:{JsonConvert.SerializeObject(param.BAreaFloorFinish)} err:{ex}", LogType.ROBOT_STACK);
             }
         }
 
         public void JobLoop(ref bool isrun) {
             while (isrun) {
                 if (robotJobs.Rolls.Count > 0) {
-                    FrmMain.logOpt.Write("robotJobs.Rolls: " + JsonConvert.SerializeObject(robotJobs.Rolls), LogType.ROBOT_STACK, LogViewType.OnlyFile);
-                    while (IsBusy()) {
-                        Thread.Sleep(OPCClient.DELAY);
+                    // 机器人正忙，等待。
+                    if (IsBusy()) {
+                        Thread.Sleep(OPCClient.DELAY * 100);
+                        continue;
                     }
+
                     var roll = robotJobs.GetRoll();
+                    if (roll == null) {
+                        Thread.Sleep(OPCClient.DELAY);
+                        continue;
+                    }
 
-                    FrmMain.logOpt.Write(string.Format("roll:{0} {1}\r\n{2}", roll.LabelCode, roll.ToLocation, JsonConvert.SerializeObject(roll)), LogType.ROBOT_STACK);
+                    // WritePosition(roll);
+                    if (!TryWritePositionPro(roll)) {
+                        break;
+                    }
 
-                    // 启动机器人动作。
-                    // FrmMain.logOpt.Write("机器人动作准备。", LogType.ROBOT_STACK);
-                    WritePosition(roll);
-
-                    FrmMain.logOpt.Write($"完成机器人写位置{roll.LabelCode}操作。");
-
-                    RunJob(JOB_NAME);
-                    FrmMain.logOpt.Write($"发出机器人示教器动作{JOB_NAME}命令。");
+                    if (TryRunJob(JOB_NAME)) {
+                        log($"发出机器人示教器动作{JOB_NAME}命令成功。", LogType.ROBOT_STACK);
+                    } else {
+                        log($"!机器人示教器动作{JOB_NAME}发送失败。", LogType.ROBOT_STACK);
+                        break;
+                    }
 
                     Thread.Sleep(RobotHelper.DELAY * 1000);
 
                     // 等待布卷上垛信号
                     while (isrun) {
                         if (IsRollOnPanel()) {
+                            log("布卷已上垛。", LogType.ROBOT_STACK, LogViewType.Both);
+                            // 写数据库。
                             LableCode.SetOnPanelState(roll.LabelCode);
                             break;
                         }
@@ -238,56 +342,52 @@ namespace yidascan {
                     }
 
                     // 告知OPC
-                    Task.Factory.StartNew(() => {
-                        NotifyOpcJobFinished(roll.PnlState, roll.ToLocation);
-                    });
+                    NotifyOpcJobFinished(roll.PnlState, roll.ToLocation);
+                    log($"板状态： {roll.PnlState}", LogType.ROBOT_STACK);
 
                     // 等待机器人结束码垛。
                     while (isrun && IsBusy()) {
-                        FrmMain.logOpt.Write("Working", LogType.ROBOT_STACK, LogViewType.OnlyFile);
                         Thread.Sleep(RobotHelper.DELAY * 100);
                     }
-                    FrmMain.logOpt.Write("Work ok", LogType.ROBOT_STACK);
+                    log($"robot job done: {roll.LabelCode}.", LogType.ROBOT_STACK);
                 }
                 Thread.Sleep(RobotHelper.DELAY);
             }
         }
 
         private bool IsRollOnPanel() {
+            const string KEY = "5";
+            const string V_ON_PANEL = "0";
             try {
-                Dictionary<string, string> b5 = rCtrl.GetVariables(VariableType.B, 5, 1);
-                FrmMain.logOpt.Write(JsonConvert.SerializeObject(b5), LogType.ROBOT_STACK, LogViewType.OnlyFile);
-                if (b5 != null && b5.Count != 0 && b5.ContainsKey("5")) {
-                    return b5["5"] == "0";
-                }
+                var b5 = rCtrl.GetVariables(VariableType.B, 5, 1);
+                return (b5 != null && b5.ContainsKey(KEY) && b5[KEY] == V_ON_PANEL);
             } catch (Exception ex) {
-                FrmMain.logOpt.Write(string.Format("{0}", ex), LogType.ROBOT_STACK, LogViewType.OnlyFile);
+                log($"IsRollOnPanel异常: {ex}", LogType.ROBOT_STACK, LogViewType.OnlyFile);
+                return false;
             }
-            return false;
         }
 
         private bool PanelAvailable(string tolocation) {
             try {
-                lock (FrmMain.opcClient) {
-                    string s = FrmMain.opcClient.ReadString(FrmMain.opcParam.BAreaPanelState[tolocation]);
-                    return s == "2";
-                }
+                var s = client.ReadString(param.BAreaPanelState[tolocation]);
+                return s == "2";
             } catch (Exception ex) {
-                FrmMain.logOpt.Write(string.Format("读交地状态信号异常 tolocation: {0} opc:{1} err:{2}", tolocation, Newtonsoft.Json.JsonConvert.SerializeObject(FrmMain.opcParam.BAreaFloorFinish), ex), LogType.ROBOT_STACK);
-                return true;//临时
+                log($"!读交地状态信号异常 tolocation: {tolocation} opc:{JsonConvert.SerializeObject(param.BAreaFloorFinish)} err:{ex}", LogType.ROBOT_STACK);
+                return false;//临时
             }
         }
 
+        [Obsolete]
         public Dictionary<string, string> AlarmTask() {
             try {
-                Dictionary<string, bool> s = rCtrl.GetAlarmStatus();
+                var s = rCtrl.GetAlarmStatus();
                 if (s != null && s.Count != 0) {
                     if (s["Error"] || s["Alarm"]) {
                         return rCtrl.GetAlarmCode();
                     }
                 }
             } catch (Exception ex) {
-                FrmMain.logOpt.Write(string.Format("{0}", ex), LogType.ROBOT_STACK);
+                log($"{ex}", LogType.ROBOT_STACK);
             }
             return new Dictionary<string, string>();
         }

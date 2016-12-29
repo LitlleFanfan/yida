@@ -126,6 +126,7 @@
     <Compile Include="PanelGen.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RobotJobTask.cs" />
     <Compile Include="scanner\NormalScan.cs" />
     <Compile Include="scanner\OPCClient.cs" />
     <Compile Include="scanner\RobotHelper.cs">

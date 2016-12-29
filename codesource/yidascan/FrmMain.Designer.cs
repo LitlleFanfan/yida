@@ -86,6 +86,10 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer_message = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnTest = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnHalfFullSignal = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnFullSignal = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.grbHandwork.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -125,7 +129,7 @@
             this.btnQuit});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1460, 67);
+            this.toolStrip1.Size = new System.Drawing.Size(1276, 67);
             this.toolStrip1.TabIndex = 48;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -134,7 +138,7 @@
             this.btnRun.AutoSize = false;
             this.btnRun.BackColor = System.Drawing.Color.LimeGreen;
             this.btnRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnRun.Font = new System.Drawing.Font("微软雅黑", 14F);
+            this.btnRun.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
             this.btnRun.ForeColor = System.Drawing.Color.Honeydew;
             this.btnRun.Image = ((System.Drawing.Image)(resources.GetObject("btnRun.Image")));
             this.btnRun.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -149,7 +153,7 @@
             this.btnStop.BackColor = System.Drawing.Color.Red;
             this.btnStop.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.btnStop.Enabled = false;
-            this.btnStop.Font = new System.Drawing.Font("微软雅黑", 14.25F);
+            this.btnStop.Font = new System.Drawing.Font("Microsoft YaHei", 14.25F);
             this.btnStop.ForeColor = System.Drawing.Color.White;
             this.btnStop.Image = ((System.Drawing.Image)(resources.GetObject("btnStop.Image")));
             this.btnStop.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -163,7 +167,7 @@
             this.btnReset.AutoSize = false;
             this.btnReset.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.btnReset.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnReset.Font = new System.Drawing.Font("微软雅黑", 14F);
+            this.btnReset.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
             this.btnReset.Image = ((System.Drawing.Image)(resources.GetObject("btnReset.Image")));
             this.btnReset.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnReset.Name = "btnReset";
@@ -176,7 +180,7 @@
             this.btnSet.AutoSize = false;
             this.btnSet.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.btnSet.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnSet.Font = new System.Drawing.Font("微软雅黑", 14F);
+            this.btnSet.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
             this.btnSet.Image = ((System.Drawing.Image)(resources.GetObject("btnSet.Image")));
             this.btnSet.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnSet.Name = "btnSet";
@@ -189,7 +193,7 @@
             this.btnLog.AutoSize = false;
             this.btnLog.BackColor = System.Drawing.Color.CornflowerBlue;
             this.btnLog.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnLog.Font = new System.Drawing.Font("微软雅黑", 14F);
+            this.btnLog.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
             this.btnLog.Image = ((System.Drawing.Image)(resources.GetObject("btnLog.Image")));
             this.btnLog.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnLog.Name = "btnLog";
@@ -210,8 +214,10 @@
             this.toolStripMenuItem2,
             this.btnDelete,
             this.toolStripMenuItem1,
-            this.btnHelp});
-            this.btnOther.Font = new System.Drawing.Font("微软雅黑", 14F);
+            this.btnHelp,
+            this.toolStripMenuItem4,
+            this.btnTest});
+            this.btnOther.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
             this.btnOther.Image = ((System.Drawing.Image)(resources.GetObject("btnOther.Image")));
             this.btnOther.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOther.Name = "btnOther";
@@ -221,50 +227,50 @@
             // btnStartRobot
             // 
             this.btnStartRobot.Name = "btnStartRobot";
-            this.btnStartRobot.Size = new System.Drawing.Size(299, 40);
+            this.btnStartRobot.Size = new System.Drawing.Size(217, 30);
             this.btnStartRobot.Text = "启动机器人任务";
             this.btnStartRobot.Click += new System.EventHandler(this.btnStartRobot_Click);
             // 
             // btnStopRobot
             // 
             this.btnStopRobot.Name = "btnStopRobot";
-            this.btnStopRobot.Size = new System.Drawing.Size(299, 40);
+            this.btnStopRobot.Size = new System.Drawing.Size(217, 30);
             this.btnStopRobot.Text = "停止机器人任务";
             this.btnStopRobot.Click += new System.EventHandler(this.btnStopRobot_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(296, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(214, 6);
             // 
             // btnWeighReset
             // 
             this.btnWeighReset.Name = "btnWeighReset";
-            this.btnWeighReset.Size = new System.Drawing.Size(299, 40);
+            this.btnWeighReset.Size = new System.Drawing.Size(217, 30);
             this.btnWeighReset.Text = "称重复位";
             this.btnWeighReset.Click += new System.EventHandler(this.btnWeighReset_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(296, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(214, 6);
             // 
             // btnDelete
             // 
             this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(299, 40);
+            this.btnDelete.Size = new System.Drawing.Size(217, 30);
             this.btnDelete.Text = "删除标签(&D)";
             this.btnDelete.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(296, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(214, 6);
             // 
             // btnHelp
             // 
             this.btnHelp.Name = "btnHelp";
-            this.btnHelp.Size = new System.Drawing.Size(299, 40);
+            this.btnHelp.Size = new System.Drawing.Size(217, 30);
             this.btnHelp.Text = "帮助(&H)";
             this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
             // 
@@ -273,7 +279,7 @@
             this.btnQuit.AutoSize = false;
             this.btnQuit.BackColor = System.Drawing.Color.Orange;
             this.btnQuit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnQuit.Font = new System.Drawing.Font("微软雅黑", 14F);
+            this.btnQuit.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
             this.btnQuit.Image = ((System.Drawing.Image)(resources.GetObject("btnQuit.Image")));
             this.btnQuit.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnQuit.Name = "btnQuit";
@@ -294,6 +300,7 @@
             this.grbHandwork.TabIndex = 51;
             this.grbHandwork.TabStop = false;
             this.grbHandwork.Text = "手动操作";
+            this.grbHandwork.Enter += new System.EventHandler(this.grbHandwork_Enter);
             // 
             // panel1
             // 
@@ -314,7 +321,7 @@
             this.txtLableCode1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLableCode1.Font = new System.Drawing.Font("宋体", 24F);
+            this.txtLableCode1.Font = new System.Drawing.Font("SimSun", 24F);
             this.txtLableCode1.ForeColor = System.Drawing.Color.DarkRed;
             this.txtLableCode1.Location = new System.Drawing.Point(183, 18);
             this.txtLableCode1.Margin = new System.Windows.Forms.Padding(4);
@@ -330,7 +337,7 @@
             // label5
             // 
             this.label5.BackColor = System.Drawing.Color.Moccasin;
-            this.label5.Font = new System.Drawing.Font("宋体", 24F);
+            this.label5.Font = new System.Drawing.Font("SimSun", 24F);
             this.label5.Location = new System.Drawing.Point(14, 18);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
@@ -393,7 +400,7 @@
             // 
             this.lbxLabelCode.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbxLabelCode.FormattingEnabled = true;
-            this.lbxLabelCode.ItemHeight = 28;
+            this.lbxLabelCode.ItemHeight = 19;
             this.lbxLabelCode.Location = new System.Drawing.Point(0, 0);
             this.lbxLabelCode.Name = "lbxLabelCode";
             this.lbxLabelCode.Size = new System.Drawing.Size(453, 232);
@@ -415,7 +422,7 @@
             // 
             this.lsvRobotRollLog.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.lsvRobotRollLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lsvRobotRollLog.ItemHeight = 28;
+            this.lsvRobotRollLog.ItemHeight = 19;
             this.lsvRobotRollLog.Location = new System.Drawing.Point(0, 32);
             this.lsvRobotRollLog.MinimumSize = new System.Drawing.Size(250, 4);
             this.lsvRobotRollLog.Name = "lsvRobotRollLog";
@@ -467,9 +474,9 @@
             // lsvLog
             // 
             this.lsvLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lsvLog.Font = new System.Drawing.Font("宋体", 14F);
+            this.lsvLog.Font = new System.Drawing.Font("SimSun", 14F);
             this.lsvLog.FormattingEnabled = true;
-            this.lsvLog.ItemHeight = 28;
+            this.lsvLog.ItemHeight = 19;
             this.lsvLog.Location = new System.Drawing.Point(0, 32);
             this.lsvLog.Name = "lsvLog";
             this.lsvLog.Size = new System.Drawing.Size(1002, 168);
@@ -512,7 +519,7 @@
             // lsvBufferLog
             // 
             this.lsvBufferLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lsvBufferLog.ItemHeight = 28;
+            this.lsvBufferLog.ItemHeight = 19;
             this.lsvBufferLog.Location = new System.Drawing.Point(0, 32);
             this.lsvBufferLog.MinimumSize = new System.Drawing.Size(250, 4);
             this.lsvBufferLog.Name = "lsvBufferLog";
@@ -534,7 +541,7 @@
             // lsvRobotStackLog
             // 
             this.lsvRobotStackLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lsvRobotStackLog.ItemHeight = 28;
+            this.lsvRobotStackLog.ItemHeight = 19;
             this.lsvRobotStackLog.Location = new System.Drawing.Point(0, 32);
             this.lsvRobotStackLog.MinimumSize = new System.Drawing.Size(250, 4);
             this.lsvRobotStackLog.Name = "lsvRobotStackLog";
@@ -555,7 +562,7 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Font = new System.Drawing.Font("微软雅黑", 12F);
+            this.statusStrip1.Font = new System.Drawing.Font("Microsoft YaHei", 12F);
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
@@ -565,10 +572,10 @@
             this.lblRobot,
             this.toolStripStatusLabel2,
             this.lblTimer});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 714);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 715);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 18, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1460, 36);
+            this.statusStrip1.Size = new System.Drawing.Size(1276, 26);
             this.statusStrip1.TabIndex = 53;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -578,7 +585,7 @@
             this.toolStripStatusLabel1.ForeColor = System.Drawing.Color.Gray;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(447, 31);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(306, 21);
             this.toolStripStatusLabel1.Text = "guangzhou golden beaver software.";
             // 
             // lblScanner
@@ -586,34 +593,34 @@
             this.lblScanner.BackColor = System.Drawing.Color.LightGray;
             this.lblScanner.Name = "lblScanner";
             this.lblScanner.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.lblScanner.Size = new System.Drawing.Size(20, 31);
+            this.lblScanner.Size = new System.Drawing.Size(20, 21);
             // 
             // lblScanner2
             // 
             this.lblScanner2.BackColor = System.Drawing.Color.LightGray;
             this.lblScanner2.Name = "lblScanner2";
             this.lblScanner2.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.lblScanner2.Size = new System.Drawing.Size(20, 31);
+            this.lblScanner2.Size = new System.Drawing.Size(20, 21);
             // 
             // lblOpcIp
             // 
             this.lblOpcIp.BackColor = System.Drawing.Color.LightGray;
             this.lblOpcIp.Name = "lblOpcIp";
             this.lblOpcIp.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.lblOpcIp.Size = new System.Drawing.Size(20, 31);
+            this.lblOpcIp.Size = new System.Drawing.Size(20, 21);
             // 
             // lblRobot
             // 
             this.lblRobot.BackColor = System.Drawing.Color.LightGray;
             this.lblRobot.Name = "lblRobot";
             this.lblRobot.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.lblRobot.Size = new System.Drawing.Size(20, 31);
+            this.lblRobot.Size = new System.Drawing.Size(20, 21);
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
             this.toolStripStatusLabel2.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(848, 31);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(851, 21);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // lblTimer
@@ -621,7 +628,7 @@
             this.lblTimer.BackColor = System.Drawing.Color.LightPink;
             this.lblTimer.Name = "lblTimer";
             this.lblTimer.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.lblTimer.Size = new System.Drawing.Size(20, 31);
+            this.lblTimer.Size = new System.Drawing.Size(20, 21);
             // 
             // timer1
             // 
@@ -648,7 +655,7 @@
             // lbRobotState
             // 
             this.lbRobotState.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.lbRobotState.Font = new System.Drawing.Font("黑体", 20F);
+            this.lbRobotState.Font = new System.Drawing.Font("SimHei", 20F);
             this.lbRobotState.Location = new System.Drawing.Point(260, 89);
             this.lbRobotState.Name = "lbRobotState";
             this.lbRobotState.Size = new System.Drawing.Size(333, 37);
@@ -659,7 +666,7 @@
             // chkUseRobot
             // 
             this.chkUseRobot.BackColor = System.Drawing.Color.White;
-            this.chkUseRobot.Font = new System.Drawing.Font("宋体", 20F);
+            this.chkUseRobot.Font = new System.Drawing.Font("SimSun", 20F);
             this.chkUseRobot.Location = new System.Drawing.Point(7, 89);
             this.chkUseRobot.Name = "chkUseRobot";
             this.chkUseRobot.Size = new System.Drawing.Size(253, 37);
@@ -671,7 +678,7 @@
             // 
             this.lbTaskState.BackColor = System.Drawing.Color.Green;
             this.lbTaskState.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lbTaskState.Font = new System.Drawing.Font("黑体", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbTaskState.Font = new System.Drawing.Font("SimHei", 26.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbTaskState.ForeColor = System.Drawing.Color.White;
             this.lbTaskState.Location = new System.Drawing.Point(260, 26);
             this.lbTaskState.Name = "lbTaskState";
@@ -684,7 +691,7 @@
             // 
             this.lblCount.BackColor = System.Drawing.Color.White;
             this.lblCount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblCount.Font = new System.Drawing.Font("微软雅黑", 35F, System.Drawing.FontStyle.Bold);
+            this.lblCount.Font = new System.Drawing.Font("Microsoft YaHei", 35F, System.Drawing.FontStyle.Bold);
             this.lblCount.ForeColor = System.Drawing.Color.Black;
             this.lblCount.Location = new System.Drawing.Point(3, 26);
             this.lblCount.Name = "lblCount";
@@ -702,7 +709,7 @@
             "夜班"});
             this.cmbShiftNo.Location = new System.Drawing.Point(272, 31);
             this.cmbShiftNo.Name = "cmbShiftNo";
-            this.cmbShiftNo.Size = new System.Drawing.Size(321, 36);
+            this.cmbShiftNo.Size = new System.Drawing.Size(321, 27);
             this.cmbShiftNo.TabIndex = 10;
             this.cmbShiftNo.Text = "白班";
             this.cmbShiftNo.Visible = false;
@@ -713,7 +720,7 @@
             this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpDate.Location = new System.Drawing.Point(63, 29);
             this.dtpDate.Name = "dtpDate";
-            this.dtpDate.Size = new System.Drawing.Size(203, 39);
+            this.dtpDate.Size = new System.Drawing.Size(203, 29);
             this.dtpDate.TabIndex = 9;
             this.dtpDate.Visible = false;
             // 
@@ -751,18 +758,46 @@
             this.pictureBox1.TabIndex = 50;
             this.pictureBox1.TabStop = false;
             // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(214, 6);
+            // 
+            // btnTest
+            // 
+            this.btnTest.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnHalfFullSignal,
+            this.btnFullSignal});
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(217, 30);
+            this.btnTest.Text = "测试";
+            // 
+            // btnHalfFullSignal
+            // 
+            this.btnHalfFullSignal.Name = "btnHalfFullSignal";
+            this.btnHalfFullSignal.Size = new System.Drawing.Size(198, 30);
+            this.btnHalfFullSignal.Text = "发出半板信号";
+            this.btnHalfFullSignal.Click += new System.EventHandler(this.btnHalfFullSignal_Click);
+            // 
+            // btnFullSignal
+            // 
+            this.btnFullSignal.Name = "btnFullSignal";
+            this.btnFullSignal.Size = new System.Drawing.Size(198, 30);
+            this.btnFullSignal.Text = "发出满板信号";
+            this.btnFullSignal.Click += new System.EventHandler(this.btnFullSignal_Click);
+            // 
             // FrmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 28F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1460, 750);
+            this.ClientSize = new System.Drawing.Size(1276, 741);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.grbHandwork);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.groupBox1);
-            this.Font = new System.Drawing.Font("宋体", 14F);
+            this.Font = new System.Drawing.Font("SimSun", 14F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(5);
@@ -863,6 +898,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem btnWeighReset;
         private System.Windows.Forms.ListBox lsvLog;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem btnTest;
+        private System.Windows.Forms.ToolStripMenuItem btnHalfFullSignal;
+        private System.Windows.Forms.ToolStripMenuItem btnFullSignal;
     }
 }
 
