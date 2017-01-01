@@ -33,12 +33,12 @@ namespace yidascan {
         }
 
         private static string GetLastPanelNo(string shiftNo) {
-            string sql = "select top 1 PanelNo from LableCode where PanelNo like @shiftNo+'%' group by PanelNo order by PanelNo desc";
+            var sql = "select top 1 PanelNo from LableCode where PanelNo like @shiftNo+'%' group by PanelNo order by PanelNo desc";
 
-            SqlParameter[] sp = new SqlParameter[]{
+            var sp = new SqlParameter[]{
                 new SqlParameter("@shiftNo",shiftNo)};
 
-            DataTable dt = DataAccess.DataAccess.CreateDataAccess.sa.Query(sql, sp);
+            var dt = DataAccess.DataAccess.CreateDataAccess.sa.Query(sql, sp);
             if (dt == null || dt.Rows.Count < 1) {
                 return string.Empty;
             }

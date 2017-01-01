@@ -255,13 +255,13 @@ namespace yidascan {
                 } else {
                     return (status["Start"] || status["Hold"]);
                 }
-            } catch (Exception ex) {
-                // FrmMain.logOpt.Write(string.Format("{0}", ex), LogType.ROBOT_STACK, LogViewType.OnlyFile);
+            } catch (Exception ex) {                
                 log($"{ex}", LogType.ROBOT_STACK, LogViewType.OnlyFile);
                 return true;
             }
         }
 
+        [Obsolete("这个干什么用的不知道")]
         private void NotifyOpcSafePlace(string side) {
             lock (FrmMain.opcClient) {
                 // FrmMain.opcClient.Write(side == "A" ? FrmMain.opcParam.RobotCarryA.Signal : FrmMain.opcParam.RobotCarryB.Signal, false);
@@ -290,14 +290,15 @@ namespace yidascan {
 
                         break;
                     case PanelState.LessHalf:
-                        log($"板未半满，不发信号, {pState}", LogType.ROBOT_STACK);
+                        // log($"板未半满，不发信号, {pState}", LogType.ROBOT_STACK);
                         break;
                     default:
-                        log($"板状态不明，不发信号, {pState}", LogType.ROBOT_STACK);
+                        log($"!板状态不明，不发信号, {pState}", LogType.ROBOT_STACK);
                         break;
                 }
             } catch (Exception ex) {
-                log($"tolocation: {tolocation} state:{pState} opc:{JsonConvert.SerializeObject(param.BAreaFloorFinish)} err:{ex}", LogType.ROBOT_STACK);
+                log($"!{ex}", LogType.ROBOT_STACK);
+                // log($"!tolocation: {tolocation} state:{pState} opc:{JsonConvert.SerializeObject(param.BAreaFloorFinish)} err:{ex}", LogType.ROBOT_STACK);
             }
         }
 
@@ -343,7 +344,6 @@ namespace yidascan {
 
                     // 告知OPC
                     NotifyOpcJobFinished(roll.PnlState, roll.ToLocation);
-                    log($"板状态： {roll.PnlState}", LogType.ROBOT_STACK);
 
                     // 等待机器人结束码垛。
                     while (isrun && IsBusy()) {
@@ -362,7 +362,7 @@ namespace yidascan {
                 var b5 = rCtrl.GetVariables(VariableType.B, 5, 1);
                 return (b5 != null && b5.ContainsKey(KEY) && b5[KEY] == V_ON_PANEL);
             } catch (Exception ex) {
-                log($"IsRollOnPanel异常: {ex}", LogType.ROBOT_STACK, LogViewType.OnlyFile);
+                log($"!IsRollOnPanel异常: {ex}", LogType.ROBOT_STACK, LogViewType.OnlyFile);
                 return false;
             }
         }
@@ -387,7 +387,7 @@ namespace yidascan {
                     }
                 }
             } catch (Exception ex) {
-                log($"{ex}", LogType.ROBOT_STACK);
+                log($"!{ex}", LogType.ROBOT_STACK);
             }
             return new Dictionary<string, string>();
         }

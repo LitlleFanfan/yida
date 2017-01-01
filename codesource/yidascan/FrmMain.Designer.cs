@@ -45,6 +45,10 @@
             this.btnDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.btnHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnTest = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnHalfFullSignal = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnFullSignal = new System.Windows.Forms.ToolStripMenuItem();
             this.btnQuit = new System.Windows.Forms.ToolStripButton();
             this.grbHandwork = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -86,10 +90,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer_message = new System.Windows.Forms.Timer(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.btnTest = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnHalfFullSignal = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnFullSignal = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnBrowsePanels = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1.SuspendLayout();
             this.grbHandwork.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -216,7 +217,8 @@
             this.toolStripMenuItem1,
             this.btnHelp,
             this.toolStripMenuItem4,
-            this.btnTest});
+            this.btnTest,
+            this.btnBrowsePanels});
             this.btnOther.Font = new System.Drawing.Font("Microsoft YaHei", 14F);
             this.btnOther.Image = ((System.Drawing.Image)(resources.GetObject("btnOther.Image")));
             this.btnOther.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -273,6 +275,34 @@
             this.btnHelp.Size = new System.Drawing.Size(217, 30);
             this.btnHelp.Text = "帮助(&H)";
             this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(214, 6);
+            // 
+            // btnTest
+            // 
+            this.btnTest.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnHalfFullSignal,
+            this.btnFullSignal});
+            this.btnTest.Name = "btnTest";
+            this.btnTest.Size = new System.Drawing.Size(217, 30);
+            this.btnTest.Text = "测试";
+            // 
+            // btnHalfFullSignal
+            // 
+            this.btnHalfFullSignal.Name = "btnHalfFullSignal";
+            this.btnHalfFullSignal.Size = new System.Drawing.Size(198, 30);
+            this.btnHalfFullSignal.Text = "发出半板信号";
+            this.btnHalfFullSignal.Click += new System.EventHandler(this.btnHalfFullSignal_Click);
+            // 
+            // btnFullSignal
+            // 
+            this.btnFullSignal.Name = "btnFullSignal";
+            this.btnFullSignal.Size = new System.Drawing.Size(198, 30);
+            this.btnFullSignal.Text = "发出满板信号";
+            this.btnFullSignal.Click += new System.EventHandler(this.btnFullSignal_Click);
             // 
             // btnQuit
             // 
@@ -758,33 +788,12 @@
             this.pictureBox1.TabIndex = 50;
             this.pictureBox1.TabStop = false;
             // 
-            // toolStripMenuItem4
+            // btnBrowsePanels
             // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(214, 6);
-            // 
-            // btnTest
-            // 
-            this.btnTest.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnHalfFullSignal,
-            this.btnFullSignal});
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(217, 30);
-            this.btnTest.Text = "测试";
-            // 
-            // btnHalfFullSignal
-            // 
-            this.btnHalfFullSignal.Name = "btnHalfFullSignal";
-            this.btnHalfFullSignal.Size = new System.Drawing.Size(198, 30);
-            this.btnHalfFullSignal.Text = "发出半板信号";
-            this.btnHalfFullSignal.Click += new System.EventHandler(this.btnHalfFullSignal_Click);
-            // 
-            // btnFullSignal
-            // 
-            this.btnFullSignal.Name = "btnFullSignal";
-            this.btnFullSignal.Size = new System.Drawing.Size(198, 30);
-            this.btnFullSignal.Text = "发出满板信号";
-            this.btnFullSignal.Click += new System.EventHandler(this.btnFullSignal_Click);
+            this.btnBrowsePanels.Name = "btnBrowsePanels";
+            this.btnBrowsePanels.Size = new System.Drawing.Size(217, 30);
+            this.btnBrowsePanels.Text = "板状态浏览";
+            this.btnBrowsePanels.Click += new System.EventHandler(this.btnBrowsePanels_Click);
             // 
             // FrmMain
             // 
@@ -902,6 +911,7 @@
         private System.Windows.Forms.ToolStripMenuItem btnTest;
         private System.Windows.Forms.ToolStripMenuItem btnHalfFullSignal;
         private System.Windows.Forms.ToolStripMenuItem btnFullSignal;
+        private System.Windows.Forms.ToolStripMenuItem btnBrowsePanels;
     }
 }
 

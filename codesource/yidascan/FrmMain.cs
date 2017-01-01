@@ -756,6 +756,7 @@ namespace yidascan {
         /// 成功返回true, 失败返回false.
         /// </summary>
         /// <param name="handwork"></param>
+        /// <param name="code">标签号码</param>
         /// <returns></returns>
         private bool NotifyWeigh(string code, bool handwork = true) {
             try {
@@ -763,7 +764,7 @@ namespace yidascan {
                     new Dictionary<string, string>() { { "Fabric_Code", code } });
 
                 var msg = string.Format("{0} {1}称重{2}", code, (handwork ? "手工" : "自动"), JsonConvert.SerializeObject(re));
-                logOpt.Write(msg, LogType.NORMAL);
+                logOpt.Write(msg, LogType.NORMAL, LogViewType.OnlyFile);
 
                 if (re["ERPState"] == "OK") {
                     var re1 = JsonConvert.DeserializeObject<DataTable>(re["Data"]);
@@ -1132,13 +1133,13 @@ namespace yidascan {
         /// ERP故障
         /// </summary>
         /// <param name="erpAlarm"></param>
+        /// <param name="opcClient">opc client</param>
+        /// <param name="opcParam">opc param</param>
         public static void ERPAlarm(OPCClient opcClient, OPCParam opcParam, ERPAlarmNo erpAlarm) {
             try {
-                lock (opcClient) {
-                    opcClient.Write(opcParam.None.ERPAlarm, (int)erpAlarm);
-                }
+                opcClient.Write(opcParam.None.ERPAlarm, (int)erpAlarm);
             } catch (Exception ex) {
-                logOpt.Write(ex.ToString());
+                logOpt.Write("!OPC写信号失败: " + ex.ToString());
             }
         }
 
@@ -1210,6 +1211,12 @@ namespace yidascan {
 
         private void grbHandwork_Enter(object sender, EventArgs e) {
 
+        }
+
+        private void btnBrowsePanels_Click(object sender, EventArgs e) {
+            using (var w = new WRollBrowser()) {
+                w.ShowDialog();
+            }
         }
     }
 }

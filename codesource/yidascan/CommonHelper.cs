@@ -33,6 +33,39 @@ namespace commonhelper {
         public static void InvokeEx(this Control c, Action p) {
             c.Invoke((Delegate)p);
         }
+
+        /// <summary>
+        /// 拆分形如"key=value"这样的字符串。
+        /// 失败会弹出
+        /// </summary>ArgumentException.
+        /// <param name="s">待拆分的字符串。</param>
+        /// <returns>KeyValuePair<key, pair>变量。</key></returns>
+        public static KeyValuePair<string, string> splitExp(string s) {
+            var sep = new char[] { '=' };
+            var lst = s.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+            if (lst != null && lst.Length == 2) {
+                return new KeyValuePair<string, string>(lst[0], lst[1]);
+            } else {
+                throw new ArgumentException($"invalid key-value pair string: {s}");
+            }
+        }
+
+        public static Dictionary<string, string> parseLines(string s) {
+            var sep = new string[] {"\r\n" };
+            var lines = s.Split(sep, StringSplitOptions.RemoveEmptyEntries);
+            var dic = new Dictionary<string, string>();
+            foreach(var l in lines) {
+                try {
+                    var kv = splitExp(l);
+                    if (dic.ContainsKey(kv.Key)) {
+                        dic[kv.Key] = kv.Value;
+                    } else {
+                        dic.Add(kv.Key, kv.Value);
+                    }                    
+                } catch {}
+            }
+            return dic;
+        }
     }
 }
 

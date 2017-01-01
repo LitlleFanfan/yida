@@ -634,5 +634,26 @@ order by floorindex desc;";
             }
             return r;
         }
+
+        /// <summary>
+        /// 取lablecode表中全部交地名称，不含重复项。
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> QueryAreaBLocations() {
+            var sql = "select distinct tolocation from LableCode order by tolocation";
+            var dt = DataAccess.CreateDataAccess.sa.Query(sql);
+
+            var r = new List<string>();
+            if (dt != null) {
+                foreach (DataRow row in dt.Rows) {
+                    var s = row["tolocation"].ToString();
+                    if (s.StartsWith("B") || s.StartsWith("b")) {
+                        r.Add(s);
+                    }
+                }
+            }
+
+            return r;
+        }
     }
 }
