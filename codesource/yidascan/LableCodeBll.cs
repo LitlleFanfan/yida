@@ -154,9 +154,9 @@ namespace yidascan {
         }
 
         public PanelInfo GetPanelNo(LableCode lc, string dateShiftNo) {
-            PanelInfo pf = LableCode.GetTolactionCurrPanelNo(lc.ToLocation, dateShiftNo);
+            var pf = LableCode.GetTolactionCurrPanelNo(lc.ToLocation, dateShiftNo);
             if (pf == null) {
-                string panelNo = PanelGen.NewPanelNo();
+                var panelNo = PanelGen.NewPanelNo();
                 lc.PanelNo = panelNo;
                 lc.FloorIndex = 0;
                 lc.Floor = 1;
@@ -168,11 +168,11 @@ namespace yidascan {
         }
 
         public CacheState AreaBCalculate(LableCode lc, string dateShiftNo, out string outCacheLable, out string msg) {
-            CacheState cState = CacheState.Error;
+            var cState = CacheState.Error;
             outCacheLable = string.Empty;
             msg = string.Empty;
 
-            PanelInfo pinfo = GetPanelNo(lc, dateShiftNo);
+            var pinfo = GetPanelNo(lc, dateShiftNo);
 
             if (pinfo == null) {
                 // 产生新板号赋予当前标签。
@@ -183,20 +183,11 @@ namespace yidascan {
                        lc.ToLocation, lc.LCode, lc.Diameter, lc.Length, cState, outCacheLable, 0, 0);
             } else {
                 LableCode lc2 = null;
-                FloorPerformance fp = FloorPerformance.None;
+                var fp = FloorPerformance.None;
 
                 // 取当前交地、当前板、当前层所有标签。
-                List<LableCode> lcs = LableCode.GetLableCodesOfRecentFloor(lc.ToLocation, pinfo);
-
-                // log for debug.
-                FrmMain.logOpt.Write("----- bord layers begin -----", LogType.BUFFER, LogViewType.OnlyFile);
-                if (lcs != null) {
-                    foreach (var l in lcs) {
-                        FrmMain.logOpt.Write(JsonConvert.SerializeObject(l), LogType.BUFFER, LogViewType.OnlyFile);
-                    }
-                }
-                FrmMain.logOpt.Write("----- bord layer end -----", LogType.BUFFER, LogViewType.OnlyFile);
-
+                var lcs = LableCode.GetLableCodesOfRecentFloor(lc.ToLocation, pinfo);
+                
                 if (lcs != null && lcs.Count > 0) {
                     // 最近一层没满。
                     lc2 = IsPanelFull(lcs, lc);
@@ -251,11 +242,11 @@ namespace yidascan {
                     return false;
                 }
 
-                Dictionary<string, string> erpParam = new Dictionary<string, string>() {
+                var erpParam = new Dictionary<string, string>() {
                         { "Board_No", panelNo },  // first item.
                         { "AllBarCode", string.Join(",", data.ToArray()) } // second item.
                     };
-                Dictionary<string, string> re = CallWebApi.Post(clsSetting.PanelFinish, erpParam);
+                var re = CallWebApi.Post(clsSetting.PanelFinish, erpParam);
 
                 // show result.
                 if (re["ERPState"] == "OK") {

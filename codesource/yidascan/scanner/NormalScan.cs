@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace ProduceComm.Scanner {
     public class NormalScan {
         public string name { get; set; }
-        
+
         public delegate void ErrEventHandler(Exception ex);
         public delegate void HostErrEventHandler(Exception ex);
 
@@ -19,15 +19,15 @@ namespace ProduceComm.Scanner {
         public List<string> mlsAckData;
 
         private ICommunication icom;
-        
-        public event ErrEventHandler OnError;        
+
+        public event ErrEventHandler OnError;
 
         public Action<string> logger;
         public Action<string, string> OnDataArrived;
 
         public NormalScan(string devicename, ICommunication _icom) {
             this.name = devicename;
-            icom = _icom;            
+            icom = _icom;
             this.mlsAckData = new List<string>();
         }
 
@@ -55,25 +55,19 @@ namespace ProduceComm.Scanner {
             this.stoped = false;
             Task.Factory.StartNew(() => {
                 while (!this.stoped) {
-                    string data = Encoding.Default.GetString(GetReply());
-                    if (!string.IsNullOrEmpty(data)) {                    
-                        OnDataArrived("", data);
+                    var data = icom.Read(1024);
+                    var s = Encoding.Default.GetString(data);
+                    if (!string.IsNullOrEmpty(s)) {
+                        OnDataArrived("", s);
                     }
                     Thread.Sleep(1000);
                 }
+                logger("!扫描线程结束。");
             });
         }
 
         public void _StopJob() {
             this.stoped = true;
-        }
-
-        private byte[] GetReply() {
-            try {
-                return icom.Read(1024);
-            } catch {
-                return new byte[] { };
-            }
         }
     }
 }

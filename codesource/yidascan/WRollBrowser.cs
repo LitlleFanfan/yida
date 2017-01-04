@@ -70,8 +70,8 @@ namespace yidascan {
                         lbxCache.Items.Add(item.label);
                     }
                 }
-                lbCacheTitle.Text = $"缓存状态{lbxCache.Items.Count}";
-                lbPanelTitle.Text = $"码垛状态{lbxPanel.Items.Count}";
+                lbCacheTitle.Text = $"缓存状态({lbxCache.Items.Count})";
+                lbPanelTitle.Text = $"码垛状态({lbxPanel.Items.Count})";
             } catch (Exception ex) {
                 MessageBox.Show(ex.ToString());
             }
