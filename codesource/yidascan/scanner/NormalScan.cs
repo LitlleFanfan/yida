@@ -51,12 +51,20 @@ namespace ProduceComm.Scanner {
             }
         }
 
+        private string tryReadLine() {
+            try {
+                var data = icom.Read(1024);
+                return Encoding.Default.GetString(data);
+            } catch (Exception ex) {
+                return string.Empty;
+            }
+        }
+
         public void _StartJob() {
             this.stoped = false;
             Task.Factory.StartNew(() => {
                 while (!this.stoped) {
-                    var data = icom.Read(1024);
-                    var s = Encoding.Default.GetString(data);
+                    var s = tryReadLine();
                     if (!string.IsNullOrEmpty(s)) {
                         OnDataArrived("", s);
                     }
